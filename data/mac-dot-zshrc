@@ -7,3 +7,7 @@
 
 # Default prompt
 PS1="%n@%m %1~ %# "
+
+# Enable colours in ls etc.
+export CLICOLOR=1
+export LSCOLORS=gxfxcxdxbxgggdabagacad

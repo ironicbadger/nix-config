@@ -6,9 +6,8 @@
   services.nix-daemon.enable = true;
   programs.zsh = {
     enable = true;
-    initExtra = ''
-      ${builtins.readFile ./../../data/mac-dot-zshrc}
-    '';
+    enableCompletion = true;
+    promptInit = ${builtins.readFile ./../../data/mac-dot-zshrc};
   };
   system.activationScripts.postUserActivation.text = ''
     # Following line should allow us to avoid a logout/login cycle
