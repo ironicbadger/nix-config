@@ -10,14 +10,8 @@
       darwin.inputs.nixpkgs.follows = "nixpkgs"; # ...
 
       ## zsh
-      zsh-completions.url = "github:zsh-users/zsh-completions";
-      zsh-completions.flake = false;
-      # zsh-syntax-highlighting.url = "github:zsh-users/zsh-syntax-highlighting/master";
-      # zsh-syntax-highlighting.flake = false;
-      # # zsh-vim-mode.url = "github:softmoth/zsh-vim-mode";
-      # # zsh-vim-mode.flake = false;
-      # agkozak-zsh-prompt.url = "github:agkozak/agkozak-zsh-prompt";
-      # agkozak-zsh-prompt.flake = false;
+      #zsh-completions.url = "github:zsh-users/zsh-completions";
+      #zsh-completions.flake = false;
   };
 
   outputs = { self, nixpkgs, home-manager, darwin, ... }: {

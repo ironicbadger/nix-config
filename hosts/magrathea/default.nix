@@ -4,7 +4,12 @@
 
   # Make sure the nix daemon always runs
   services.nix-daemon.enable = true;
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+    initExtra = ''
+      ${builtins.readFile ./../../data/mac-dot-zshrc}
+    '';
+  };
   system.activationScripts.postUserActivation.text = ''
     # Following line should allow us to avoid a logout/login cycle
     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
@@ -95,6 +100,9 @@
     onActivation.upgrade = true;
     # updates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
+    taps = [
+      "homebrew/cask-fonts"
+    ];
     brews = [
       "mas" # mac app store cli
       "ansible"
@@ -151,19 +159,20 @@
       "Microsoft Remote Desktop" = 1295203466;
       "Reeder" = 1529448980;
       "Resize Master" = 1025306797;
-      "ShutterCount" = 720123827;
       "Tailscale" = 1475387142;
       "Telegram" = 747648890;
-      "Teleprompter" = 1533078079;
       "The Unarchiver" = 425424353;
       "Todoist" = 585829637;
       "UTM" = 1538878817;
       "Wireguard" = 1451685025;
 
-      "Final Cut Pro" = 424389933;
-      "Logic Pro" = 634148309;
-      "MainStage" = 634159523;
+      # these apps with uk apple id
+      #"Final Cut Pro" = 424389933;
+      #"Logic Pro" = 634148309;
+      #"MainStage" = 634159523; 
       #"Garageband" = 682658836;
+      #"ShutterCount" = 720123827;
+      #"Teleprompter" = 1533078079;
 
       "Keynote" = 409183694;
       "Numbers" = 409203825;

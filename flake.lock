@@ -61,24 +61,7 @@
       "inputs": {
         "darwin": "darwin",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs",
-        "zsh-completions": "zsh-completions"
-      }
-    },
-    "zsh-completions": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1688258532,
-        "narHash": "sha256-wUlWy0FqZyluqxnRT7LD57lhEJYZ6Zkm99j99J1ppUE=",
-        "owner": "zsh-users",
-        "repo": "zsh-completions",
-        "rev": "5328eb7c01270417ad6d0ce75682dea00dfa18f2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "zsh-users",
-        "repo": "zsh-completions",
-        "type": "github"
+        "nixpkgs": "nixpkgs"
       }
     }
   },
