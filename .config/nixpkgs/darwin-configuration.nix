@@ -2,7 +2,7 @@
 
 with import <nixpkgs> { };
 let
-  neovim = pkgs.callPackage ./nvim.nix { };
+  #neovim = pkgs.callPackage ./nvim.nix { };
 in
 {
   environment.variables = { EDITOR = "vim"; };

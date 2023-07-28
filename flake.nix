@@ -23,7 +23,7 @@
       system = "aarch64-darwin";
       modules = [ 
         home-manager.darwinModules.home-manager ./hosts/slartibartfast/default.nix
-        ./.config/nixpkgs/darwin-configuration.nix
+        #./.config/nixpkgs/darwin-configuration.nix
       ];
     };
   };

@@ -103,7 +103,22 @@
       "com.apple.commerce".AutoUpdate = true;
   };
 
-
+  environment.systemPackages =
+  [
+    neovim
+    nerdfonts
+    pkgs.git
+    pkgs.hugo
+    pkgs.ibm-plex
+    pkgs.jq
+    pkgs.nmap
+    pkgs.ripgrep
+    pkgs.terraform
+    pkgs.tmux
+    pkgs.tree
+    pkgs.unzip
+    pkgs.wget
+  ];
 
   homebrew = {
     enable = true;
