@@ -6,10 +6,11 @@
   services.nix-daemon.enable = true;
   programs.zsh.enable = true;
   system.defaults.dock.autohide = true;
+  users.users.alex.home = "/Users/alex";
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
-  home-manager.users.test = { pkgs, ... }: {
-    home.stateVersion = "22.05";
+  home-manager.users.alex = { pkgs, ... }: {
+    home.stateVersion = "23.05";
     programs.tmux = { # my tmux configuration, for example
       enable = true;
       keyMode = "vi";
@@ -27,14 +28,13 @@
   };
   homebrew = {
     enable = true;
-    autoUpdate = true;
+    onActivation.upgrade = true;
     # updates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
     casks = [
       "audacity"
-      "alfred"
+      #"alfred" #you are on alfred4 not 5
       "balenaetcher"
-      "cleanshot"
       "discord"
       "element"
       "firefox"
@@ -47,9 +47,7 @@
       "nextcloud"
       "notion"
       "obsidian"
-      "rectangle"
       "prusaslicer"
-      "screenflow"
       "slack"
       "spotify"
       "steam"
@@ -57,6 +55,14 @@
       "visual-studio-code"
       "vlc"
     ];
+  };
+
+  nix = {
+    #package = lib.mkDefault pkgs.unstable.nix;
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      warn-dirty = false;
+    };
   };
 
 }
