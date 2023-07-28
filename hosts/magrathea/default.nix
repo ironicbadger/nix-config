@@ -15,9 +15,25 @@
   home-manager.useUserPackages = true;
   home-manager.users.alex = { pkgs, ... }: {
     home.stateVersion = "23.05";
+
+    programs.htop.enable = true;
+    programs.htop.settings.show_program_path = true;
+
     home.packages = with pkgs; [
       mosh
-      tmux
+      neovim
+      nerdfonts
+      pkgs.git
+      pkgs.hugo
+      pkgs.ibm-plex
+      pkgs.jq
+      pkgs.nmap
+      pkgs.ripgrep
+      pkgs.terraform
+      pkgs.tmux
+      pkgs.tree
+      pkgs.unzip
+      pkgs.wget
     ];
     programs.tmux = { # my tmux configuration, for example
       enable = true;
@@ -33,13 +49,6 @@
         bind-key -n C-a send-prefix
       '';
     };
-  };
-
-  fonts = {
-     fonts = [ nerdfonts ];
-     fontDir = {
-       enable = true;
-     };
   };
 
   system.activationScripts.postUserActivation.text = ''
@@ -102,23 +111,6 @@
       # Turn on app auto-update
       "com.apple.commerce".AutoUpdate = true;
   };
-
-  environment.systemPackages =
-  [
-    neovim
-    nerdfonts
-    pkgs.git
-    pkgs.hugo
-    pkgs.ibm-plex
-    pkgs.jq
-    pkgs.nmap
-    pkgs.ripgrep
-    pkgs.terraform
-    pkgs.tmux
-    pkgs.tree
-    pkgs.unzip
-    pkgs.wget
-  ];
 
   homebrew = {
     enable = true;
