@@ -5,24 +5,6 @@
   # Make sure the nix daemon always runs
   services.nix-daemon.enable = true;
   programs.zsh.enable = true;
-  system.defaults = {
-    NSGlobalDomain.AppleShowAllExtensions = true;
-    NSGlobalDomain.InitialKeyRepeat = 25;
-    NSGlobalDomain.KeyRepeat = 4;
-    NSGlobalDomain.NSNavPanelExpandedStateForSaveMode = true;
-    NSGlobalDomain.PMPrintingExpandedStateForPrint = true;
-    NSGlobalDomain."com.apple.mouse.tapBehavior" = 1;
-    finder.AppleShowAllExtensions = true;
-    finder.FXEnableExtensionChangeWarning = false;
-    loginwindow.GuestEnabled = false;
-    dock.autohide = false;
-    dock.launchanim = false;
-    dock.static-only = false;
-    dock.show-recents = false;
-    dock.show-process-indicators = true;
-    dock.orientation = "left";
-    dock.tilesize = 38;
-  };
   system.activationScripts.postUserActivation.text = ''
     # Following line should allow us to avoid a logout/login cycle
     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
@@ -50,6 +32,24 @@
         bind-key -n C-a send-prefix
       '';
     };
+  };
+  system.defaults = {
+    NSGlobalDomain.AppleShowAllExtensions = true;
+    NSGlobalDomain.InitialKeyRepeat = 25;
+    NSGlobalDomain.KeyRepeat = 4;
+    NSGlobalDomain.NSNavPanelExpandedStateForSaveMode = true;
+    NSGlobalDomain.PMPrintingExpandedStateForPrint = true;
+    NSGlobalDomain."com.apple.mouse.tapBehavior" = 1;
+    finder.AppleShowAllExtensions = true;
+    finder.FXEnableExtensionChangeWarning = false;
+    loginwindow.GuestEnabled = false;
+    dock.autohide = false;
+    dock.launchanim = false;
+    dock.static-only = false;
+    dock.show-recents = false;
+    dock.show-process-indicators = true;
+    dock.orientation = "left";
+    dock.tilesize = 38;
   };
   system.defaults.CustomUserPreferences = {
       "com.apple.finder" = {
