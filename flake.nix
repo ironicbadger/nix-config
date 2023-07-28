@@ -8,9 +8,19 @@
       # nix will normally use the nixpkgs defined in home-managers inputs, we only want one copy of nixpkgs though
       darwin.url = "github:lnl7/nix-darwin";
       darwin.inputs.nixpkgs.follows = "nixpkgs"; # ...
+
+      ## zsh
+      zsh-completions.url = "github:zsh-users/zsh-completions";
+      zsh-completions.flake = false;
+      # zsh-syntax-highlighting.url = "github:zsh-users/zsh-syntax-highlighting/master";
+      # zsh-syntax-highlighting.flake = false;
+      # # zsh-vim-mode.url = "github:softmoth/zsh-vim-mode";
+      # # zsh-vim-mode.flake = false;
+      # agkozak-zsh-prompt.url = "github:agkozak/agkozak-zsh-prompt";
+      # agkozak-zsh-prompt.flake = false;
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin }: {
+  outputs = { self, nixpkgs, home-manager, darwin, ... }: {
     darwinConfigurations."slartibartfast" = darwin.lib.darwinSystem {
     # you can have multiple darwinConfigurations per flake, one per hostname
 
