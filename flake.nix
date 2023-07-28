@@ -21,8 +21,24 @@
     };
     darwinConfigurations."magrathea" = darwin.lib.darwinSystem {
       system = "aarch64-darwin";
-      modules = [ home-manager.darwinModules.home-manager ./hosts/magrathea/default.nix ];
+      modules = [ 
+        home-manager.darwinModules.home-manager ./hosts/slartibartfast/default.nix
+        ./.config/nixpkgs/darwin-configuration.nix
+      ];
     };
+    # darwinConfigurations =
+    #   let
+    #     pkgs = getPkgsForSystem "aarch64-darwin";
+    #   in {
+    #     magrathea = darwin.lib.darwinSystem {
+    #       system = "magrathea";
+    #       pkgs = getPkgsForSystem "aarch64-darwin";
+    #       modules = [ 
+    #         home-manager.darwinModules.home-manager ./hosts/magrathea/default.nix 
+    #         ./.config/nixpkgs/darwin-configuration.nix
+    #       ];
+    #     };
+    #   };
   };
 
 }

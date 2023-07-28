@@ -9,10 +9,7 @@
     enableCompletion = true;
     promptInit = (builtins.readFile ./../../data/mac-dot-zshrc);
   };
-  system.activationScripts.postUserActivation.text = ''
-    # Following line should allow us to avoid a logout/login cycle
-    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-  '';
+
   users.users.alex.home = "/Users/alex";
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
@@ -37,6 +34,18 @@
       '';
     };
   };
+
+  fonts = {
+     fonts = [ nerdfonts ];
+     fontDir = {
+       enable = true;
+     };
+  };
+
+  system.activationScripts.postUserActivation.text = ''
+    # Following line should allow us to avoid a logout/login cycle
+    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+  '';
   system.defaults = {
     NSGlobalDomain.AppleShowAllExtensions = true;
     NSGlobalDomain.InitialKeyRepeat = 25;
@@ -93,6 +102,8 @@
       # Turn on app auto-update
       "com.apple.commerce".AutoUpdate = true;
   };
+
+
 
   homebrew = {
     enable = true;
