@@ -17,9 +17,14 @@
     darwinConfigurations."magrathea" = darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [ 
-        home-manager.darwinModules.home-manager 
-          ./.config/darwin-configuration.nix
+        home-manager.darwinModules.home-manager
+          ./.config/darwin/darwin-configuration.nix
           ./hosts/magrathea/default.nix
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.alex = import ./.config/darwin/home.nix;  
+        }
       ];
     };
   };

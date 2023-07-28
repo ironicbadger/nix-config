@@ -23,6 +23,7 @@
       mosh
       neovim
       nerdfonts
+      pkgs.docker
       pkgs.git
       pkgs.hugo
       pkgs.ibm-plex
@@ -41,7 +42,6 @@
       clock24 = true;
       historyLimit = 10000;
       plugins = with pkgs.tmuxPlugins; [
-      #   vim-tmux-navigator
         gruvbox
       ];
       extraConfig = ''
