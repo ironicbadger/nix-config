@@ -26,6 +26,7 @@
         ./.config/nixpkgs/darwin-configuration.nix
       ];
     };
+  };
     # darwinConfigurations =
     #   let
     #     pkgs = getPkgsForSystem "aarch64-darwin";
@@ -39,6 +40,4 @@
     #       ];
     #     };
     #   };
-  };
-
 }

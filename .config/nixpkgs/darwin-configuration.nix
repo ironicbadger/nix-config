@@ -22,4 +22,4 @@ in
     pkgs.unzip
     pkgs.wget
   ];
-};
+}
