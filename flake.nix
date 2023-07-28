@@ -18,7 +18,7 @@
       system = "aarch64-darwin";
       modules = [ 
         home-manager.darwinModules.home-manager 
-          ./darwin-configuration.nix
+          ./.config/darwin-configuration.nix
           ./hosts/magrathea/default.nix
       ];
     };
