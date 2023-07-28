@@ -51,6 +51,7 @@
       "slack"
       "spotify"
       "steam"
+      "tmux"
       "viscosity"
       "visual-studio-code"
       "vlc"
