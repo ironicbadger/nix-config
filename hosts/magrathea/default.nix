@@ -11,31 +11,30 @@
   };
 
   users.users.alex.home = "/Users/alex";
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
+  #home-manager.useGlobalPkgs = true;
+  #home-manager.useUserPackages = true;
   home-manager.users.alex = { pkgs, ... }: {
-    home.stateVersion = "23.05";
+    
+    # programs.htop.enable = true;
+    # programs.htop.settings.show_program_path = true;
 
-    programs.htop.enable = true;
-    programs.htop.settings.show_program_path = true;
-
-    home.packages = with pkgs; [
-      mosh
-      neovim
-      nerdfonts
-      pkgs.docker
-      pkgs.git
-      pkgs.hugo
-      pkgs.ibm-plex
-      pkgs.jq
-      pkgs.nmap
-      pkgs.ripgrep
-      pkgs.terraform
-      pkgs.tmux
-      pkgs.tree
-      pkgs.unzip
-      pkgs.wget
-    ];
+    # home.packages = with pkgs; [
+    #   mosh
+    #   neovim
+    #   nerdfonts
+    #   pkgs.docker
+    #   pkgs.git
+    #   pkgs.hugo
+    #   pkgs.ibm-plex
+    #   pkgs.jq
+    #   pkgs.nmap
+    #   pkgs.ripgrep
+    #   pkgs.terraform
+    #   pkgs.tmux
+    #   pkgs.tree
+    #   pkgs.unzip
+    #   pkgs.wget
+    # ];
     programs.tmux = { # my tmux configuration, for example
       enable = true;
       #keyMode = "vi";
@@ -50,6 +49,9 @@
       '';
     };
   };
+
+  #virtualisation.docker.enable = true;
+
 
   system.activationScripts.postUserActivation.text = ''
     # Following line should allow us to avoid a logout/login cycle
