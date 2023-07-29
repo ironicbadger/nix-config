@@ -1,4 +1,7 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, inputs, ... }:
+let 
+  inherit (inputs) nixpkgs;
+in 
 {
   # Nix configuration ------------------------------------------------------------------------------
 
@@ -12,6 +15,15 @@
     "@admin"
   ];
   nix.configureBuildUsers = true;
+
+  # pins to stable as unstable updates very often
+  nix.registry.nixpkgs.flake = nixpkgs;
+  nix.registry = {
+    n.to = {
+      type = "path";
+      path = inputs.nixpkgs;
+    };
+  };
 
   # Enable experimental nix command and flakes
   # nix.package = pkgs.nixUnstable;
@@ -51,7 +63,7 @@
 
   # Keyboard
   system.keyboard.enableKeyMapping = true;
-  system.keyboard.remapCapsLockToEscape = true;
+  system.keyboard.remapCapsLockToEscape = false;
 
   # Add ability to used TouchID for sudo authentication
   security.pam.enableSudoTouchIdAuth = true;

@@ -10,11 +10,12 @@
       mosh
       neovim
       nerdfonts
+      pkgs.direnv
       pkgs.docker
       pkgs.git
       pkgs.hugo
-      pkgs.ibm-plex
       pkgs.jq
+      pkgs.neofetch
       pkgs.nmap
       pkgs.ripgrep
       pkgs.terraform

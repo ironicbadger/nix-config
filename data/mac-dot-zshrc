@@ -11,3 +11,11 @@ PS1="%n@%m %1~ %# "
 # Enable colours in ls etc.
 export CLICOLOR=1
 export LSCOLORS=gxfxcxdxbxgggdabagacad
+
+# Nix
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi
+# End Nix
+
+neofetch

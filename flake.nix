@@ -15,6 +15,7 @@
       modules = [ home-manager.darwinModules.home-manager ./hosts/slartibartfast/default.nix ];
     };
     darwinConfigurations."magrathea" = darwin.lib.darwinSystem {
+      inputs = { inherit nixpkgs; };
       system = "aarch64-darwin";
       modules = [ 
         home-manager.darwinModules.home-manager
