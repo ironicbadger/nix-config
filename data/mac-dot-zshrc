@@ -18,4 +18,4 @@ if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
 fi
 # End Nix
 
-neofetch
+#/Users/alex/go/bin/figurine -f "Doom.flf" magrathea

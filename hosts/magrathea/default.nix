@@ -8,6 +8,7 @@
     enable = true;
     enableCompletion = true;
     promptInit = (builtins.readFile ./../../data/mac-dot-zshrc);
+    interactiveShellInit = "/Users/alex/go/bin/figurine -f \"Rammstein.flf\" magrathea";
   };
 
   users.users.alex.home = "/Users/alex";
