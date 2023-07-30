@@ -154,26 +154,8 @@
       "homebrew/cask-fonts"
     ];
     brews = [
-      "mas" # mac app store cli
-      "ansible"
-      "ansible-lint"
-      "bitwarden-cli"
-      "coreutils"
-      "esptool"
-      "gh"
-      "gnu-sed"
-      "htop"
-      "ipmitool"
-      "jq"
-      "midnight-commander"
-      "nmap"
-      "skopeo"
-      "smartmontools"
-      "terraform"
-      "tree"
-      "watch"
-      "wget"
-      "wireguard-tools"
+      # home.nix
+      # home.packages
     ];
     casks = [
       #"alfred" # you are on alfred4 not 5
