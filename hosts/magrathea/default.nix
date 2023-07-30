@@ -60,21 +60,20 @@
   '';
   system.defaults = {
     NSGlobalDomain.AppleShowAllExtensions = true;
+    NSGlobalDomain.AppleShowScrollBars = "Always";
+    NSGlobalDomain.NSUseAnimatedFocusRing = false;
+    NSGlobalDomain.NSNavPanelExpandedStateForSaveMode = true;
+    NSGlobalDomain.NSNavPanelExpandedStateForSaveMode2 = true;
+    NSGlobalDomain.PMPrintingExpandedStateForPrint = true;
+    NSGlobalDomain.PMPrintingExpandedStateForPrint2 = true;
+    NSGlobalDomain.NSDocumentSaveNewDocumentsToCloud = false;
+    NSGlobalDomain.ApplePressAndHoldEnabled = false;
     NSGlobalDomain.InitialKeyRepeat = 25;
     NSGlobalDomain.KeyRepeat = 4;
-    NSGlobalDomain.NSNavPanelExpandedStateForSaveMode = true;
-    NSGlobalDomain.PMPrintingExpandedStateForPrint = true;
     NSGlobalDomain."com.apple.mouse.tapBehavior" = 1;
-    finder.AppleShowAllExtensions = true;
-    finder.FXEnableExtensionChangeWarning = false;
+    LaunchServices.LSQuarantine = false; # disables "Are you sure?" for new apps
     loginwindow.GuestEnabled = false;
-    dock.autohide = false;
-    dock.launchanim = false;
-    dock.static-only = false;
-    dock.show-recents = false;
-    dock.show-process-indicators = true;
-    dock.orientation = "left";
-    dock.tilesize = 38;
+
   };
   system.defaults.CustomUserPreferences = {
       "com.apple.finder" = {
@@ -85,11 +84,36 @@
         _FXSortFoldersFirst = true;
         # When performing a search, search the current folder by default
         FXDefaultSearchScope = "SCcf";
+        DisableAllAnimations = true;
+        NewWindowTarget = "PfDe";
+        NewWindowTargetPath = "file://$\{HOME\}/Desktop/";
+        AppleShowAllExtensions = true;
+        FXEnableExtensionChangeWarning = false;
+        ShowStatusBar = true;
+        ShowPathbar = true;
+        WarnOnEmptyTrash = false;
       };
       "com.apple.desktopservices" = {
         # Avoid creating .DS_Store files on network or USB volumes
         DSDontWriteNetworkStores = true;
         DSDontWriteUSBStores = true;
+      };
+      "com.apple.dock" = {
+        autohide = false;
+        launchanim = false;
+        static-only = false;
+        show-recents = false;
+        show-process-indicators = true;
+        orientation = "left";
+        tilesize = 36;
+        minimize-to-application = true;
+        mineffect = "scale";
+      };
+      "com.apple.ActivityMonitor" = {
+        OpenMainWindow = true;
+        IconType = 5;
+        SortColumn = "CPUUsage";
+        SortDirection = 0;
       };
       "com.apple.Safari" = {
         # Privacy: don’t send search queries to Apple
@@ -113,6 +137,12 @@
       "com.apple.ImageCapture".disableHotPlug = true;
       # Turn on app auto-update
       "com.apple.commerce".AutoUpdate = true;
+      "com.googlecode.iterm2".PromptOnQuit = false;
+      "com.google.Chrome" = {
+        AppleEnableSwipeNavigateWithScrolls = false;
+        DisablePrintPreview = true;
+        PMPrintingExpandedStateForPrint2 = true;
+      };
   };
 
   homebrew = {

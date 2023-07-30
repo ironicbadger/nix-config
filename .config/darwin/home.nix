@@ -6,6 +6,12 @@
     programs.htop.enable = true;
     programs.htop.settings.show_program_path = true;
 
+    programs.git = {
+      enable = true;
+      userEmail = "alexktz@gmail.com";
+      userName = "Alex Kretzschmar";
+    };
+
     home.packages = with pkgs; [
       mosh
       neovim
