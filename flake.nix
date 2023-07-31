@@ -8,41 +8,79 @@
       home-manager.url = "github:nix-community/home-manager/release-23.05";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
       
-      darwin.url = "github:lnl7/nix-darwin";
-      darwin.inputs.nixpkgs.follows = "nixpkgs";
+      nix-darwin.url = "github:lnl7/nix-darwin";
+      nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, darwin, ... }@inputs: {
-    # darwinConfigurations."slartibartfast" = darwin.lib.darwinSystem {
-    #   system = "aarch64-darwin";
-    #   modules = [ home-manager.darwinModules.home-manager ./hosts/slartibartfast/default.nix ];
-    # };
-    darwinConfigurations."slartibartfast" = darwin.lib.darwinSystem {
-      inputs = { inherit nixpkgs nixpkgs-unstable; };
-      system = "aarch64-darwin";
-      modules = [ 
-        home-manager.darwinModules.home-manager
+  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager, nix-darwin, ... }:
+  let
+    inherit (nixpkgs.lib) nixosSystem lists;
+    inherit (nix-darwin.lib) darwinSystem;
+    
+    mkDarwinConfig = { system, modules, ... }:
+      darwinSystem {
+        inherit system;
+
+        inputs = { inherit nix-darwin home-manager nixpkgs nixpkgs-unstable; };
+        modules = modules
+        ++ [
+          home-manager.darwinModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+            home-manager.users.alex = {
+              imports = [
+                ./.config/darwin/home.nix
+              ];
+            };
+
+            home-manager.extraSpecialArgs = {
+              inherit inputs system;
+              nixosConfig = {};
+            };
+          }
+        ];
+      };
+  in
+  {
+    darwinConfigurations = {
+      magrathea = mkDarwinConfig {
+        system = "aarch64-darwin";
+        modules = [
           ./.config/darwin/darwin-configuration.nix
-        {
-          #home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.alex = import ./.config/darwin/home.nix;  
-        }
-      ];
-    };
-    darwinConfigurations."magrathea" = darwin.lib.darwinSystem {
-      inputs = { inherit nixpkgs nixpkgs-unstable; };
-      system = "aarch64-darwin";
-      modules = [ 
-        home-manager.darwinModules.home-manager
-          ./.config/darwin/darwin-configuration.nix
-        {
-          #networking.hostName = hostName;
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.alex = import ./.config/darwin/home.nix;  
-        }
-      ];
+        ];
+      };
     };
   };
 }
+
+
+
+
+    # darwinConfigurations."slartibartfast" = darwin.lib.darwinSystem {
+    #   inputs = { inherit nixpkgs nixpkgs-unstable; };
+    #   system = "aarch64-darwin";
+    #   modules = [ 
+    #     home-manager.darwinModules.home-manager
+    #       ./.config/darwin/darwin-configuration.nix
+    #     {
+    #       #home-manager.useGlobalPkgs = true;
+    #       home-manager.useUserPackages = true;
+    #       home-manager.users.alex = import ./.config/darwin/home.nix;  
+    #     }
+    #   ];
+    # };
+    # darwinConfigurations."magrathea" = darwin.lib.darwinSystem {
+    #   inputs = { inherit nixpkgs nixpkgs-unstable; };
+    #   system = "aarch64-darwin";
+    #   modules = [ 
+    #     home-manager.darwinModules.home-manager
+    #       ./.config/darwin/darwin-configuration.nix
+    #     {
+    #       #networking.hostName = hostName;
+    #       home-manager.useGlobalPkgs = true;
+    #       home-manager.useUserPackages = true;
+    #       home-manager.users.alex = import ./.config/darwin/home.nix;  
+    #     }
+    #   ];
+    # };
