@@ -46,6 +46,12 @@
   in
   {
     darwinConfigurations = {
+      slartibartfast = mkDarwinConfig {
+        system = "aarch64-darwin";
+        modules = [
+          ./.config/darwin/darwin-configuration.nix
+        ];
+      };
       magrathea = mkDarwinConfig {
         system = "aarch64-darwin";
         modules = [
