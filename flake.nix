@@ -13,9 +13,22 @@
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, darwin, ... }@inputs: {
+    # darwinConfigurations."slartibartfast" = darwin.lib.darwinSystem {
+    #   system = "aarch64-darwin";
+    #   modules = [ home-manager.darwinModules.home-manager ./hosts/slartibartfast/default.nix ];
+    # };
     darwinConfigurations."slartibartfast" = darwin.lib.darwinSystem {
+      inputs = { inherit nixpkgs nixpkgs-unstable; };
       system = "aarch64-darwin";
-      modules = [ home-manager.darwinModules.home-manager ./hosts/slartibartfast/default.nix ];
+      modules = [ 
+        home-manager.darwinModules.home-manager
+          ./.config/darwin/darwin-configuration.nix
+        {
+          #home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.alex = import ./.config/darwin/home.nix;  
+        }
+      ];
     };
     darwinConfigurations."magrathea" = darwin.lib.darwinSystem {
       inputs = { inherit nixpkgs nixpkgs-unstable; };
@@ -24,6 +37,7 @@
         home-manager.darwinModules.home-manager
           ./.config/darwin/darwin-configuration.nix
         {
+          #networking.hostName = hostName;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.alex = import ./.config/darwin/home.nix;  

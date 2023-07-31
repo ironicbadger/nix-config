@@ -2,8 +2,6 @@
 
 {
   home.stateVersion = "23.05";
-  #home.home = "/Users/alex";
-  #home-manager.users.alex = { pkgs, ... }: {};
 
   # list of programs
   # https://mipmip.github.io/home-manager-option-search
@@ -79,6 +77,4 @@
     wireguard-tools
     unzip
   ];
-
-
 }
