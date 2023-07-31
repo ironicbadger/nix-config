@@ -1,5 +1,4 @@
-{ config, pkgs, lib, ... }:
-
+{ config, pkgs, lib, unstablePkgs, ... }:
 {
   home.stateVersion = "23.05";
 
@@ -50,7 +49,11 @@
   #programs.zsh = true; # must be in darwin-config
 
   home.packages = with pkgs; [
-    #nerdfonts
+    ## unstable
+    unstablePkgs.yt-dlp
+    unstablePkgs.terraform
+
+    ## stable
     ansible
     asciinema
     bitwarden-cli
@@ -73,6 +76,7 @@
     hugo
     ipmitool
     jetbrains-mono # font
+    just
     jq
     mas # mac app store cli
     mc
@@ -82,7 +86,6 @@
     ripgrep
     skopeo
     smartmontools
-    terraform
     tree
     unzip
     watch

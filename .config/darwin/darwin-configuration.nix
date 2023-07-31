@@ -27,6 +27,17 @@ in
   };
   services.nix-daemon.enable = true;
 
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.overlays = [
+    (final: prev: lib.optionalAttrs (prev.stdenv.system == "aarch64-darwin") {
+      # Add access to x86 packages system is running Apple Silicon
+      pkgs-x86 = import nixpkgs {
+        system = "x86_64-darwin";
+        config.allowUnfree = true;
+      };
+    }) 
+  ];
+
   # Keyboard
   system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToEscape = false;

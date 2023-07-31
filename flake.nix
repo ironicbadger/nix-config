@@ -12,6 +12,7 @@
       nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
+  # https://github.com/yusefnapora/nixos-system-flake
   outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager, nix-darwin, ... }:
   let
     inherit (nixpkgs.lib) nixosSystem lists;
@@ -37,6 +38,7 @@
             home-manager.extraSpecialArgs = {
               inherit inputs system;
               nixosConfig = {};
+              unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.aarch64-darwin;
             };
           }
         ];
