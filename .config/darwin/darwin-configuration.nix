@@ -71,14 +71,17 @@ in
       "notion"
       "obs"
       "obsidian"
+      "omnidisksweeper"
       "prusaslicer"
       "signal"
       "slack"
       "spotify"
       "steam"
+      "thunderbird"
       "viscosity"
       "visual-studio-code"
       "vlc"
+      "wireshark"
     ];
     masApps = {
       "Amphetamine" = 937984704;
