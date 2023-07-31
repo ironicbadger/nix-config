@@ -42,9 +42,18 @@
     '';
   };
 
+  programs.zsh = {
+    enable = true;
+    enableAutosuggestions = true;
+    enableCompletion = true;
+    initExtra = (builtins.readFile ../mac-dot-zshrc);
+  };
+
   programs.exa.enable = true;
+  programs.exa.enableAliases = true;
   programs.neovim.enable = true;
   programs.nix-index.enable = true;
+  #programs.nix-index.enableZshIntegration = true;
   programs.zoxide.enable = true;
   #programs.zsh = true; # must be in darwin-config
 

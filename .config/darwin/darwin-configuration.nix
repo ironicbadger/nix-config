@@ -49,7 +49,7 @@ in
     enable = true;
     enableCompletion = true;
     promptInit = (builtins.readFile ../mac-dot-zshrc);
-    interactiveShellInit = "/Users/alex/go/bin/figurine -f \"Rammstein.flf\" magrathea";
+    #interactiveShellInit = "/Users/alex/go/bin/figurine -f \"Rammstein.flf\" magrathea";
   };
 
   homebrew = {
