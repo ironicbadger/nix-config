@@ -57,6 +57,7 @@ in
       #"alfred" # you are on alfred4 not 5
       "audacity"
       "balenaetcher"
+      "bartender"
       "discord"
       "displaylink"
       "element"
@@ -73,6 +74,7 @@ in
       "obsidian"
       "omnidisksweeper"
       "prusaslicer"
+      "rectangle"
       "signal"
       "slack"
       "spotify"
@@ -82,6 +84,12 @@ in
       "visual-studio-code"
       "vlc"
       "wireshark"
+
+      # rogue amoeba
+      "audio-hijack"
+      "farrago"
+      "loopback"
+      "soundsource"
     ];
     masApps = {
       "Amphetamine" = 937984704;

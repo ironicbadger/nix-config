@@ -13,6 +13,7 @@
 
   programs.fzf = {
     enable = true;
+    enableZshIntegration = true;
     tmux.enableShellIntegration = true;
   };
 
@@ -43,7 +44,6 @@
   };
 
   programs.exa.enable = true;
-  programs.jq.enable = true;
   programs.neovim.enable = true;
   programs.nix-index.enable = true;
   programs.zoxide.enable = true;
@@ -52,17 +52,28 @@
   home.packages = with pkgs; [
     #nerdfonts
     ansible
+    asciinema
     bitwarden-cli
     coreutils
+    # direnv # programsn.direnv
+    docker
+    du-dust
+    dua
+    duf
     esptool
     ffmpeg
     hub
+    fd
+    #fzf # programs.fzf
+    #git # programs.git
     gh
     gnused
-    docker
+    #htop # programs.htop
+    hub
     hugo
     ipmitool
     jetbrains-mono # font
+    jq
     mas # mac app store cli
     mc
     mosh
@@ -73,9 +84,9 @@
     smartmontools
     terraform
     tree
+    unzip
     watch
     wget
     wireguard-tools
-    unzip
   ];
 }
