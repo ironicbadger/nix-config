@@ -55,6 +55,7 @@
     bitwarden-cli
     coreutils
     esptool
+    ffmpeg
     hub
     gh
     gnused
