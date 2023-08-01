@@ -76,6 +76,8 @@ in
       "google-chrome"
       "istat-menus"
       "iterm2"
+      #"lingon-x"
+      "little-snitch"
       "logitech-options"
       "monitorcontrol"
       "mqtt-explorer"
