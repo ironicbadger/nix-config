@@ -28,6 +28,28 @@
     settings.show_program_path = true;
   };
 
+  programs.ssh = {
+    enable = true;
+    extraConfig = ''
+    Host *
+      StrictHostKeyChecking no
+    '';
+    matchBlocks = {
+      "m morpheus" = {
+        hostname = "10.42.1.10";
+        user = "alex";
+      };
+      "a anton" = {
+        hostname = "10.42.1.20";
+        user = "root";
+      };
+      "p pennywise" = {
+        hostname = "192.168.16.10";
+        user = "alex";
+      };
+    };
+  };
+
   programs.tmux = {
     enable = true;
     #keyMode = "vi";
@@ -51,11 +73,10 @@
 
   programs.exa.enable = true;
   programs.exa.enableAliases = true;
+  programs.home-manager.enable = true;
   programs.neovim.enable = true;
   programs.nix-index.enable = true;
-  #programs.nix-index.enableZshIntegration = true;
   programs.zoxide.enable = true;
-  #programs.zsh = true; # must be in darwin-config
 
   home.packages = with pkgs; [
     ## unstable
@@ -67,8 +88,9 @@
     asciinema
     bitwarden-cli
     coreutils
-    # direnv # programsn.direnv
+    # direnv # programs.direnv
     docker
+    drill
     du-dust
     dua
     duf
