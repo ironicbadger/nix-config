@@ -7,6 +7,9 @@
 
 # Default prompt
 PS1="%n@%m %1~ %# "
+if [[ "$(ps -o uid= $PPID)" -eq "$UID" ]]; then
+	PS1='%F{red}↳nix%f '"$PS1"
+fi
 
 # Enable colours in ls etc.
 export CLICOLOR=1
