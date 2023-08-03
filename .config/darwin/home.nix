@@ -136,18 +136,18 @@
     bitwarden-cli
     coreutils
     # direnv # programs.direnv
-    docker
+    #docker
     drill
     du-dust
     dua
     duf
     esptool
     ffmpeg
-    hub
     fd
     #fzf # programs.fzf
     #git # programs.git
     gh
+    go
     gnused
     #htop # programs.htop
     hub

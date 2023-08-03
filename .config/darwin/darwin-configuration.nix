@@ -71,6 +71,7 @@ in
       "bartender"
       "discord"
       "displaylink"
+      "docker"
       "element"
       "firefox"
       "google-chrome"
