@@ -1,6 +1,4 @@
 {
-  description = "My first nix flake";
-
   inputs = {
       nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
       nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
