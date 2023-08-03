@@ -86,6 +86,7 @@ in
       "obs"
       "obsidian"
       "omnidisksweeper"
+      "plexamp"
       "prusaslicer"
       "rectangle"
       "signal"
