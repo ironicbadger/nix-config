@@ -35,7 +35,8 @@
             inherit system;
             #specialArgs = { inherit inputs; };
             modules = [
-              home-manager.nixosModules.homeManagerConfiguration
+              home-manager.nixosModules.home-manager
+              #home-manager.nixosModules.homeManagerConfiguration
               {
                 #networking.hostName = hostName;
                 home-manager.useGlobalPkgs = true;
