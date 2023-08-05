@@ -30,12 +30,14 @@
         let
           pkgs = genPkgs system;
         in
-          nixpkgs.lib.nixosSystem {
+          nixpkgs.lib.nixosSystem 
+          {
             inherit system;
+            specialArgs = { inherit inputs; };
             modules = [
               home-manager.lib.homeManagerConfiguration
               {
-                networking.hostName = hostName;
+                #networking.hostName = hostName;
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
                 home-manager.users.${username} = {

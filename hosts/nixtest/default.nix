@@ -97,6 +97,17 @@
     firewall.enable = false;
     hostName = "testnix";
     hostId = "e5f2dc02";
+    interfaces = {
+      enp1s0 = {
+        useDHCP = false;
+        ipv4.addresses = [ {
+          address = "10.42.0.50";
+          prefixLength = 20;
+        } ];
+      };
+    };
+    defaultGateway = "10.42.0.254";
+    nameservers = [ "10.42.0.253" ];
   };
 
 
