@@ -2,6 +2,7 @@
   inputs = {
       nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
       nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+      nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
       
       home-manager.url = "github:nix-community/home-manager/release-23.05";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -10,8 +11,11 @@
       nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager, nix-darwin, ... }:
+  outputs = inputs@{ self
+    , nixpkgs, nixpkgs-unstable, nixpkgs-darwin
+    , home-manager, nix-darwin, ... }:
     let  
+      # creates correct package sets for specified arch
       genPkgs = system: import nixpkgs {
         inherit system;
         config.allowUnfree = true;
@@ -21,25 +25,36 @@
         config.allowUnfree = true;
       };
     
-    
-      nixosSystem = hostName: system:
+      # creates a nixos system config
+      nixosSystem = system: hostName: username:
         let
           pkgs = genPkgs system;
         in
           nixpkgs.lib.nixosSystem {
             inherit system;
             modules = [
-
+              networking.hostName = hostName;
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.${username} = {
+                imports = [
+                  ./hosts/${hostName}
+                ];
+              };
+              home-manager.extraSpecialArgs = {
+                inherit inputs system;
+                unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+              };
             ];
           };
 
+      # creates a macos system config
       darwinSystem = system: hostName: username:
         let
           pkgs = genDarwinPkgs system;
         in
-          darwin.lib.darwinSystem {
+          nix-darwin.lib.darwinSystem {
             inherit system;
-
             inputs = { inherit nix-darwin home-manager nixpkgs nixpkgs-unstable; };
             modules = [
               home-manager.darwinModules.home-manager 
@@ -47,31 +62,29 @@
                 networking.hostName = hostName;
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
-                home-manager.users.{$username} = {
+                home-manager.users.${username} = {
                   imports = [
-                    ./.config/darwin/home.nix
+                    ./hosts/${hostName}
                   ];
                 };
                 home-manager.extraSpecialArgs = {
                   inherit inputs system;
-                  #nixosConfig = {};
-                  unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.aarch64-darwin;
+                  unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
                 };
               }
-              #./darwin-common.nix
+              ./darwin-common.nix
             ];
           };
-
-      processConfigurations = lib.mapAttrs (n: v: v n);
-
     in
     {
-      darwinConfigurations = processConfigurations {
-        magrathea = darwinSystem "aarch64-darwin" [ ./hosts/magrathea/] "alex";
+      darwinConfigurations = {
+        magrathea = darwinSystem "aarch64-darwin" "magrathea" "alex";
+      };
+
+      nixosConfigurations = {
+        testnix = nixosSystem "x86_64-linux" "testnix" "alex";
       };
     };
-
-  };
 
 }
 

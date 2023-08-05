@@ -115,7 +115,7 @@
     enable = true;
     enableAutosuggestions = true;
     enableCompletion = true;
-    initExtra = (builtins.readFile ../mac-dot-zshrc);
+    initExtra = (builtins.readFile ./../mac-dot-zshrc);
   };
 
   programs.exa.enable = true;
