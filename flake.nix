@@ -33,9 +33,9 @@
           nixpkgs.lib.nixosSystem 
           {
             inherit system;
-            specialArgs = { inherit inputs; };
+            #specialArgs = { inherit inputs; };
             modules = [
-              home-manager.lib.homeManagerConfiguration
+              home-manager.nixosModules.homeManagerConfiguration
               {
                 #networking.hostName = hostName;
                 home-manager.useGlobalPkgs = true;
