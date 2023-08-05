@@ -33,18 +33,21 @@
           nixpkgs.lib.nixosSystem {
             inherit system;
             modules = [
-              networking.hostName = hostName;
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.${username} = {
-                imports = [
-                  ./hosts/${hostName}
-                ];
-              };
-              home-manager.extraSpecialArgs = {
-                inherit inputs system;
-                unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
-              };
+              home-manager.lib.homeManagerConfiguration
+              {
+                networking.hostName = hostName;
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.users.${username} = {
+                  imports = [
+                    ./hosts/${hostName}
+                  ];
+                };
+                home-manager.extraSpecialArgs = {
+                  inherit inputs system;
+                  unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+                };
+              }
             ];
           };
 
