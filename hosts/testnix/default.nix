@@ -52,6 +52,7 @@
     du-dust # Modern Unix `du`
     entr # Modern Unix `watch`
     fd # Modern Unix `find`
+    home-manager
     intel-gpu-tools
     iotop
     lm_sensors
