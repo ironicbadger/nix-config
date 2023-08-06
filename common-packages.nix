@@ -43,6 +43,7 @@ with pkgs; [
   watch
   wget
   wireguard-tools
+  vim
 
   # lib.optionals boolean stdenv is darwin
   #mas # mac app store cli
