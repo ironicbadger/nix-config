@@ -18,16 +18,16 @@ in
     };
   };
   
-  pins to stable as unstable updates very often
-  nix.registry.nixpkgs.flake = inputs.nixpkgs;
-  nix.registry = {
-    n.to = {
-      type = "path";
-      path = inputs.nixpkgs;
-    };
-    u.to = {
-      type = "path";
-      path = inputs.nixpkgs-unstable;
-    };
-  };
+  ## pins to stable as unstable updates very often
+  # nix.registry.nixpkgs.flake = inputs.nixpkgs;
+  # nix.registry = {
+  #   n.to = {
+  #     type = "path";
+  #     path = inputs.nixpkgs;
+  #   };
+  #   u.to = {
+  #     type = "path";
+  #     path = inputs.nixpkgs-unstable;
+  #   };
+  # };
 }

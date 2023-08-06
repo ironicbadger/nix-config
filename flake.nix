@@ -3,6 +3,8 @@
       nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
       nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
       nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
+
+      nixos-vscode-server.url ="github:mudrii/nixos-vscode-ssh-fix/main";
       
       home-manager.url = "github:nix-community/home-manager/release-23.05";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -15,6 +17,7 @@
     , nixpkgs, nixpkgs-unstable, nixpkgs-darwin
     , home-manager, nix-darwin, ... }:
     let  
+      inputs = { inherit nix-darwin home-manager nixpkgs nixpkgs-unstable; };
       # creates correct package sets for specified arch
       genPkgs = system: import nixpkgs {
         inherit system;
@@ -24,7 +27,7 @@
         inherit system;
         config.allowUnfree = true;
       };
-      inputs = { inherit nix-darwin home-manager nixpkgs nixpkgs-unstable; };
+      
     
       # creates a nixos system config
       nixosSystem = system: hostName: username:
@@ -47,6 +50,7 @@
                 home-manager.useUserPackages = true;
                 home-manager.users.${username} = { imports = [ ./hm/${username}.nix ]; };
               }
+              inputs.auto-fix-vscode-server.nixosModules.system
               ./nixos-common.nix
             ];
           };
@@ -60,12 +64,8 @@
           {
             inherit system inputs;
             modules = [
-              {
-                # adds unstable to be available in top-level evals (like in common-packages)
-                _module.args = {
-                  unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; 
-                };
-              }
+              # adds unstable to be available in top-level evals (like in common-packages)
+              { _module.args = { unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; }; }
 
               ./hosts/${hostName} # ip address, host specific stuff
 
