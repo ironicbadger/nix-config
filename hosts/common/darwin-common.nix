@@ -6,6 +6,15 @@ in
   # Nix configuration ------------------------------------------------------------------------------
   users.users.alex.home = "/Users/alex";
 
+  nix = {
+    #package = lib.mkDefault pkgs.unstable.nix;
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      warn-dirty = false;
+    };
+  };
+  services.nix-daemon.enable = true;
+
   # pins to stable as unstable updates very often
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
   nix.registry = {
@@ -18,14 +27,16 @@ in
       path = inputs.nixpkgs-unstable;
     };
   };
-  nix = {
-    #package = lib.mkDefault pkgs.unstable.nix;
-    settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      warn-dirty = false;
-    };
-  };
-  services.nix-daemon.enable = true;
+
+  # nix.buildMachines = [{
+  #   systems = [ "x86_64-linux" ];
+  #   supportedFeatures = [ "kvm" "big-parallel" ];
+  #   sshUser = "ragon";
+  #   maxJobs = 12;
+  #   hostName = "ds9";
+  #   sshKey = "/Users/ragon/.ssh/id_ed25519";
+  #   publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUorQkJYdWZYQUpoeVVIVmZocWxrOFk0ekVLSmJLWGdKUXZzZEU0ODJscFYgcm9vdEBpc28K";
+  # }
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.overlays = [
@@ -48,7 +59,7 @@ in
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    promptInit = (builtins.readFile ../mac-dot-zshrc);
+    promptInit = (builtins.readFile ./../mac-dot-zshrc);
     #interactiveShellInit = "/Users/alex/go/bin/figurine -f \"Rammstein.flf\" magrathea";
   };
 
