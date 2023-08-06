@@ -28,6 +28,34 @@
     settings.show_program_path = true;
   };
 
+  programs.tmux = {
+    enable = true;
+    #keyMode = "vi";
+    clock24 = true;
+    historyLimit = 10000;
+    plugins = with pkgs.tmuxPlugins; [
+      gruvbox
+    ];
+    extraConfig = ''
+      new-session -s main
+      bind-key -n C-a send-prefix
+    '';
+  };
+
+  programs.zsh = {
+    enable = true;
+    enableAutosuggestions = true;
+    enableCompletion = true;
+    #initExtra = (builtins.readFile ../mac-dot-zshrc);
+  };
+
+  programs.exa.enable = true;
+  programs.exa.enableAliases = true;
+  programs.home-manager.enable = true;
+  programs.neovim.enable = true;
+  programs.nix-index.enable = true;
+  programs.zoxide.enable = true;
+
   programs.ssh = {
     enable = true;
     extraConfig = ''
@@ -55,6 +83,10 @@
       "m1" = {
         hostname = "10.42.1.30";
         user = "root";
+      };
+      "testnix" = {
+        hostname = "10.42.0.50";
+        user = "alex";
       };
       "opn opnwd" = {
         hostname = "10.42.0.254";
@@ -96,34 +128,6 @@
       };
     };
   };
-
-  programs.tmux = {
-    enable = true;
-    #keyMode = "vi";
-    clock24 = true;
-    historyLimit = 10000;
-    plugins = with pkgs.tmuxPlugins; [
-      gruvbox
-    ];
-    extraConfig = ''
-      new-session -s main
-      bind-key -n C-a send-prefix
-    '';
-  };
-
-  programs.zsh = {
-    enable = true;
-    enableAutosuggestions = true;
-    enableCompletion = true;
-    initExtra = (builtins.readFile ../mac-dot-zshrc);
-  };
-
-  programs.exa.enable = true;
-  programs.exa.enableAliases = true;
-  programs.home-manager.enable = true;
-  programs.neovim.enable = true;
-  programs.nix-index.enable = true;
-  programs.zoxide.enable = true;
 
   # home.packages = with pkgs; [
   #   ## unstable

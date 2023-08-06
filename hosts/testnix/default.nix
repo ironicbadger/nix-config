@@ -35,7 +35,7 @@
 
   services.openssh = {
     enable = true;
-    settings.PasswordAuthentication = true;
+    settings.PasswordAuthentication = false;
     settings.PermitRootLogin = "yes";
   };
   #services.tailscale.enable = true;

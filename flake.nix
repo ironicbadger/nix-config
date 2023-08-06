@@ -71,6 +71,16 @@
             inherit system;
             inputs = { inherit nix-darwin home-manager nixpkgs nixpkgs-unstable; };
             modules = [
+
+              {
+                # adds unstable to be available in top-level evals (like in common-packages)
+                _module.args = {
+                  unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; 
+                };
+              }
+
+              ./hosts/${hostName} # ip address, host specific stuff
+
               home-manager.darwinModules.home-manager 
               {
                 networking.hostName = hostName;
@@ -78,7 +88,8 @@
                 home-manager.useUserPackages = true;
                 home-manager.users.${username} = {
                   imports = [
-                    ./hosts/${hostName}
+                    ./hm/alex.nix
+                    #./hosts/${hostName}
                   ];
                 };
                 home-manager.extraSpecialArgs = {
