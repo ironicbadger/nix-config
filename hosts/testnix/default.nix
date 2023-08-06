@@ -82,18 +82,18 @@
     };
   };
 
-  # services = {
-  #   xserver = {
-  #     enable = true;
-  #     displayManager = {
-  #       lightdm.enable = true;
-  #       defaultSession = "xfce";
-  #       #defaultSession = "xfce+bspwm";
-  #     };
-  #     desktopManager.xfce.enable = true;
-  #     windowManager.bspwm.enable = true;
-  #   };
-  # };
+  services = {
+    xserver = {
+      enable = true;
+      displayManager = {
+        lightdm.enable = true;
+        defaultSession = "xfce";
+        #defaultSession = "xfce+bspwm";
+      };
+      desktopManager.xfce.enable = true;
+      windowManager.bspwm.enable = true;
+    };
+  };
 
   networking = {
     firewall.enable = false;
