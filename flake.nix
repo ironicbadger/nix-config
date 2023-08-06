@@ -33,7 +33,7 @@
         in
           nixpkgs.lib.nixosSystem
           {
-            inherit system inputs;
+            inherit system;
             modules = [
               # adds unstable to be available in top-level evals (like in common-packages)
               { _module.args = { unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; }; }
