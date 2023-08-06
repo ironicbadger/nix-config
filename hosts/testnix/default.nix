@@ -40,36 +40,37 @@
   };
   #services.tailscale.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    docker-compose
-    git
-    htop
-    hddtemp
-    diffr # Modern Unix `diff`
-    difftastic # Modern Unix `diff`
-    dua # Modern Unix `du`
-    duf # Modern Unix `df`
-    du-dust # Modern Unix `du`
-    entr # Modern Unix `watch`
-    fd # Modern Unix `find`
-    home-manager
-    intel-gpu-tools
-    iotop
-    lm_sensors
-    mergerfs
-    mc
-    ncdu
-    nmap
-    nvme-cli
-    sanoid
-    snapraid
-    tailscale
-    tdns-cli
-    tmux
-    tree
-    vim
-    wget
-  ];
+  environment.systemPackages = (import ./../../common-packages.nix);
+  # environment.systemPackages = with pkgs; [
+  #   docker-compose
+  #   git
+  #   htop
+  #   hddtemp
+  #   diffr # Modern Unix `diff`
+  #   difftastic # Modern Unix `diff`
+  #   dua # Modern Unix `du`
+  #   duf # Modern Unix `df`
+  #   du-dust # Modern Unix `du`
+  #   entr # Modern Unix `watch`
+  #   fd # Modern Unix `find`
+  #   home-manager
+  #   intel-gpu-tools
+  #   iotop
+  #   lm_sensors
+  #   mergerfs
+  #   mc
+  #   ncdu
+  #   nmap
+  #   nvme-cli
+  #   sanoid
+  #   snapraid
+  #   tailscale
+  #   tdns-cli
+  #   tmux
+  #   tree
+  #   vim
+  #   wget
+  # ];
 
   virtualisation = {
     docker = {
@@ -110,21 +111,6 @@
     defaultGateway = "10.42.0.254";
     nameservers = [ "10.42.0.253" ];
   };
-
-
-
-  # nix = {
-  #   settings = {
-  #       experimental-features = [ "nix-command" "flakes" ];
-  #       warn-dirty = false;
-  #   };
-  #   # Automate garbage collection
-  #   gc = {
-  #     automatic = true;
-  #     dates = "weekly";
-  #     options = "--delete-older-than 7d";
-  #   };
-  #};
 
   system.copySystemConfiguration = true;
   system.stateVersion = "23.05";
