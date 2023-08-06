@@ -42,7 +42,7 @@
   };
   #services.tailscale.enable = true;
 
-  environment.systemPackages = import ./../../common-packages.nix 
+  environment.systemPackages = import ./../common/common-packages.nix
   {
     pkgs = pkgs; 
     unstablePkgs = unstablePkgs; 

@@ -48,7 +48,7 @@
                 home-manager.useUserPackages = true;
                 home-manager.users.${username} = { imports = [ ./hm/${username}.nix ]; };
               }
-              ./nixos-common.nix
+              ./hosts/common/nixos-common.nix
             ];
           };
 
@@ -73,7 +73,7 @@
                 home-manager.useUserPackages = true;
                 home-manager.users.${username} = { imports = [ ./hm/${username}.nix ]; };
               }
-              ./darwin-common.nix
+              ./hosts/common/darwin-common.nix
             ];
           };
     in
