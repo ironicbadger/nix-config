@@ -56,8 +56,9 @@
                 };
                 home-manager.extraSpecialArgs = {
                   inherit inputs system;
-                  unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+                  #unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
                 };
+                ./nixos-common.nix
               }
             ];
           };
