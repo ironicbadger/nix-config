@@ -43,7 +43,7 @@
   services.vscode-server.enable = true;
   services.tailscale.enable = true;
 
-  environment.systemPackages = import ./../common/common-packages.nix
+  environment.systemPackages = import ./../../common/common-packages.nix
   { #what is this?
     pkgs = pkgs; 
     unstablePkgs = unstablePkgs; 
