@@ -30,7 +30,6 @@ with pkgs; [
   jetbrains-mono # font
   just
   jq
-  mas # mac app store cli
   mc
   mosh
   neofetch
@@ -44,4 +43,7 @@ with pkgs; [
   watch
   wget
   wireguard-tools
+
+  # lib.optionals boolean stdenv is darwin
+  #mas # mac app store cli
 ]

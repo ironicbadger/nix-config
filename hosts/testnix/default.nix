@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ config, pkgs, ... }:
+{ config, pkgs, unstablePkgs, ... }:
 
 {
   imports =
@@ -40,7 +40,7 @@
   };
   #services.tailscale.enable = true;
 
-  environment.systemPackages = (import ./../../common-packages.nix);
+  environment.systemPackages = import ./../../common-packages.nix {pkgs = pkgs; unstablePkgs = unstablePkgs; };
   # environment.systemPackages = with pkgs; [
   #   docker-compose
   #   git

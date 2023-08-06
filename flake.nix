@@ -33,33 +33,32 @@
           nixpkgs.lib.nixosSystem 
           {
             inherit system;
-
-            #specialArgs = { inherit inputs; };
             modules = [
               {
                 # adds unstable to be available in top-level evals (like in common-packages)
-                _modules.args = {
+                _module.args = {
                   unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; 
                 };
               }
 
               ./hosts/${hostName} # ip address, host specific stuff
 
-              home-manager.nixosModules.home-manager
-              {
-                #networking.hostName = hostName;
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.users.${username} = {
-                  imports = [
-                    # ./hosts/${hostName}
-                  ];
-                };
-                home-manager.extraSpecialArgs = {
-                  inherit inputs system;
-                  unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
-                };
-              }
+              # home-manager.nixosModules.home-manager
+              # {
+              #   #networking.hostName = hostName;
+              #   home-manager.useGlobalPkgs = true;
+              #   home-manager.useUserPackages = true;
+              #   home-manager.users.${username} = {
+              #     imports = [
+              #       ./hm/alex.nix
+              #       # ./hosts/${hostName}
+              #     ];
+              #   };
+              #   home-manager.extraSpecialArgs = {
+              #     inherit inputs system;
+              #     unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+              #   };
+              # }
             ];
           };
 
