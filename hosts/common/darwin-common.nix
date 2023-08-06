@@ -59,7 +59,7 @@ in
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    promptInit = (builtins.readFile ./hosts/mac-dot-zshrc);
+    promptInit = (builtins.readFile ./../mac-dot-zshrc);
     #interactiveShellInit = "/Users/alex/go/bin/figurine -f \"Rammstein.flf\" magrathea";
   };
 
