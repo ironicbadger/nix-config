@@ -2,13 +2,6 @@
 {
   home.stateVersion = "23.05";
 
-  # imports = [
-  #   url = "${fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master"}/modules/vscode-server/home.nix";
-  #   sha256 = "sha256:0sz8njfxn5bw89n6xhlzsbxkafb6qmnszj4qxy2w0hw2mgmjp829";
-  # ];
-
-  services.vscode-server.enable = true;
-
   # list of programs
   # https://mipmip.github.io/home-manager-option-search
 

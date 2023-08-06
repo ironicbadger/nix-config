@@ -3,6 +3,8 @@
       nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
       nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
       nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
+
+      vscode-server.url = "github:nix-community/nixos-vscode-server";
       
       home-manager.url = "github:nix-community/home-manager/release-23.05";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -40,7 +42,7 @@
               { _module.args = { unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; }; }
 
               ./hosts/${hostName} # ip address, host specific stuff
-
+              vscode-server.nixosModules.default
               home-manager.nixosModules.home-manager
               {
                 networking.hostName = hostName;

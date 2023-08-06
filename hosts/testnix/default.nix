@@ -40,7 +40,8 @@
     settings.PasswordAuthentication = false;
     settings.PermitRootLogin = "yes";
   };
-  #services.tailscale.enable = true;
+  services.vscode-server.enable = true;
+  services.tailscale.enable = true;
 
   environment.systemPackages = import ./../common/common-packages.nix
   {
