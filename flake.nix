@@ -24,6 +24,7 @@
         inherit system;
         config.allowUnfree = true;
       };
+      inputs = { inherit nix-darwin home-manager nixpkgs nixpkgs-unstable; };
     
       # creates a nixos system config
       nixosSystem = system: hostName: username:
@@ -32,8 +33,7 @@
         in
           nixpkgs.lib.nixosSystem
           {
-            inherit system;
-            inputs = { inherit home-manager nixpkgs nixpkgs-unstable; };
+            inherit system inputs;
             modules = [
               {
                 # adds unstable to be available in top-level evals (like in common-packages)
@@ -46,17 +46,15 @@
 
               home-manager.nixosModules.home-manager
               {
-                #networking.hostName = hostName;
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
                 home-manager.users.${username} = {
                   imports = [
                     ./hm/alex.nix
-                    # ./hosts/${hostName}
                   ];
                 };
                 home-manager.extraSpecialArgs = {
-                  inherit inputs system;
+                  #inherit inputs system;
                   #unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
                 };
               }
@@ -70,10 +68,8 @@
           pkgs = genDarwinPkgs system;
         in
           nix-darwin.lib.darwinSystem {
-            inherit system;
-            inputs = { inherit nix-darwin home-manager nixpkgs nixpkgs-unstable; };
+            inherit system inputs;
             modules = [
-
               {
                 # adds unstable to be available in top-level evals (like in common-packages)
                 _module.args = {
