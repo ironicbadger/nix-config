@@ -45,6 +45,9 @@ with pkgs; [
   wireguard-tools
   vim
 
+  # requires nixpkgs.config.allowUnfree = true;
+  vscode-extensions.ms-vscode-remote.remote-ssh
+
   # lib.optionals boolean stdenv is darwin
   #mas # mac app store cli
 ]

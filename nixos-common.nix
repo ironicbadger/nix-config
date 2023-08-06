@@ -17,6 +17,8 @@ in
       options = "--delete-older-than 7d";
     };
   };
+
+  nixpkgs.config.allowUnfree = true;
   
   ## pins to stable as unstable updates very often
   # nix.registry.nixpkgs.flake = inputs.nixpkgs;
