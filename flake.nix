@@ -35,6 +35,7 @@
             inherit system;
             #specialArgs = { inherit inputs; };
             modules = [
+              ./hosts/${hostName} # ip address, host specific stuff
               home-manager.nixosModules.home-manager
               #home-manager.nixosModules.homeManagerConfiguration
               {
@@ -43,7 +44,7 @@
                 home-manager.useUserPackages = true;
                 home-manager.users.${username} = {
                   imports = [
-                    ./hosts/${hostName}
+                    # ./hosts/${hostName}
                   ];
                 };
                 home-manager.extraSpecialArgs = {
