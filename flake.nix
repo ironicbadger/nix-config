@@ -33,6 +33,7 @@
           nixpkgs.lib.nixosSystem
           {
             inherit system;
+            inputs = { inherit home-manager nixpkgs nixpkgs-unstable; };
             modules = [
               {
                 # adds unstable to be available in top-level evals (like in common-packages)
