@@ -6,6 +6,15 @@ in
   # Nix configuration ------------------------------------------------------------------------------
   users.users.alex.home = "/Users/alex";
 
+  nix = {
+    #package = lib.mkDefault pkgs.unstable.nix;
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      warn-dirty = false;
+    };
+  };
+  services.nix-daemon.enable = true;
+
   # pins to stable as unstable updates very often
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
   nix.registry = {
@@ -18,14 +27,6 @@ in
       path = inputs.nixpkgs-unstable;
     };
   };
-  nix = {
-    #package = lib.mkDefault pkgs.unstable.nix;
-    settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      warn-dirty = false;
-    };
-  };
-  services.nix-daemon.enable = true;
 
   # nix.buildMachines = [{
   #   systems = [ "x86_64-linux" ];
