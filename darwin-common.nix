@@ -27,6 +27,16 @@ in
   };
   services.nix-daemon.enable = true;
 
+  # nix.buildMachines = [{
+  #   systems = [ "x86_64-linux" ];
+  #   supportedFeatures = [ "kvm" "big-parallel" ];
+  #   sshUser = "ragon";
+  #   maxJobs = 12;
+  #   hostName = "ds9";
+  #   sshKey = "/Users/ragon/.ssh/id_ed25519";
+  #   publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUorQkJYdWZYQUpoeVVIVmZocWxrOFk0ekVLSmJLWGdKUXZzZEU0ODJscFYgcm9vdEBpc28K";
+  # }
+
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.overlays = [
     (final: prev: lib.optionalAttrs (prev.stdenv.system == "aarch64-darwin") {

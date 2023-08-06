@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
+let
 
+in
 {
+  time.timeZone = "America/New_York";
 
   nix = {
     settings = {
@@ -13,5 +16,5 @@
       dates = "weekly";
       options = "--delete-older-than 7d";
     };
-
+  };
 }
