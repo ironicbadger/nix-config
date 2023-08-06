@@ -30,7 +30,7 @@
         let
           pkgs = genPkgs system;
         in
-          nixpkgs.lib.nixosSystem 
+          nixpkgs.lib.nixosSystem
           {
             inherit system;
             modules = [

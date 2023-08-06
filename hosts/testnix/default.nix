@@ -112,7 +112,7 @@
     nameservers = [ "10.42.0.253" ];
   };
 
-  system.copySystemConfiguration = true;
+  #system.copySystemConfiguration = true;
   system.stateVersion = "23.05";
 
 }
