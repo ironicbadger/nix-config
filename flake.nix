@@ -48,7 +48,7 @@
                 networking.hostName = hostName;
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
-                home-manager.users.${username} = { imports = [ ./hm/${username}.nix ]; };
+                home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
               }
               ./hosts/common/nixos-common.nix
             ];
@@ -65,15 +65,14 @@
             modules = [
               # adds unstable to be available in top-level evals (like in common-packages)
               { _module.args = { unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; }; }
-
+              
               ./hosts/${hostName} # ip address, host specific stuff
-
               home-manager.darwinModules.home-manager 
               {
                 networking.hostName = hostName;
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
-                home-manager.users.${username} = { imports = [ ./hm/${username}.nix ]; };
+                home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
               }
               ./hosts/common/darwin-common.nix
             ];
@@ -82,6 +81,7 @@
     {
       darwinConfigurations = {
         magrathea = darwinSystem "aarch64-darwin" "magrathea" "alex";
+        slartibartfast = darwinSystem "aarch64-darwin" "slartibartfast" "alex";
       };
 
       nixosConfigurations = {
