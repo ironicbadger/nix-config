@@ -19,7 +19,7 @@ with pkgs; [
   ffmpeg
   fd
   #fzf # programs.fzf
-  #git # programs.git
+  git # programs.git
   gh
   go
   gnused
