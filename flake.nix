@@ -58,8 +58,8 @@
                   inherit inputs system;
                   #unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
                 };
-                ./nixos-common.nix
               }
+              ./nixos-common.nix
             ];
           };
 
