@@ -3,8 +3,6 @@
       nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
       nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
       nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
-
-      nixos-vscode-server.url ="github:mudrii/nixos-vscode-ssh-fix/main";
       
       home-manager.url = "github:nix-community/home-manager/release-23.05";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -50,7 +48,6 @@
                 home-manager.useUserPackages = true;
                 home-manager.users.${username} = { imports = [ ./hm/${username}.nix ]; };
               }
-              inputs.auto-fix-vscode-server.nixosModules.system
               ./nixos-common.nix
             ];
           };
