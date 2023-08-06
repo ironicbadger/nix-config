@@ -41,7 +41,7 @@
               # adds unstable to be available in top-level evals (like in common-packages)
               { _module.args = { unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; }; }
 
-              ./hosts/${hostName} # ip address, host specific stuff
+              ./hosts/nixos/${hostName} # ip address, host specific stuff
               vscode-server.nixosModules.default
               home-manager.nixosModules.home-manager
               {
@@ -65,8 +65,8 @@
             modules = [
               # adds unstable to be available in top-level evals (like in common-packages)
               { _module.args = { unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; }; }
-              
-              ./hosts/${hostName} # ip address, host specific stuff
+
+              ./hosts/darwin/${hostName} # ip address, host specific stuff
               home-manager.darwinModules.home-manager 
               {
                 networking.hostName = hostName;
