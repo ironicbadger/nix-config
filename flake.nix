@@ -15,7 +15,7 @@
 
   outputs = inputs@{ self
     , nixpkgs, nixpkgs-unstable, nixpkgs-darwin
-    , home-manager, nix-darwin, ... }:
+    , home-manager, nix-darwin, vscode-server, ... }:
     let  
       inputs = { inherit nix-darwin home-manager nixpkgs nixpkgs-unstable; };
       # creates correct package sets for specified arch
