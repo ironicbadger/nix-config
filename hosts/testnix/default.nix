@@ -21,7 +21,8 @@
 
   time.timeZone = "America/New_York";
 
-  users.users.alex = {
+  users.users.alex = 
+  {
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" ];
     hashedPassword = "$6$wW/xsljhhG/vssC3$ujh/4jSZp7APUsbI6FAAUtIkaWVl9ElocFV6FKO7vD4ouoXKiebecrfmtd46NNVJBOFO8blNaEvkOLmOW5X3j.";
@@ -33,46 +34,22 @@
     /etc/nixos/ssh/authorized_keys
   ];
 
-  services.openssh = {
+  services.openssh = 
+  {
     enable = true;
     settings.PasswordAuthentication = false;
     settings.PermitRootLogin = "yes";
   };
   #services.tailscale.enable = true;
 
-  environment.systemPackages = import ./../../common-packages.nix {pkgs = pkgs; unstablePkgs = unstablePkgs; };
-  # environment.systemPackages = with pkgs; [
-  #   docker-compose
-  #   git
-  #   htop
-  #   hddtemp
-  #   diffr # Modern Unix `diff`
-  #   difftastic # Modern Unix `diff`
-  #   dua # Modern Unix `du`
-  #   duf # Modern Unix `df`
-  #   du-dust # Modern Unix `du`
-  #   entr # Modern Unix `watch`
-  #   fd # Modern Unix `find`
-  #   home-manager
-  #   intel-gpu-tools
-  #   iotop
-  #   lm_sensors
-  #   mergerfs
-  #   mc
-  #   ncdu
-  #   nmap
-  #   nvme-cli
-  #   sanoid
-  #   snapraid
-  #   tailscale
-  #   tdns-cli
-  #   tmux
-  #   tree
-  #   vim
-  #   wget
-  # ];
+  environment.systemPackages = import ./../../common-packages.nix 
+  {
+    pkgs = pkgs; 
+    unstablePkgs = unstablePkgs; 
+  };
 
-  virtualisation = {
+  virtualisation = 
+  {
     docker = {
       enable = true;
       autoPrune = {
@@ -95,7 +72,8 @@
     };
   };
 
-  networking = {
+  networking = 
+  {
     firewall.enable = false;
     hostName = "testnix";
     hostId = "e5f2dc02";
