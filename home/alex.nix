@@ -23,11 +23,11 @@
     delta.enable = true;
   };
 
+  home.file.".config/htop/htoprc".source = ./dotfiles/htoprc;
   programs.htop = {
     enable = true;
-    settings.show_program_path = true;
+    #settings.show_program_path = true;
   };
-  home.file.".config/htop/htoprc".source = ./dotfiles/htoprc;
 
   programs.tmux = {
     enable = true;
