@@ -28,15 +28,16 @@ in
     };
   };
 
-  # nix.buildMachines = [{
-  #   systems = [ "x86_64-linux" ];
-  #   supportedFeatures = [ "kvm" "big-parallel" ];
-  #   sshUser = "ragon";
-  #   maxJobs = 12;
-  #   hostName = "ds9";
-  #   sshKey = "/Users/ragon/.ssh/id_ed25519";
-  #   publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUorQkJYdWZYQUpoeVVIVmZocWxrOFk0ekVLSmJLWGdKUXZzZEU0ODJscFYgcm9vdEBpc28K";
-  # }
+  nix.distributedBuilds = true;
+  nix.buildMachines = [{
+    hostName = "10.42.0.50";
+    sshUser = "root";
+    sshKey = "/Users/alex/.ssh/id_ed25519";
+    systems = [ "x86_64-linux" ];
+    supportedFeatures = [ "big-parallel" ];
+    maxJobs = 4;
+    #publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUorQkJYdWZYQUpoeVVIVmZocWxrOFk0ekVLSmJLWGdKUXZzZEU0ODJscFYgcm9vdEBpc28K";
+  }];
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.overlays = [

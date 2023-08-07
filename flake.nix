@@ -1,5 +1,6 @@
 {
-  inputs = {
+  inputs = 
+  {
       nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
       nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
       nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
@@ -27,8 +28,7 @@
         inherit system;
         config.allowUnfree = true;
       };
-      
-    
+
       # creates a nixos system config
       nixosSystem = system: hostName: username:
         let
@@ -50,7 +50,17 @@
                 home-manager.useUserPackages = true;
                 home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
               }
-              ./hosts/common/nixos-common.nix
+              ./hosts/common/nixos-common.nix # things common to all nixos hosts
+
+              # {
+              #   _module.args.nixinate = {
+              #     host = "10.42.0.50";
+              #     sshUser = "root";
+              #     buildOn = "remote"; # valid args are "local" or "remote"
+              #     substituteOnTarget = true; # if buildOn is "local" then it will substitute on the target, "-s"
+              #     hermetic = false;
+              #   };
+              # }
             ];
           };
 
@@ -74,7 +84,7 @@
                 home-manager.useUserPackages = true;
                 home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
               }
-              ./hosts/common/darwin-common.nix
+              ./hosts/common/darwin-common.nix # things common to all macos hosts
             ];
           };
     in
@@ -87,6 +97,27 @@
       nixosConfigurations = {
         testnix = nixosSystem "x86_64-linux" "testnix" "alex";
       };
+
+      # colmena = 
+      # {
+      #   meta = { nixpkgs = import nixpkgs { system = "x86_64-linux"; }; };
+      #   testnix = 
+      #   {
+      #     networking.hostName = "testnix";
+      #     deployment = {
+      #       targetHost = "10.42.0.50";
+      #       targetUser = "root";
+      #       buildOnTarget = true;
+      #       tags = [ "test" ];
+      #     };
+      #     #system.stateVersion = "23.05";
+      #     boot.loader.grub.device = "nodev"; #efi nodev
+      #     fileSystems."/" =
+      #       { device = "/dev/disk/by-uuid/a3cfe9a3-59fd-43ab-92c1-e77dd3abfc1d";
+      #         fsType = "ext4";
+      #       };
+      #   };
+      # };
     };
 
 }

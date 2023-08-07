@@ -19,6 +19,16 @@ in
   };
 
   nixpkgs.config.allowUnfree = true;
+
+  nix.distributedBuilds = true;
+  nix.buildMachines = [{
+    hostName = "10.42.0.50";
+    sshUser = "root";
+    sshKey = "/Users/alex/.ssh/id_ed25519";
+    systems = [ "x86_64-linux" ];
+    supportedFeatures = [ "big-parallel" ];
+    maxJobs = 4;
+  }];
   
   ## pins to stable as unstable updates very often
   # nix.registry.nixpkgs.flake = inputs.nixpkgs;
