@@ -48,6 +48,9 @@
     enableAutosuggestions = true;
     enableCompletion = true;
     #initExtra = (builtins.readFile ../mac-dot-zshrc);
+    initExtra = ''
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+    '';
   };
 
   programs.exa.enable = true;
