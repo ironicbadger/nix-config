@@ -37,6 +37,7 @@ with pkgs; [
   ripgrep
   skopeo
   smartmontools
+  tailscale
   terraform
   tree
   unzip
