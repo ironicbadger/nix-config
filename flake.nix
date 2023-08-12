@@ -82,6 +82,7 @@
       darwinConfigurations = {
         magrathea = darwinSystem "aarch64-darwin" "magrathea" "alex";
         slartibartfast = darwinSystem "aarch64-darwin" "slartibartfast" "alex";
+        cat-laptop = darwinSystem "aarch64-darwin" "cat-laptop" "alex";
       };
 
       nixosConfigurations = {
