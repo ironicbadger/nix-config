@@ -110,6 +110,7 @@ in
       "visual-studio-code"
       "vlc"
       "wireshark"
+      "yubico-yubikey-manager"
 
       # rogue amoeba
       "audio-hijack"
@@ -126,6 +127,7 @@ in
       "Microsoft Remote Desktop" = 1295203466;
       "Reeder" = 1529448980;
       "Resize Master" = 1025306797;
+      # "Steam Link" = 123;
       "Tailscale" = 1475387142;
       "Telegram" = 747648890;
       "The Unarchiver" = 425424353;
