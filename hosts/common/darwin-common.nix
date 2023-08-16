@@ -80,6 +80,7 @@ in
       "audacity"
       "balenaetcher"
       "bartender"
+      "canon-eos-utility"
       "discord"
       "displaylink"
       "docker"
