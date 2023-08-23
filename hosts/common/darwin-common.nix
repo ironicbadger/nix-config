@@ -92,6 +92,7 @@ in
       #"lingon-x"
       "little-snitch"
       "logitech-options"
+      "macwhisper"
       "monitorcontrol"
       "mqtt-explorer"
       "nextcloud"
