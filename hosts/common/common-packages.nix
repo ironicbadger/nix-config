@@ -17,6 +17,8 @@ with pkgs; [
   duf
   esptool
   ffmpeg
+  fira-code
+  fira-mono
   fd
   #fzf # programs.fzf
   git # programs.git
