@@ -100,6 +100,7 @@ in
       "obs"
       "obsidian"
       "omnidisksweeper"
+      "openttd"
       "plexamp"
       "prusaslicer"
       "rectangle"
