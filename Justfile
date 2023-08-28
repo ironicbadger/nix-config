@@ -24,7 +24,7 @@ switch target_host=hostname: (build target_host)
 # Build the NixOS configuration without switching to it
 [linux]
 build target_host=hostname flags="":
-	nixos-rebuild build --flake .#{{target_host}} {{rebuild_flags}} {{flags}}
+	nixos-rebuild build --flake .#{{target_host}} {{flags}}
 
 # Build the NixOS config with the --show-trace flag set
 [linux]
@@ -33,7 +33,7 @@ trace target_host=hostname: (build target_host "--show-trace")
 # Build the NixOS configuration and switch to it.
 [linux]
 switch target_host=hostname:
-  sudo nixos-rebuild switch --flake .#{{target_host}} {{rebuild_flags}}
+  sudo nixos-rebuild switch --flake .#{{target_host}}
 
 # Update flake inputs to their latest revisions
 update:
