@@ -80,7 +80,7 @@ in
       "audacity"
       "balenaetcher"
       "bartender"
-      "canon-eos-utility"
+      #"canon-eos-utility" #old version and v3 not in repo
       "discord"
       "displaylink"
       "docker"
