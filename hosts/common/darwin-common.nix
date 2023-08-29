@@ -74,6 +74,7 @@ in
     brews = [
       # home.nix
       # home.packages
+      "tailscale"
     ];
     casks = [
       #"alfred" # you are on alfred4 not 5

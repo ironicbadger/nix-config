@@ -15,6 +15,9 @@ fi
 export CLICOLOR=1
 export LSCOLORS=gxfxcxdxbxgggdabagacad
 
+# path fix for homebrew
+export PATH=$PATH:/opt/homebrew/bin/
+
 # Nix
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
