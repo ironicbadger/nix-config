@@ -3,6 +3,7 @@
 with pkgs; [
   ## unstable
   unstablePkgs.yt-dlp
+  unstablePkgs.get_iplayer
 
   ## stable
   ansible
