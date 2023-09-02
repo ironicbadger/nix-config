@@ -5,17 +5,28 @@ with pkgs; [
   unstablePkgs.yt-dlp
   unstablePkgs.get_iplayer
 
+  intel-gpu-tools
+  libva-utils
+  intel-media-driver
+  jellyfin-ffmpeg
+
   ## stable
   ansible
   asciinema
   bitwarden-cli
   coreutils
+  diffr # Modern Unix `diff`
+  difftastic # Modern Unix `diff`
+  dua # Modern Unix `du`
+  duf # Modern Unix `df`
+  du-dust # Modern Unix `du`
   # direnv # programs.direnv
   #docker
   drill
   du-dust
   dua
   duf
+  entr # Modern Unix `watch`
   esptool
   ffmpeg
   fira-code
@@ -26,6 +37,7 @@ with pkgs; [
   gh
   go
   gnused
+  hddtemp
   #htop # programs.htop
   hub
   hugo
