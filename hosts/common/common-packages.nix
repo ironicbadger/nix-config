@@ -5,11 +5,6 @@ with pkgs; [
   unstablePkgs.yt-dlp
   unstablePkgs.get_iplayer
 
-  intel-gpu-tools
-  libva-utils
-  intel-media-driver
-  jellyfin-ffmpeg
-
   ## stable
   ansible
   asciinema
@@ -37,7 +32,6 @@ with pkgs; [
   gh
   go
   gnused
-  hddtemp
   #htop # programs.htop
   hub
   hugo
