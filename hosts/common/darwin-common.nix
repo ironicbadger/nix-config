@@ -101,6 +101,7 @@ in
       "obs"
       "obsidian"
       "omnidisksweeper"
+      "onyx"
       "openttd"
       "plexamp"
       "prusaslicer"
