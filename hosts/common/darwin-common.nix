@@ -240,7 +240,7 @@ in
       "com.apple.commerce".AutoUpdate = true;
       "com.googlecode.iterm2".PromptOnQuit = false;
       "com.google.Chrome" = {
-        #AppleEnableSwipeNavigateWithScrolls = false;
+        AppleEnableSwipeNavigateWithScrolls = true;
         DisablePrintPreview = true;
         PMPrintingExpandedStateForPrint2 = true;
       };
