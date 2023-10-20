@@ -26,6 +26,7 @@ in
     intel-media-driver
     jellyfin-ffmpeg
     hddtemp
+    synergy
   ];
 
   ## pins to stable as unstable updates very often

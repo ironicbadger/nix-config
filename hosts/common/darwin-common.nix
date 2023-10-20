@@ -74,6 +74,7 @@ in
     brews = [
       # home.nix
       # home.packages
+      "synergy-core"
       "tailscale"
     ];
     casks = [
