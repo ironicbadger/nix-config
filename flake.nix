@@ -5,10 +5,10 @@
       nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
 
       vscode-server.url = "github:nix-community/nixos-vscode-server";
-      
+
       home-manager.url = "github:nix-community/home-manager/release-23.05";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
-      
+
       nix-darwin.url = "github:lnl7/nix-darwin";
       nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -16,7 +16,7 @@
   outputs = inputs@{ self
     , nixpkgs, nixpkgs-unstable, nixpkgs-darwin
     , home-manager, nix-darwin, vscode-server, ... }:
-    let  
+    let
       inputs = { inherit nix-darwin home-manager nixpkgs nixpkgs-unstable; };
       # creates correct package sets for specified arch
       genPkgs = system: import nixpkgs {
@@ -27,8 +27,8 @@
         inherit system;
         config.allowUnfree = true;
       };
-      
-    
+
+
       # creates a nixos system config
       nixosSystem = system: hostName: username:
         let
@@ -59,7 +59,7 @@
         let
           pkgs = genDarwinPkgs system;
         in
-          nix-darwin.lib.darwinSystem 
+          nix-darwin.lib.darwinSystem
           {
             inherit system inputs;
             modules = [
@@ -67,7 +67,7 @@
               { _module.args = { unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; }; }
 
               ./hosts/darwin/${hostName} # ip address, host specific stuff
-              home-manager.darwinModules.home-manager 
+              home-manager.darwinModules.home-manager
               {
                 networking.hostName = hostName;
                 home-manager.useGlobalPkgs = true;
@@ -84,6 +84,7 @@
         slartibartfast = darwinSystem "aarch64-darwin" "slartibartfast" "alex";
         awesomo = darwinSystem "aarch64-darwin" "awesomo" "alex";
         cat-laptop = darwinSystem "aarch64-darwin" "cat-laptop" "alex";
+        osprey = darwinSystem "x86_64-darwin" "osprey" "dominik";
       };
 
       nixosConfigurations = {

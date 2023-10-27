@@ -3,12 +3,11 @@
 with pkgs; [
   ## unstable
   unstablePkgs.yt-dlp
-  unstablePkgs.get_iplayer
 
   ## stable
   ansible
   asciinema
-  bitwarden-cli
+  # bitwarden-cli
   coreutils
   diffr # Modern Unix `diff`
   difftastic # Modern Unix `diff`
@@ -24,19 +23,19 @@ with pkgs; [
   entr # Modern Unix `watch`
   esptool
   ffmpeg
-  fira-code
-  fira-mono
+  # fira-code
+  # fira-mono
   fd
   #fzf # programs.fzf
   git # programs.git
-  gh
-  go
+  # gh
+  # go
   gnused
   #htop # programs.htop
-  hub
-  hugo
-  ipmitool
-  jetbrains-mono # font
+  # hub
+  # hugo
+  # ipmitool
+  # jetbrains-mono # font
   just
   jq
   mc
@@ -44,7 +43,7 @@ with pkgs; [
   neofetch
   nmap
   ripgrep
-  skopeo
+  # skopeo
   smartmontools
   terraform
   tree
@@ -55,7 +54,7 @@ with pkgs; [
   vim
 
   # requires nixpkgs.config.allowUnfree = true;
-  vscode-extensions.ms-vscode-remote.remote-ssh
+  # vscode-extensions.ms-vscode-remote.remote-ssh
 
   # lib.optionals boolean stdenv is darwin
   #mas # mac app store cli

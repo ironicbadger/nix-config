@@ -1,9 +1,9 @@
 { pkgs, unstablePkgs, lib, inputs, ... }:
-let 
+let
   inherit (inputs) nixpkgs nixpkgs-unstable;
 in
 {
-  time.timeZone = "America/New_York";
+  time.timeZone = "Europe/Berlin";
 
   nix = {
     settings = {
