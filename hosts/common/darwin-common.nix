@@ -75,6 +75,7 @@ in
       # home.nix
       # home.packages
       "doctl"
+      "helm"
       "tailscale"
     ];
     casks = [
