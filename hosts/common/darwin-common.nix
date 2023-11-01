@@ -76,6 +76,7 @@ in
       # home.packages
       "doctl"
       "helm"
+      "npm"
       "tailscale"
     ];
     casks = [
