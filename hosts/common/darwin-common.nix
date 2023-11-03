@@ -74,6 +74,7 @@ in
     brews = [
       # home.nix
       # home.packages
+      "argocd"
       "doctl"
       "helm"
       "npm"
