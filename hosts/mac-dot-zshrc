@@ -27,6 +27,8 @@ fi
 autoload -Uz compinit
 compinit
 source <(kubectl completion zsh)
+export KUBE_EDITOR="vim"
+
 alias kc='kubectl'
 alias kcg='kubectl get'
 alias kcgpo='kubectl get pod'
