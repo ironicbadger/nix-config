@@ -77,6 +77,7 @@ in
       "doctl"
       "helm"
       "npm"
+      "node"
       "tailscale"
     ];
     casks = [
