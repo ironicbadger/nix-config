@@ -24,6 +24,8 @@ if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
 fi
 # End Nix
 
+autoload -Uz compinit
+compinit
 source <(kubectl completion zsh)
 alias kc='kubectl'
 alias kcg='kubectl get'
