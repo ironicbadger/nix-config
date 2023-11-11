@@ -83,6 +83,7 @@ in
     ];
     casks = [
       #"alfred" # you are on alfred4 not 5
+      "autodesk-fusion360"
       "audacity"
       "balenaetcher"
       "bartender"
