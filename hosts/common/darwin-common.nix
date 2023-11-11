@@ -87,6 +87,7 @@ in
       "audacity"
       "balenaetcher"
       "bartender"
+      "bambu-studio"
       #"canon-eos-utility" #old version and v3 not in repo
       "discord"
       "displaylink"
