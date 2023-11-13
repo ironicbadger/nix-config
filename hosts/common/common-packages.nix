@@ -5,6 +5,8 @@ with pkgs; [
   unstablePkgs.yt-dlp
 
   ## stable
+  nixpkgs-fmt
+  nil
   ansible
   asciinema
   # bitwarden-cli
