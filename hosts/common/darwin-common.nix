@@ -77,6 +77,7 @@ in
       "argocd"
       "doctl"
       "helm"
+      "flyctl"
       "npm"
       "node"
       "tailscale"
