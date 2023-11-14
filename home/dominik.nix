@@ -10,6 +10,12 @@
     nix-direnv.enable = true;
   };
 
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+    tmux.enableShellIntegration = true;
+  };
+
   programs.git = {
     enable = true;
     delta.enable = true;
@@ -63,7 +69,14 @@
 
   # We need this for the env setup, but can't do it at the moment because dot files are managed by rcm
   # Scratch that even with this enabled /run/current-system/sw/bin isn't in the PATH, this is how it always treats us :/
-  # programs.zsh.enable = true;
+
+  programs.zsh = {
+    enable = true;
+    enableAutosuggestions = true;
+    enableCompletion = true;
+    initExtra = (builtins.readFile ./mac-dot-zshrc);
+  };
+
   programs.home-manager.enable = true;
   home.packages = with pkgs; [
     duf

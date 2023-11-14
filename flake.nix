@@ -85,6 +85,7 @@
         awesomo = darwinSystem "aarch64-darwin" "awesomo" "alex";
         cat-laptop = darwinSystem "aarch64-darwin" "cat-laptop" "alex";
         osprey = darwinSystem "x86_64-darwin" "osprey" "dominik";
+        thorax = darwinSystem "aarch64-darwin" "thorax" "dominik";
       };
 
       nixosConfigurations = {
