@@ -1,0 +1,155 @@
+OS=$(uname)
+
+# case-insensitive (all), partial-word and then substring completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' \
+    'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+# enable completion menu
+zstyle ':completion:*' menu select
+
+# Nix installed with DeterminateSystems installer (daemon mode)
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi
+
+if [[ "${OS}" == "Darwin" ]]; then
+  export PATH="/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
+  export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+
+  # enable colored output from ls, etc. on FreeBSD-based systems
+  export CLICOLOR=1
+
+  zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”
+
+  zinit ice wait pick'init.zsh' compile'*.zsh' lucid
+  zinit load laggardkernel/zsh-iterm2
+else
+  zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
+      atpull'%atclone' pick"clrs.zsh" nocompile'!' \
+      atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
+  zinit load trapd00r/LS_COLORS
+fi
+
+# Copy the most recent command to the clipboard
+function _pbcopy_last_command(){
+	history | tail -1 | sed 's/ *[0-9]* *//' | pbcopy
+}
+zle -N pbcopy-last-command _pbcopy_last_command
+bindkey '^x^y' pbcopy-last-command
+
+
+# Fuzzy match against history, edit selected value
+_uniqe_without_sort() { awk '!x[$0]++' }
+_fuzzy_history() {
+  zle -U "$(
+  history | \
+    tail -2000 | \
+    sed 's/ *[0-9]* *//' | \
+    _uniqe_without_sort | \
+    fzf-tmux --tac --reverse --no-sort
+  )"
+}
+zle -N fuzzy-history _fuzzy_history
+bindkey '^r' fuzzy-history
+
+# Git branches
+_fuzzy_git_branches() {
+  zle -U "$(
+  git branch --color=always | \
+    fzf-tmux --reverse --ansi --tac | \
+    sed -E 's/^[ \t]*//'
+  )"
+}
+zle -N fuzzy-git-branches _fuzzy_git_branches
+bindkey '^g^b' fuzzy-git-branches
+
+# Git files
+_fuzzy_git_status_files() {
+  zle -U "$(
+  git -c color.status=always status --short | \
+    fzf-tmux --ansi --reverse --no-sort | \
+    cut -d ' ' -f 3
+  )"
+}
+zle -N fuzzy-git-status-files _fuzzy_git_status_files
+bindkey '^g^f' fuzzy-git-status-files
+
+# Git commits
+_fuzzy_git_shalector() {
+  commit=$(
+  git log --color=always --oneline --decorate --all -35 | \
+    fzf-tmux --ansi --reverse --no-sort
+  )
+  zle -U "$(echo $commit | cut -d ' ' -f 1)"
+  zle -M "$commit"
+}
+zle -N fuzzy-git-shalector _fuzzy_git_shalector
+bindkey '^g^g' fuzzy-git-shalector
+
+
+zinit ice depth=1
+zinit load romkatv/powerlevel10k
+
+# zinit ice lucid
+# zinit snippet OMZ::lib/git.zsh
+
+zinit ice wait atload"unalias grv" lucid
+zinit snippet OMZ::plugins/git/git.plugin.zsh
+
+zinit ice svn wait lucid
+zinit snippet OMZ::plugins/mix-fast
+
+zinit ice svn wait lucid
+zinit snippet OMZ::plugins/bundler
+
+zinit ice wait as"completion" lucid
+zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
+
+zinit ice svn wait lucid
+zinit snippet OMZP::rust
+
+zinit ice wait as"completion" lucid
+zinit snippet https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/gem/_gem
+
+zinit ice wait as"completion" lucid
+zinit snippet https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/terraform/_terraform
+
+zinit ice wait as"completion" lucid
+zinit snippet https://github.com/junegunn/fzf/blob/master/shell/completion.zsh
+
+zinit ice wait lucid
+zinit snippet https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh
+
+zinit ice wait lucid pick"asdf.sh"
+zinit load @asdf-vm/asdf
+
+# This does not work at the moment, do we even still want asdf?
+# zinit ice wait as"completion" lucid
+# zinit snippet ~/.asdf/completions/_asdf
+
+zinit ice wait lucid blockf
+zinit load zsh-users/zsh-completions
+
+zinit ice wait atinit"zpcompinit; zpcdreplay" lucid
+zinit load zdharma-continuum/fast-syntax-highlighting
+
+# zinit ice wait atload"_zsh_autosuggest_start" lucid
+# zinit load zsh-users/zsh-autosuggestions
+
+zinit ice wait atload"bindkey '^[[A' history-substring-search-up; bindkey '^[[B' history-substring-search-down" lucid
+zinit load zsh-users/zsh-history-substring-search
+
+# zinit ice wait"2" lucid as"program" pick"bin/git-dsf"
+# zinit load zdharma-continuum/zsh-diff-so-fancy
+
+# zinit ice as"program" pick"yank" make
+# zinit load mptre/yank
+
+zinit ice wait lucid
+zinit load skywind3000/z.lua
+
+# zinit ice from"gh-r" as"program" lucid
+# zinit load junegunn/fzf-bin
+
+# zinit ice pick"fzf-tmux" as"program" lucid
+# zinit snippet https://github.com/junegunn/fzf/blob/master/bin/fzf-tmux
