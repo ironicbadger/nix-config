@@ -1,23 +1,33 @@
 {
   inputs = {
-      nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
-      nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-      nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
+    stable.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
 
-      vscode-server.url = "github:nix-community/nixos-vscode-server";
+    vscode-server.url = "github:nix-community/nixos-vscode-server";
 
-      home-manager.url = "github:nix-community/home-manager/release-23.05";
-      home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
-      nix-darwin.url = "github:lnl7/nix-darwin";
-      nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-darwin = {
+      url = "github:lnl7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self
-    , nixpkgs, nixpkgs-unstable, nixpkgs-darwin
-    , home-manager, nix-darwin, vscode-server, ... }:
+  outputs =
+    inputs@{ self
+    , nixpkgs
+    , stable
+    , nixpkgs-darwin
+    , home-manager
+    , nix-darwin
+    , vscode-server
+    , ...
+    }:
     let
-      inputs = { inherit nix-darwin home-manager nixpkgs nixpkgs-unstable; };
+      inputs = { inherit nix-darwin home-manager nixpkgs stable; };
       # creates correct package sets for specified arch
       genPkgs = system: import nixpkgs {
         inherit system;
@@ -34,12 +44,12 @@
         let
           pkgs = genPkgs system;
         in
-          nixpkgs.lib.nixosSystem
+        nixpkgs.lib.nixosSystem
           {
             inherit system;
             modules = [
               # adds unstable to be available in top-level evals (like in common-packages)
-              { _module.args = { unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; }; }
+              { _module.args = { unstablePkgs = inputs.nixpkgs.legacyPackages.${system}; }; }
 
               ./hosts/nixos/${hostName} # ip address, host specific stuff
               vscode-server.nixosModules.default
@@ -59,12 +69,12 @@
         let
           pkgs = genDarwinPkgs system;
         in
-          nix-darwin.lib.darwinSystem
+        nix-darwin.lib.darwinSystem
           {
             inherit system inputs;
             modules = [
               # adds unstable to be available in top-level evals (like in common-packages)
-              { _module.args = { unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; }; }
+              { _module.args = { unstablePkgs = inputs.nixpkgs.legacyPackages.${system}; }; }
 
               ./hosts/darwin/${hostName} # ip address, host specific stuff
               home-manager.darwinModules.home-manager
