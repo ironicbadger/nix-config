@@ -44,7 +44,7 @@ with pkgs; [
   mosh
   neofetch
   nmap
-  ripgrep
+  # ripgrep # programs.ripgrep
   # skopeo
   smartmontools
   terraform

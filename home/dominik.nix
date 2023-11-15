@@ -43,6 +43,24 @@ in
     tmux.enableShellIntegration = true;
   };
 
+  programs.ripgrep = {
+    enable = true;
+    arguments = [
+      "--max-columns=300"
+      "--max-columns-preview"
+      "--type-add ruby:*.{haml,feature,scss,coffee}*"
+      "--smart-case"
+      "--glob=!vendor"
+      "--glob=!log"
+      "--glob=!tmp"
+      "--glob=!doc"
+      "--glob=!coverage"
+      "--glob=!.cargo"
+      "--glob=!.git"
+      "--hidden"
+    ];
+  };
+
   programs.git = {
     enable = true;
     delta.enable = true;
