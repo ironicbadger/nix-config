@@ -45,7 +45,7 @@ in
   programs.ripgrep = {
     enable = true;
     arguments = [
-      "--max-columns=300"
+      "--max-columns=5000"
       "--max-columns-preview"
       "--type-add ruby:*.{haml,feature,scss,coffee}*"
       "--smart-case"
