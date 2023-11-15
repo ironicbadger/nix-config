@@ -90,9 +90,6 @@ bindkey '^g^g' fuzzy-git-shalector
 zinit ice depth=1
 zinit load romkatv/powerlevel10k
 
-# zinit ice lucid
-# zinit snippet OMZ::lib/git.zsh
-
 zinit ice wait atload"unalias grv" lucid
 zinit snippet OMZ::plugins/git/git.plugin.zsh
 
@@ -133,23 +130,8 @@ zinit load zsh-users/zsh-completions
 zinit ice wait atinit"zpcompinit; zpcdreplay" lucid
 zinit load zdharma-continuum/fast-syntax-highlighting
 
-# zinit ice wait atload"_zsh_autosuggest_start" lucid
-# zinit load zsh-users/zsh-autosuggestions
-
 zinit ice wait atload"bindkey '^[[A' history-substring-search-up; bindkey '^[[B' history-substring-search-down" lucid
 zinit load zsh-users/zsh-history-substring-search
 
-# zinit ice wait"2" lucid as"program" pick"bin/git-dsf"
-# zinit load zdharma-continuum/zsh-diff-so-fancy
-
-# zinit ice as"program" pick"yank" make
-# zinit load mptre/yank
-
 zinit ice wait lucid
 zinit load skywind3000/z.lua
-
-# zinit ice from"gh-r" as"program" lucid
-# zinit load junegunn/fzf-bin
-
-# zinit ice pick"fzf-tmux" as"program" lucid
-# zinit snippet https://github.com/junegunn/fzf/blob/master/bin/fzf-tmux
