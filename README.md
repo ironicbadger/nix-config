@@ -41,3 +41,8 @@ Sublime
 rsync -av --progress --delete  ~/Library/Application\ Support/Sublime\ Text/ thorax.local:"Library/Application\ Support/Sublime\ Text/"
 ```
 Then delete Package (but User) and installed packages https://packagecontrol.io/docs/syncing
+
+iTerm
+
+To apply go to `Settings` -> `General` -> `Preferences` and load from
+`/Users/dominik/.config/iterm2`
