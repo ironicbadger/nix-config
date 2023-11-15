@@ -29,7 +29,6 @@ in
     DEFAULT_USER = "dominik";
     BUNDLER_EDITOR = "vim";
     PATH = (builtins.concatStringsSep ":" pathOverrides);
-    RIPGREP_CONFIG_PATH = "$HOME/.ripgreprc";
   };
 
   programs.direnv = {
