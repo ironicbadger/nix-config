@@ -97,9 +97,6 @@ in
 
   programs.home-manager.enable = true;
   home.packages = with pkgs; [
-    subversion # For zinit plugins
-    asdf-vm # For zsh
-    lua # For zsh
   ];
 }
 

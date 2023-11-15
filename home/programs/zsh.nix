@@ -24,6 +24,12 @@ let
 in
 
 {
+  home.packages = with pkgs; [
+    subversion
+    asdf-vm
+    lua
+  ];
+
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
