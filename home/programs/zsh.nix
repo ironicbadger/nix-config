@@ -1,4 +1,27 @@
 { config, pkgs, lib, unstablePkgs, ... }:
+let
+  systemSpecific =
+    if pkgs.stdenv.isDarwin then
+      ''
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+
+        # enable colored output from ls, etc. on FreeBSD-based systems
+        export CLICOLOR=1
+
+        zstyle ":completion:*" list-colors “''${(s.:.)LS_COLORS}”
+
+        zinit ice wait pick'init.zsh' compile'*.zsh' lucid
+        zinit load laggardkernel/zsh-iterm2
+
+      ''
+    else
+      ''
+        zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
+            atpull'%atclone' pick"clrs.zsh" nocompile'!' \
+            atload'zstyle ":completion:*" list-colors “''${(s.:.)LS_COLORS}”'
+        zinit load trapd00r/LS_COLORS
+      '';
+in
 
 {
   programs.zsh = {
@@ -81,7 +104,7 @@
       # makes color constants available
       autoload -U colors
       colors
-    '' + (builtins.readFile ./config/zshrc);
+    '' + (builtins.readFile ./config/zshrc) + systemSpecific;
     plugins = [{
       name = "zinit";
       file = "zinit.zsh";
@@ -94,4 +117,3 @@
     }];
   };
 }
-

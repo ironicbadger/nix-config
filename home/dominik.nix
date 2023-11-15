@@ -1,6 +1,10 @@
 { config, pkgs, lib, unstablePkgs, ... }:
 let
-  pathOverrides = [
+  darwinPathOverrides = [
+    "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+    "/Applications/Postgres.app/Contents/Versions/latest/bin"
+  ];
+  pathOverrides = lib.lists.optionals pkgs.stdenv.isDarwin darwinPathOverrides ++ [
     # We should figure out why we have to set the nix profile paths ourselves here
     "/etc/profiles/per-user/$USER/bin/"
     "/run/current-system/sw/bin"
