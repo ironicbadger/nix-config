@@ -1,4 +1,14 @@
 { config, pkgs, lib, unstablePkgs, ... }:
+let
+  pathOverrides = [
+    # We should figure out why we have to set the nix profile paths ourselves here
+    "/etc/profiles/per-user/$USER/bin/"
+    "/run/current-system/sw/bin"
+    "$HOME/.cargo/bin"
+    "$HOME/bin"
+    "$PATH"
+  ];
+in
 {
   home.stateVersion = "23.05";
 
@@ -11,7 +21,7 @@
     # TERM = "screen-256color";
     DEFAULT_USER = "dominik";
     BUNDLER_EDITOR = "vim";
-    PATH = "/etc/profiles/per-user/$USER/bin/:/run/current-system/sw/bin:$HOME/.cargo/bin:$HOME/bin:$PATH";
+    PATH = (builtins.concatStringsSep ":" pathOverrides);
     RIPGREP_CONFIG_PATH = "$HOME/.ripgreprc";
   };
 
