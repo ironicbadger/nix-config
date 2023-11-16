@@ -23,11 +23,12 @@ in
   # https://mipmip.github.io/home-manager-option-search
 
   home.sessionVariables = {
-    EDITOR = "vim";
+    EDITOR = "nvim";
     # This breaks vim in non tmux terminal on WSL
     # TERM = "screen-256color";
     DEFAULT_USER = "dominik";
-    BUNDLER_EDITOR = "vim";
+    BUNDLER_EDITOR = "nvim";
+    GIT_EDITOR = "nvim";
     PATH = (builtins.concatStringsSep ":" pathOverrides);
   };
 
@@ -111,11 +112,48 @@ in
     ];
   };
 
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+
+    # nvim plugin providers
+    withNodeJs = true;
+    withRuby = true;
+    withPython3 = true;
+    extraConfig = ''
+      set runtimepath+=~/.vim,~/.vim/after
+      set packpath+=~/.vim
+      source ~/.vimrc
+    '';
+  };
+
   home.file = {
+    # hammerspoon = lib.mkIf pkgs.stdenvNoCC.isDarwin {
+    #   source = ./hammerspoon;
+    #   target = ".hammerspoon";
+    #   recursive = true;
+    # };
+    vim = {
+      source = ./config/vim;
+      target = ".vim";
+      recursive = true;
+    };
+    vimrc = {
+      source = ./config/vimrc;
+      target = ".vimrc";
+    };
     pgclirc = {
       source = ./config/pgclirc;
       target = ".pgclirc";
     };
+    # npmrc = {
+    #   text = ''
+    #     prefix = ${config.home.sessionVariables.NODE_PATH};
+    #   '';
+    #   target = ".npmrc";
+    # };
   };
 
   programs.home-manager.enable = true;

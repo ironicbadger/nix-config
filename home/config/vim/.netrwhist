@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/home/dominik/.tmuxinator'
+let g:netrw_dirhist_2='/Users/dominik/Library'
+let g:netrw_dirhist_3='/Users/dominik/Library/Application Support/XBMC/userdata/keymaps'
+let g:netrw_dirhist_4='/private/etc/resolver'
+let g:netrw_dirhist_5='/Users/dominik/code/ruby/fsbase'
+let g:netrw_dirhist_6='/Users/dominik/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/tmuxinator-0.9.0'
+let g:netrw_dirhist_7='/Users/dominik/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/tmuxinator-0.9.0/lib'
+let g:netrw_dirhist_8='/Users/dominik/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/tmuxinator-0.9.0/lib/tmuxinator'
+let g:netrw_dirhist_9='/Users/dominik/.gem'
