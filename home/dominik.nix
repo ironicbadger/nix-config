@@ -129,6 +129,11 @@ in
     '';
   };
 
+  programs.tmux = {
+    enable = true;
+    extraConfig = (builtins.readFile ./config/tmux.conf);
+  };
+
   home.file = {
     # hammerspoon = lib.mkIf pkgs.stdenvNoCC.isDarwin {
     #   source = ./hammerspoon;
