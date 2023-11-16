@@ -111,6 +111,12 @@ in
     ];
   };
 
+  home.file = {
+    pgclirc = {
+      source = ./config/pgclirc;
+      target = ".pgclirc";
+    };
+  };
 
   programs.home-manager.enable = true;
   home.packages = with pkgs; [
