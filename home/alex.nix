@@ -107,7 +107,7 @@
       };
       # lancs
       "e elrond" = {
-        hostname = "100.105.174.16";
+        hostname = "100.117.223.78";
         user = "alexktz";
       };
       # ktz-cloud
