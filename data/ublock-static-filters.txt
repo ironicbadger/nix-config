@@ -1,0 +1,6 @@
+! 2023-01-25 https://escapefromtarkov.fandom.com
+escapefromtarkov.fandom.com##.page__right-rail
+
+youtube.com##ytd-rich-grid-row, #contents.ytd-rich-grid-row:style(display:contents !important;)
+youtube.com##ytd-rich-grid-renderer:style(--ytd-rich-grid-items-per-row: 5 !important;)
+

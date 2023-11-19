@@ -46,3 +46,7 @@ iTerm
 
 To apply go to `Settings` -> `General` -> `Preferences` and load from
 `/Users/dominik/.config/iterm2`
+
+Import uBlock filters from `data/ublock-static-filters.txt`
+
+Import Tampermonkey scripts from Google Drive
