@@ -43,6 +43,10 @@ in
     tmux.enableShellIntegration = true;
   };
 
+  programs.gh = {
+    enable = true;
+  };
+
   programs.ripgrep = {
     enable = true;
     arguments = [

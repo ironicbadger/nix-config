@@ -8,6 +8,7 @@ with pkgs; [
   nixpkgs-fmt
   nil
   ansible
+  sshpass
   asciinema
   # bitwarden-cli
   coreutils
