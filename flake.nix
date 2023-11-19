@@ -50,12 +50,6 @@
                 _module.args.disks = [
                   "/dev/sda"
                 ];
-                # boot.loader.grub = {
-                #   enable = true;
-                #   efiSupport = true;
-                #   devices = [ "/dev/sda1 "];
-                #   #efiInstallAsRemovable = true;
-                # };
               }
               
               ./hosts/nixos/${hostName} # ip address, host specific stuff
