@@ -29,6 +29,14 @@ compinit
 source <(kubectl completion zsh)
 export KUBE_EDITOR="vim"
 
+alias -- -='cd -'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias .......='cd ../../../../../..'
+alias ........='cd ../../../../../../..'
 alias kc='kubectl'
 alias kcg='kubectl get'
 alias kcgpo='kubectl get pod'
