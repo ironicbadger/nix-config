@@ -52,7 +52,8 @@ in
     arguments = [
       "--max-columns=5000"
       "--max-columns-preview"
-      "--type-add ruby:*.{haml,feature,scss,coffee}*"
+      "--type-add"
+      "ruby:*.{haml,feature,scss,coffee}*"
       "--smart-case"
       "--glob=!vendor"
       "--glob=!log"
