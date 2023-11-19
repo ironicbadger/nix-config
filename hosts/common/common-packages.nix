@@ -16,7 +16,7 @@ with pkgs; [
   duf # Modern Unix `df`
   du-dust # Modern Unix `du`
   # direnv # programs.direnv
-  #docker
+  docker-compose
   drill
   du-dust
   dua
