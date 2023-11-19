@@ -53,6 +53,7 @@
                 boot.loader.grub = {
                   enable = true;
                   efiSupport = true;
+                  devices = [ "/dev/sda1 "];
                   #efiInstallAsRemovable = true;
                 };
               }
