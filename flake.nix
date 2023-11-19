@@ -46,6 +46,16 @@
 
               disko.nixosModules.disko
               ./hosts/nixos/${hostName}/disko-config.nix
+              {
+                _module.args.disks = [
+                  "/dev/sda1"
+                ];
+                boot.loader.grub = {
+                  enable = true;
+                  efiSupport = true;
+                  efiInstallAsRemovable = true;
+                };
+              }
               
               ./hosts/nixos/${hostName} # ip address, host specific stuff
               vscode-server.nixosModules.default
