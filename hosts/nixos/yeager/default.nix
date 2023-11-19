@@ -38,6 +38,17 @@
     unstablePkgs = unstablePkgs; 
   };
 
+  virtualisation = 
+  {
+    docker = {
+      enable = true;
+      autoPrune = {
+        enable = true;
+        dates = "weekly";
+      };
+    };
+  };
+
   #system.copySystemConfiguration = true;
   system.stateVersion = "23.05";
 
