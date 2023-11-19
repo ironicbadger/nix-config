@@ -47,9 +47,9 @@
               disko.nixosModules.disko
               ./hosts/nixos/${hostName}/disko-config.nix
               {
-                # _module.args.disks = [
-                #   "/dev/sda1"
-                # ];
+                _module.args.disks = [
+                  "/dev/sda"
+                ];
                 boot.loader.grub = {
                   enable = true;
                   efiSupport = true;
