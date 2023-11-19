@@ -26,6 +26,7 @@
     docker-compose
     git
     htop
+    just
     lm_sensors
     mc
     ncdu
