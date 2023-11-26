@@ -9,6 +9,7 @@ with pkgs; [
   ansible
   asciinema
   bitwarden-cli
+  btop
   coreutils
   diffr # Modern Unix `diff`
   difftastic # Modern Unix `diff`
@@ -32,7 +33,7 @@ with pkgs; [
   gh
   go
   gnused
-  #htop # programs.htop
+  htop # programs.htop
   hub
   hugo
   ipmitool
