@@ -84,6 +84,10 @@
         hostname = "10.42.1.30";
         user = "root";
       };
+      "hl15" = {
+        hostname = "10.42.1.51";
+        user = "root";
+      };
       "testnix" = {
         hostname = "10.42.0.50";
         user = "alex";
