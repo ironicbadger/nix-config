@@ -110,6 +110,7 @@ in
       "obsidian"
       "omnidisksweeper"
       "onyx"
+      "openscad"
       "openttd"
       "plexamp"
       "prusaslicer"
