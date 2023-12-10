@@ -98,6 +98,8 @@
       };
 
       nixosConfigurations = {
+        framework = nixosSystem "x86_64-linux" "framework" "alex";
+
         testnix = nixosSystem "x86_64-linux" "testnix" "alex";
         yeager = nixosSystem "x86_64-linux" "yeager" "alex";
       };
