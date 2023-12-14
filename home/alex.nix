@@ -101,7 +101,7 @@
         user = "root";
       };
       "caddy" = {
-        hostname = "10.42.0.252";
+        hostname = "100.118.52.61";
         user = "root";
       };
       # nr
