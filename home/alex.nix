@@ -20,8 +20,21 @@
     enable = true;
     userEmail = "alexktz@gmail.com";
     userName = "Alex Kretzschmar";
-    delta.enable = true;
-  };
+    diff-so-fancy.enable = true;
+    lfs.enable = true;
+    extraConfig = {
+      init = {
+        defaultBranch = "main";
+      };
+      merge = {
+        conflictStyle = "diff3";
+          tool = "meld";
+        };
+        pull = {
+          rebase = false;
+        };
+      };
+    }; # end git
 
   programs.htop = {
     enable = true;
