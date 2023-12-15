@@ -14,7 +14,8 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/d69f5d32-7302-4180-b0b8-72c43e9db486";
+    { #device = "/dev/disk/by-uuid/d69f5d32-7302-4180-b0b8-72c43e9db486";
+      device = "/dev/nvme0n1p2";
       fsType = "ext4";
     };
 
@@ -34,4 +35,9 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  #hardware.framework.amd-7040.preventWakeOnAC = true;
+
+  # bluetooth
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
 }

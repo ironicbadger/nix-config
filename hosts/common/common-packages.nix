@@ -44,6 +44,7 @@ with pkgs; [
   mosh
   neofetch
   nmap
+  qemu
   ripgrep
   skopeo
   smartmontools
