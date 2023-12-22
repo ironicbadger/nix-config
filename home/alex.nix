@@ -119,7 +119,7 @@
       };
       # nr
       "p pennywise" = {
-        hostname = "192.168.16.10";
+        hostname = "100.88.250.125";
         user = "alex";
       };
       # lancs
