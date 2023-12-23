@@ -29,7 +29,6 @@
       telegram-desktop
       element-desktop
       discord
-      steam
     ];
   };
 
@@ -98,6 +97,12 @@
   # KDE apps
   programs.partition-manager.enable = true;
   programs.kdeconnect.enable = true;
+
+  programs.steam = {
+    enable = true;
+    #remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    #dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+  };
 
   # experimental things are configured in common/nixos-common.nix
   system.stateVersion = "23.11";
