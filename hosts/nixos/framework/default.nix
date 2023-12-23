@@ -27,6 +27,9 @@
       quickemu
       quickgui
       telegram-desktop
+      element-desktop
+      discord
+      steam
     ];
   };
 
