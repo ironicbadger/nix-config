@@ -78,7 +78,7 @@
     matchBlocks = {
       # wd
       "m morpheus" = {
-        hostname = "10.42.1.10";
+        hostname = "morpheus";
         user = "alex";
       };
       "a anton" = {
