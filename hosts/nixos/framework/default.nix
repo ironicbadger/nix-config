@@ -16,7 +16,7 @@
 
   users.users.alex = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" "docker"];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirt" "kvm"];
     packages = with pkgs; [
       gnome.gnome-boxes
       audacity
@@ -83,6 +83,7 @@
   };
 
   virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
   virtualisation = 
   {
     docker = {
