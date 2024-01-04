@@ -35,6 +35,8 @@ with pkgs; [
   # go
   gnused
   #htop # programs.htop
+  htop
+  bottom
   # hub
   # hugo
   # ipmitool

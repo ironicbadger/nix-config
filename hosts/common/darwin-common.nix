@@ -65,6 +65,10 @@ in
   #   #interactiveShellInit = "/Users/alex/go/bin/figurine -f \"Rammstein.flf\" magrathea";
   # };
 
+  environment.systemPackages = with pkgs; [
+    exiftool
+  ];
+
   homebrew = {
     enable = true;
     onActivation.upgrade = true;
