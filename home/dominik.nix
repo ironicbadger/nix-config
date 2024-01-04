@@ -1,10 +1,10 @@
-{ config, pkgs, lib, unstablePkgs, ... }:
+{ pkgs, unstablePkgs, ... }:
 let
   darwinPathOverrides = [
     "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
     "/Applications/Postgres.app/Contents/Versions/latest/bin"
   ];
-  pathOverrides = lib.lists.optionals pkgs.stdenv.isDarwin darwinPathOverrides ++ [
+  pathOverrides = pkgs.lib.lists.optionals pkgs.stdenv.isDarwin darwinPathOverrides ++ [
     # We should figure out why we have to set the nix profile paths ourselves here
     "/etc/profiles/per-user/$USER/bin"
     "/run/current-system/sw/bin"
@@ -137,6 +137,11 @@ in
   programs.tmux = {
     enable = true;
     extraConfig = (builtins.readFile ./config/tmux.conf);
+  };
+
+  programs.atuin = {
+    enable = true;
+    package = unstablePkgs.atuin;
   };
 
   home.file = {
