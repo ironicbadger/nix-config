@@ -43,13 +43,14 @@
       nixosSystem = system: hostName: username:
         let
           pkgs = genPkgs system;
+          unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
         in
         nixpkgs.lib.nixosSystem
           {
             inherit system;
             modules = [
               # adds unstable to be available in top-level evals (like in common-packages)
-              { _module.args = { unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; }; }
+              { _module.args = { unstablePkgs = unstablePkgs; }; }
 
               ./hosts/nixos/${hostName} # ip address, host specific stuff
               vscode-server.nixosModules.default
@@ -59,6 +60,7 @@
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
                 home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
+                home-manager.extraSpecialArgs = { inherit unstablePkgs; };
               }
               ./hosts/common/nixos-common.nix
             ];
@@ -68,13 +70,14 @@
       darwinSystem = system: hostName: username:
         let
           pkgs = genDarwinPkgs system;
+          unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
         in
         nix-darwin.lib.darwinSystem
           {
             inherit system inputs;
             modules = [
               # adds unstable to be available in top-level evals (like in common-packages)
-              { _module.args = { unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; }; }
+              { _module.args = { unstablePkgs = unstablePkgs; }; }
 
               ./hosts/darwin/${hostName} # ip address, host specific stuff
               home-manager.darwinModules.home-manager
@@ -82,22 +85,8 @@
                 networking.hostName = hostName;
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
-                # home-manager.extraSpecialArgs = {
-                #   pkgs = pkgs;
-                #   unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
-                # };
-                home-manager.users.${username} = {
-                  imports = [
-                    (
-                      import ./home/${username}.nix (
-                        inputs // {
-                          pkgs = pkgs;
-                          unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
-                        }
-                      )
-                    )
-                  ];
-                };
+                home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
+                home-manager.extraSpecialArgs = { inherit unstablePkgs; };
               }
               ./hosts/common/darwin-common.nix
             ];
