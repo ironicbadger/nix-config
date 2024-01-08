@@ -50,7 +50,7 @@
             inherit system;
             modules = [
               # adds unstable to be available in top-level evals (like in common-packages)
-              { _module.args = { unstablePkgs = unstablePkgs; }; }
+              { _module.args = { unstablePkgs = unstablePkgs; stablePkgs = pkgs; }; }
 
               ./hosts/nixos/${hostName} # ip address, host specific stuff
               vscode-server.nixosModules.default
@@ -60,7 +60,7 @@
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
                 home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
-                home-manager.extraSpecialArgs = { inherit unstablePkgs; };
+                home-manager.extraSpecialArgs = { inherit unstablePkgs; stablePkgs = pkgs; };
               }
               ./hosts/common/nixos-common.nix
             ];
@@ -69,15 +69,15 @@
       # creates a macos system config
       darwinSystem = system: hostName: username:
         let
-          pkgs = genDarwinPkgs system;
-          unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+          unstablePkgs = genDarwinPkgs system;
+          pkgs = inputs.nixpkgs.legacyPackages.${system};
         in
         nix-darwin.lib.darwinSystem
           {
             inherit system inputs;
             modules = [
               # adds unstable to be available in top-level evals (like in common-packages)
-              { _module.args = { unstablePkgs = unstablePkgs; }; }
+              { _module.args = { unstablePkgs = unstablePkgs; stablePkgs = pkgs; }; }
 
               ./hosts/darwin/${hostName} # ip address, host specific stuff
               home-manager.darwinModules.home-manager
@@ -86,7 +86,7 @@
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
                 home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
-                home-manager.extraSpecialArgs = { inherit unstablePkgs; };
+                home-manager.extraSpecialArgs = { inherit unstablePkgs; stablePkgs = pkgs; };
               }
               ./hosts/common/darwin-common.nix
             ];

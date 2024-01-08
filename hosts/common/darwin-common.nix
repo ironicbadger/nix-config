@@ -1,4 +1,4 @@
-{ pkgs, lib, inputs, ... }:
+{ lib, inputs, stablePkgs, unstablePkgs, ... }:
 let
   inherit (inputs) nixpkgs nixpkgs-stable;
 in
@@ -65,7 +65,7 @@ in
   #   #interactiveShellInit = "/Users/alex/go/bin/figurine -f \"Rammstein.flf\" magrathea";
   # };
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with stablePkgs; [
     exiftool
   ];
 

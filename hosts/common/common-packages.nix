@@ -1,6 +1,6 @@
-{ pkgs, unstablePkgs, ... }:
+{ unstablePkgs, stablePkgs, ... }:
 
-with pkgs; [
+with stablePkgs; [
   ## unstable
   unstablePkgs.yt-dlp
 
