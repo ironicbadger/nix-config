@@ -29,6 +29,7 @@
       telegram-desktop
       element-desktop
       discord
+      slack
     ];
   };
 
