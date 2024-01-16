@@ -30,7 +30,7 @@
       element-desktop
       discord
       slack
-      todoist
+      todoist-electron
     ];
   };
 

@@ -19,6 +19,9 @@ in
   };
 
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-24.8.6"
+  ];
 
   environment.systemPackages = with pkgs; [
     # intel-gpu-tools
