@@ -137,6 +137,7 @@ in
       "aldente"
       "bambu-studio"
       "bettertouchtool"
+      "bitwarden"
       "contexts"
       "dash"
       "deezer"

@@ -1,8 +1,8 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
+    nixpkgs.url = "github:NixOS/nixpkgs/23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
+    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-23.11-darwin";
 
     vscode-server.url = "github:nix-community/nixos-vscode-server";
 
@@ -33,17 +33,24 @@
         inherit system;
         config.allowUnfree = true;
       };
+      genUnstablePkgs = system: import nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
       genDarwinPkgs = system: import nixpkgs-darwin {
         inherit system;
         config.allowUnfree = true;
       };
-
+      genDarwinUnstablePkgs = system: import nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
 
       # creates a nixos system config
       nixosSystem = system: hostName: username:
         let
           pkgs = genPkgs system;
-          unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+          unstablePkgs = genUnstablePkgs system;
         in
         nixpkgs.lib.nixosSystem
           {
@@ -69,8 +76,8 @@
       # creates a macos system config
       darwinSystem = system: hostName: username:
         let
-          unstablePkgs = genDarwinPkgs system;
-          pkgs = inputs.nixpkgs.legacyPackages.${system};
+          unstablePkgs = genDarwinUnstablePkgs system;
+          pkgs = genDarwinPkgs system;
         in
         nix-darwin.lib.darwinSystem
           {

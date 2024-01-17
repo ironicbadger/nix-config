@@ -50,7 +50,7 @@ with stablePkgs; [
   # ripgrep # programs.ripgrep
   # skopeo
   smartmontools
-  terraform
+  unstablePkgs.terraform
   tree
   unzip
   watch
