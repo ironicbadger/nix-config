@@ -41,10 +41,6 @@
         inherit system;
         config.allowUnfree = true;
       };
-      genDarwinUnstablePkgs = system: import nixpkgs-unstable {
-        inherit system;
-        config.allowUnfree = true;
-      };
 
       # creates a nixos system config
       nixosSystem = system: hostName: username:
@@ -76,7 +72,7 @@
       # creates a macos system config
       darwinSystem = system: hostName: username:
         let
-          unstablePkgs = genDarwinUnstablePkgs system;
+          unstablePkgs = genUnstablePkgs system;
           pkgs = genDarwinPkgs system;
         in
         nix-darwin.lib.darwinSystem
