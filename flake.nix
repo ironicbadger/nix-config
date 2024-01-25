@@ -115,23 +115,28 @@
           pkgs = genPkgs system;
           unstablePkgs = genUnstablePkgs system;
         in
-        {
-          pkgs = unstablePkgs.legacyPackages.${system};
 
-          modules = [
-            { _module.args = { unstablePkgs = unstablePkgs; stablePkgs = pkgs; }; }
+        home-manager.lib.homeManagerConfiguration
+          {
+            pkgs = unstablePkgs;
 
-            # ./hosts/linux/${hostName} # ip address, host specific stuff
-            { imports = [ ./home/${username}.nix ]; }
-            {
-              home = {
-                username = username;
-                # homeDirectory = "/home/jdoe";
-                stateVersion = "23.11";
-              };
-            }
-          ];
-        };
+            # Specify your home configuration modules here, for example,
+            # the path to your home.nix.
+            modules = [
+              { _module.args = { unstablePkgs = pkgs; stablePkgs = pkgs; }; }
+              ./home/${username}.nix
+              {
+                home = {
+                  username = username;
+                  homeDirectory = "/home/${username}";
+                };
+              }
+            ];
+            # username = "dominik";
+
+            # Optionally use extraSpecialArgs
+            # to pass through arguments to home.nix
+          };
     in
     {
       darwinConfigurations = {
@@ -147,29 +152,28 @@
         testnix = nixosSystem "x86_64-linux" "testnix" "alex";
       };
 
-      # homeManagerConfigurations = {
-      #   nix-hm-test = linuxSystem "x86_64-linux" "nix-hm-test" "dominik";
-      # };
-      homeManagerConfigurations."dominik" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs-unstable.legacyPackages.x86_64-linux;
-
-        # Specify your home configuration modules here, for example,
-        # the path to your home.nix.
-        modules = [
-          ./home/dominik.nix
-          {
-            home = {
-              username = "dominik";
-              homeDirectory = "/home/dominik";
-              stateVersion = "23.11";
-            };
-          }
-        ];
-        # username = "dominik";
-
-        # Optionally use extraSpecialArgs
-        # to pass through arguments to home.nix
+      homeManagerConfigurations = {
+        ubuntu-nix = linuxSystem "x86_64-linux" "nix-hm-test" "dominik";
       };
-    };
+      # homeManagerConfigurations."dominik" = home-manager.lib.homeManagerConfiguration {
+      #   pkgs = nixpkgs-unstable.legacyPackages.x86_64-linux;
 
+      #   # Specify your home configuration modules here, for example,
+      #   # the path to your home.nix.
+      #   modules = [
+      #     { _module.args = { unstablePkgs = pkgs; stablePkgs = pkgs; }; }
+      #     ./home/dominik.nix
+      #     {
+      #       home = {
+      #         username = "dominik";
+      #         homeDirectory = "/home/dominik";
+      #         stateVersion = "23.11";
+      #       };
+      #     }
+      #   ];
+      # username = "dominik";
+
+      # Optionally use extraSpecialArgs
+      # to pass through arguments to home.nix
+    };
 }
