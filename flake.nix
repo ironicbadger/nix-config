@@ -123,7 +123,7 @@
             # Specify your home configuration modules here, for example,
             # the path to your home.nix.
             modules = [
-              { _module.args = { unstablePkgs = pkgs; stablePkgs = pkgs; }; }
+              { _module.args = { unstablePkgs = unstablePkgs; stablePkgs = pkgs; }; }
               ./home/${username}.nix
               {
                 home = {
