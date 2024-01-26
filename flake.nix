@@ -95,21 +95,6 @@
             ];
           };
 
-      # linuxSystem = system: hostName: username:
-      #   let
-      #     pkgs = genPkgs system;
-      #     unstablePkgs = genUnstablePkgs system;
-      #   in
-      #   inputs.home-manager.lib.homeManagerConfiguration {
-      #     configuration = { imports = [ ./home/${username}.nix ]; };
-      #     system = system;
-      #     # homeDirectory = "/Users/user";
-      #     # useGlobalPkgs = true;
-      #     # useUserPackages = true;
-      #     pkgs = unstablePkgs;
-      #     username = username;
-      #     extraSpecialArgs = { inherit unstablePkgs; stablePkgs = pkgs; };
-      #   };
       linuxSystem = system: hostName: username:
         let
           pkgs = genPkgs system;
@@ -120,8 +105,6 @@
           {
             pkgs = unstablePkgs;
 
-            # Specify your home configuration modules here, for example,
-            # the path to your home.nix.
             modules = [
               { _module.args = { unstablePkgs = unstablePkgs; stablePkgs = pkgs; }; }
               ./home/${username}.nix
@@ -137,10 +120,6 @@
                 };
               }
             ];
-            # username = "dominik";
-
-            # Optionally use extraSpecialArgs
-            # to pass through arguments to home.nix
           };
     in
     {
@@ -160,25 +139,5 @@
       homeManagerConfigurations = {
         ubuntu-nix = linuxSystem "x86_64-linux" "nix-hm-test" "dominik";
       };
-      # homeManagerConfigurations."dominik" = home-manager.lib.homeManagerConfiguration {
-      #   pkgs = nixpkgs-unstable.legacyPackages.x86_64-linux;
-
-      #   # Specify your home configuration modules here, for example,
-      #   # the path to your home.nix.
-      #   modules = [
-      #     { _module.args = { unstablePkgs = pkgs; stablePkgs = pkgs; }; }
-      #     ./home/dominik.nix
-      #     {
-      #       home = {
-      #         username = "dominik";
-      #         homeDirectory = "/home/dominik";
-      #         stateVersion = "23.11";
-      #       };
-      #     }
-      #   ];
-      # username = "dominik";
-
-      # Optionally use extraSpecialArgs
-      # to pass through arguments to home.nix
     };
 }
