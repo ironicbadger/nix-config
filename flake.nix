@@ -129,6 +129,11 @@
                 home = {
                   username = username;
                   homeDirectory = "/home/${username}";
+                  packages = import ./hosts/common/common-packages.nix
+                    {
+                      stablePkgs = pkgs;
+                      unstablePkgs = unstablePkgs;
+                    };
                 };
               }
             ];

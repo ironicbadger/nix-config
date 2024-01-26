@@ -172,8 +172,9 @@ in
   };
 
   programs.home-manager.enable = true;
-  home.packages = with stablePkgs; [
-    # bash
-  ];
+  # home.packages = with stablePkgs; [
+  #   # bash
+  # ];
+
 }
 
