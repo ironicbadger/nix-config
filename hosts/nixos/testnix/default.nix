@@ -2,11 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ config, pkgs, unstablePkgs, ... }:
+{ config, stablePkgs, unstablePkgs, ... }:
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -19,46 +20,43 @@
   #boot.zfs.extraPools = [ "zfstest" ];
   #services.zfs.autoScrub.enable = true;
 
-  time.timeZone = "America/New_York";
-
-  users.users.alex = 
-  {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "docker" ];
-    hashedPassword = "$6$wW/xsljhhG/vssC3$ujh/4jSZp7APUsbI6FAAUtIkaWVl9ElocFV6FKO7vD4ouoXKiebecrfmtd46NNVJBOFO8blNaEvkOLmOW5X3j.";
-  };
-  users.users.alex.openssh.authorizedKeys.keyFiles = [
+  users.users.dominik =
+    {
+      isNormalUser = true;
+      extraGroups = [ "wheel" "docker" ];
+      hashedPassword = "$6$wW/xsljhhG/vssC3$ujh/4jSZp7APUsbI6FAAUtIkaWVl9ElocFV6FKO7vD4ouoXKiebecrfmtd46NNVJBOFO8blNaEvkOLmOW5X3j.";
+    };
+  users.users.dominik.openssh.authorizedKeys.keyFiles = [
     ./../../authorized_keys
   ];
   users.users.root.openssh.authorizedKeys.keyFiles = [
     ./../../authorized_keys
   ];
 
-  services.openssh = 
-  {
-    enable = true;
-    settings.PasswordAuthentication = false;
-    settings.PermitRootLogin = "yes";
-  };
+  services.openssh =
+    {
+      enable = true;
+      settings.PasswordAuthentication = false;
+      settings.PermitRootLogin = "yes";
+    };
   services.vscode-server.enable = true;
   services.tailscale.enable = true;
 
   environment.systemPackages = import ./../../common/common-packages.nix
-  { #what is this?
-    pkgs = pkgs; 
-    unstablePkgs = unstablePkgs; 
-  };
+    {
+      inherit stablePkgs unstablePkgs;
+    };
 
-  virtualisation = 
-  {
-    docker = {
-      enable = true;
-      autoPrune = {
+  virtualisation =
+    {
+      docker = {
         enable = true;
-        dates = "weekly";
+        autoPrune = {
+          enable = true;
+          dates = "weekly";
+        };
       };
     };
-  };
 
   # services = {
   #   xserver = {
@@ -77,25 +75,24 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
-  networking = 
-  {
-    firewall.enable = false;
-    hostName = "testnix";
-    hostId = "e5f2dc02";
-    interfaces = {
-      enp1s0 = {
-        useDHCP = false;
-        ipv4.addresses = [ {
-          address = "10.42.0.50";
-          prefixLength = 20;
-        } ];
+  networking =
+    {
+      firewall.enable = false;
+      hostName = "testnix";
+      hostId = "e5f2dc02";
+      interfaces = {
+        enp1s0 = {
+          useDHCP = true;
+          # ipv4.addresses = [{
+          #   address = "10.42.0.50";
+          #   prefixLength = 20;
+          # }];
+        };
       };
+      # defaultGateway = "10.42.0.254";
+      # nameservers = [ "10.42.0.253" ];
     };
-    defaultGateway = "10.42.0.254";
-    nameservers = [ "10.42.0.253" ];
-  };
 
   #system.copySystemConfiguration = true;
-  system.stateVersion = "23.05";
-
+  system.stateVersion = "23.11";
 }
