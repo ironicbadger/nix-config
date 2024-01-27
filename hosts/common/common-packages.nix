@@ -1,6 +1,6 @@
-{ pkgs, unstablePkgs, ... }:
+{ unstablePkgs, stablePkgs, ... }:
 
-with pkgs; [
+with stablePkgs; [
   ## unstable
   unstablePkgs.yt-dlp
 
@@ -30,7 +30,7 @@ with pkgs; [
   # fira-mono
   fd
   #fzf # programs.fzf
-  git # programs.git
+  unstablePkgs.git # programs.git
   # gh
   # go
   gnused
@@ -50,7 +50,7 @@ with pkgs; [
   # ripgrep # programs.ripgrep
   # skopeo
   smartmontools
-  terraform
+  unstablePkgs.terraform
   tree
   unzip
   watch

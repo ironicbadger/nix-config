@@ -1,4 +1,4 @@
-{ pkgs, unstablePkgs, lib, inputs, ... }:
+{ unstablePkgs, stablePkgs, lib, inputs, ... }:
 let
   inherit (inputs) nixpkgs nixpkgs-unstable;
 in
@@ -7,8 +7,8 @@ in
 
   nix = {
     settings = {
-        experimental-features = [ "nix-command" "flakes" "repl-flake"];
-        warn-dirty = false;
+      experimental-features = [ "nix-command" "flakes" "repl-flake" ];
+      warn-dirty = false;
     };
     # Automate garbage collection
     gc = {
@@ -20,7 +20,7 @@ in
 
   nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with stablePkgs; [
     intel-gpu-tools
     libva-utils
     intel-media-driver

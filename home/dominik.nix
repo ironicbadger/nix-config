@@ -1,10 +1,10 @@
-{ config, pkgs, lib, unstablePkgs, ... }:
+{ unstablePkgs, stablePkgs, ... }:
 let
   darwinPathOverrides = [
     "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
     "/Applications/Postgres.app/Contents/Versions/latest/bin"
   ];
-  pathOverrides = lib.lists.optionals pkgs.stdenv.isDarwin darwinPathOverrides ++ [
+  pathOverrides = stablePkgs.lib.lists.optionals stablePkgs.stdenv.isDarwin darwinPathOverrides ++ [
     # We should figure out why we have to set the nix profile paths ourselves here
     "/etc/profiles/per-user/$USER/bin"
     "/run/current-system/sw/bin"
@@ -17,7 +17,7 @@ in
   imports = [
     ./programs/zsh.nix
   ];
-  home.stateVersion = "23.05";
+  home.stateVersion = "23.11";
 
   # list of programs
   # https://mipmip.github.io/home-manager-option-search
@@ -139,6 +139,11 @@ in
     extraConfig = (builtins.readFile ./config/tmux.conf);
   };
 
+  programs.atuin = {
+    enable = true;
+    package = unstablePkgs.atuin;
+  };
+
   home.file = {
     # hammerspoon = lib.mkIf pkgs.stdenvNoCC.isDarwin {
     #   source = ./hammerspoon;
@@ -167,7 +172,9 @@ in
   };
 
   programs.home-manager.enable = true;
-  home.packages = with pkgs; [
-  ];
+  # home.packages = with stablePkgs; [
+  #   # bash
+  # ];
+
 }
 
