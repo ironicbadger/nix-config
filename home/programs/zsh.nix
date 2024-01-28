@@ -25,7 +25,6 @@ in
 
 {
   home.packages = with pkgs; [
-    subversion
     asdf-vm
     lua
   ];
@@ -117,7 +116,7 @@ in
       src = pkgs.fetchFromGitHub {
         owner = "zdharma-continuum";
         repo = "zinit";
-        rev = "v3.12.0";
+        rev = "v3.13.1";
         hash = "sha256-AiYK1pRFD4CGvBcQg9QwgFjc5Z564TVlWW0MzxoxdWU=";
       };
     }];

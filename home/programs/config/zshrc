@@ -72,16 +72,16 @@ zinit load romkatv/powerlevel10k
 zinit ice wait atload"unalias grv" lucid
 zinit snippet OMZ::plugins/git/git.plugin.zsh
 
-zinit ice svn wait lucid
+zinit ice wait lucid
 zinit snippet OMZ::plugins/mix-fast
 
-zinit ice svn wait lucid
+zinit ice wait lucid
 zinit snippet OMZ::plugins/bundler
 
 zinit ice wait as"completion" lucid
 zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
 
-zinit ice svn wait lucid
+zinit ice wait lucid
 zinit snippet OMZP::rust
 
 zinit ice wait as"completion" lucid
