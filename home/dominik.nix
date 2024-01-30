@@ -10,7 +10,6 @@ let
     "/run/current-system/sw/bin"
     "$HOME/.cargo/bin"
     "$HOME/bin"
-    "$PATH"
   ];
 in
 {
@@ -29,8 +28,8 @@ in
     DEFAULT_USER = "dominik";
     BUNDLER_EDITOR = "nvim";
     GIT_EDITOR = "nvim";
-    PATH = (builtins.concatStringsSep ":" pathOverrides);
   };
+  home.sessionPath = pathOverrides;
 
   programs.direnv = {
     enable = true;
