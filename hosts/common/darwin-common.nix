@@ -154,6 +154,7 @@ in
       "musicbrainz-picard"
       "nextcloud"
       "ngrok"
+      "utm"
       # "osxfuse"
       "openscad"
       "orbstack"
