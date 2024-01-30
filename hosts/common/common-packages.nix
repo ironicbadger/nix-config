@@ -30,7 +30,7 @@ with stablePkgs; [
   # fira-mono
   fd
   #fzf # programs.fzf
-  unstablePkgs.git # programs.git
+  git # programs.git
   # gh
   # go
   gnused

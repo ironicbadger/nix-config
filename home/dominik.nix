@@ -49,6 +49,7 @@ in
 
   programs.ripgrep = {
     enable = true;
+    package = unstablePkgs.ripgrep;
     arguments = [
       "--max-columns=5000"
       "--max-columns-preview"
@@ -172,9 +173,5 @@ in
   };
 
   programs.home-manager.enable = true;
-  # home.packages = with stablePkgs; [
-  #   # bash
-  # ];
-
 }
 
