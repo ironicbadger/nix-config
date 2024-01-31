@@ -35,7 +35,7 @@ in
 
   programs.fzf = {
     enable = true;
-    enableZshIntegration = true;
+    enableZshIntegration = false; # If we enable this, remove the junegunn/fzf plugins
     tmux.enableShellIntegration = true;
   };
 
@@ -139,6 +139,11 @@ in
   programs.atuin = {
     enable = true;
     package = unstablePkgs.atuin;
+    settings = {
+      # This should be more efficient, lets try to learn it
+      enter_accept = true;
+      filter_mode_shell_up_key_binding = "directory";
+    };
   };
 
   home.file = {

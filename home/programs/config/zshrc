@@ -16,21 +16,6 @@ function _pbcopy_last_command(){
 zle -N pbcopy-last-command _pbcopy_last_command
 bindkey '^x^y' pbcopy-last-command
 
-
-# Fuzzy match against history, edit selected value
-_uniqe_without_sort() { awk '!x[$0]++' }
-_fuzzy_history() {
-  zle -U "$(
-  history | \
-    tail -2000 | \
-    sed 's/ *[0-9]* *//' | \
-    _uniqe_without_sort | \
-    fzf-tmux --tac --reverse --no-sort
-  )"
-}
-zle -N fuzzy-history _fuzzy_history
-bindkey '^r' fuzzy-history
-
 # Git branches
 _fuzzy_git_branches() {
   zle -U "$(
@@ -90,11 +75,17 @@ zinit snippet https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/gem/_gem
 zinit ice wait as"completion" lucid
 zinit snippet https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/terraform/_terraform
 
+# When atuin isn't loaded we use our previous completion methods
+if ! which atuin > /dev/null ; then
+  zinit ice wait lucid
+  zinit snippet https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh
+
+  zinit ice wait atload"bindkey '^[[A' history-substring-search-up; bindkey '^[[B' history-substring-search-down" lucid
+  zinit load zsh-users/zsh-history-substring-search
+fi
+
 zinit ice wait as"completion" lucid
 zinit snippet https://github.com/junegunn/fzf/blob/master/shell/completion.zsh
-
-zinit ice wait lucid
-zinit snippet https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh
 
 zinit ice wait lucid pick"asdf.sh"
 zinit load @asdf-vm/asdf
@@ -108,9 +99,6 @@ zinit load zsh-users/zsh-completions
 
 zinit ice wait atinit"zpcompinit; zpcdreplay" lucid
 zinit load zdharma-continuum/fast-syntax-highlighting
-
-zinit ice wait atload"bindkey '^[[A' history-substring-search-up; bindkey '^[[B' history-substring-search-down" lucid
-zinit load zsh-users/zsh-history-substring-search
 
 zinit ice wait lucid
 zinit load skywind3000/z.lua
