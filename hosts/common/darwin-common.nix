@@ -58,13 +58,6 @@ in
   # Add ability to used TouchID for sudo authentication
   security.pam.enableSudoTouchIdAuth = true;
 
-  # programs.zsh = {
-  #   enable = true;
-  #   enableCompletion = true;
-  #   promptInit = (builtins.readFile ./../mac-dot-zshrc);
-  #   #interactiveShellInit = "/Users/alex/go/bin/figurine -f \"Rammstein.flf\" magrathea";
-  # };
-
   environment.systemPackages = with stablePkgs; [
     exiftool
   ];

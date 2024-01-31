@@ -5,9 +5,6 @@ let
     "/Applications/Postgres.app/Contents/Versions/latest/bin"
   ];
   pathOverrides = stablePkgs.lib.lists.optionals stablePkgs.stdenv.isDarwin darwinPathOverrides ++ [
-    # We should figure out why we have to set the nix profile paths ourselves here
-    "/etc/profiles/per-user/$USER/bin"
-    "/run/current-system/sw/bin"
     "$HOME/.cargo/bin"
     "$HOME/bin"
   ];
