@@ -40,7 +40,7 @@
 
   environment.systemPackages = import ./../../common/common-packages.nix
   {
-    pkgs = pkgs; 
+    pkgs = pkgs;
     unstablePkgs = unstablePkgs;
   };
 
@@ -79,14 +79,14 @@
   services.xserver.displayManager.gdm.wayland = true;
 
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "us";
-    xkbVariant = "";
+    variant = "";
   };
 
   virtualisation.libvirtd.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
-  virtualisation = 
+  virtualisation =
   {
     docker = {
       enable = true;

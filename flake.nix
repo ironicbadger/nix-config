@@ -1,14 +1,14 @@
 {
   inputs = {
-      nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
-      nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-      nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
+      nixpkgs.url = "github:NixOS/nixpkgs/release-23.11";
+      nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+      nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-23.11-darwin";
 
       vscode-server.url = "github:nix-community/nixos-vscode-server";
-      
-      home-manager.url = "github:nix-community/home-manager/release-23.05";
+
+      home-manager.url = "github:nix-community/home-manager/release-23.11";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
-      
+
       nix-darwin.url = "github:lnl7/nix-darwin";
       nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -22,7 +22,7 @@
   outputs = inputs@{ self
     , nixpkgs, nixpkgs-unstable, nixpkgs-darwin
     , home-manager, nix-darwin, disko, vscode-server, nixos-hardware, ... }:
-    let  
+    let
       inputs = { inherit disko home-manager nixpkgs nixpkgs-unstable nix-darwin; };
       # creates correct package sets for specified arch
       genPkgs = system: import nixpkgs {
@@ -33,8 +33,8 @@
         inherit system;
         config.allowUnfree = true;
       };
-      
-    
+
+
       # creates a nixos system config
       nixosSystem = system: hostName: username:
         let
@@ -54,7 +54,7 @@
               #     "/dev/sda"
               #   ];
               # }
-              
+
               ./hosts/nixos/${hostName} # ip address, host specific stuff
               vscode-server.nixosModules.default
               home-manager.nixosModules.home-manager
