@@ -103,8 +103,10 @@
       nixosConfigurations = {
         framework = nixosSystem "x86_64-linux" "framework" "alex";
 
-        testnix = nixosSystem "x86_64-linux" "testnix" "alex";
         yeager = nixosSystem "x86_64-linux" "yeager" "alex";
+
+        # use this for a blank ISO + disko to work
+        nixos = nixosSystem "x86_64-linux" "nixos" "alex";
       };
     };
 
