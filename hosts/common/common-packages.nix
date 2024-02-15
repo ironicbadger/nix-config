@@ -36,6 +36,7 @@ with pkgs; [
   htop # programs.htop
   hub
   hugo
+  iperf3
   ipmitool
   jetbrains-mono # font
   just
