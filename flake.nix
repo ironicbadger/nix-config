@@ -47,13 +47,13 @@
               # adds unstable to be available in top-level evals (like in common-packages)
               { _module.args = { unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; }; }
 
-              # disko.nixosModules.disko
-              # ./hosts/nixos/${hostName}/disko-config.nix
-              # {
-              #   _module.args.disks = [
-              #     "/dev/sda"
-              #   ];
-              # }
+              disko.nixosModules.disko
+              ./hosts/nixos/${hostName}/disko-config.nix
+              {
+                _module.args.disks = [
+                  "/dev/sda"
+                ];
+              }
 
               ./hosts/nixos/${hostName} # ip address, host specific stuff
               vscode-server.nixosModules.default
