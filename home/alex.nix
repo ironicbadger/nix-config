@@ -1,6 +1,6 @@
 { config, pkgs, lib, unstablePkgs, ... }:
 {
-  home.stateVersion = "23.05";
+  home.stateVersion = "23.11";
 
   # list of programs
   # https://mipmip.github.io/home-manager-option-search
