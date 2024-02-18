@@ -77,8 +77,7 @@
           pkgs = genDarwinPkgs system;
         in
           nix-darwin.lib.darwinSystem {
-            #inherit system inputs;
-            inherit system;
+            inherit system inputs;
             specialArgs = {
               # adds unstable to be available in top-level evals (like in common-packages)
               unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
@@ -86,7 +85,7 @@
               # lets us use these things in modules
               customArgs = { inherit username pkgs system; };
             };
-
+            modules = [
               ./hosts/darwin/${hostname} # ip address, host specific stuff
               home-manager.darwinModules.home-manager {
                 networking.hostName = hostname;

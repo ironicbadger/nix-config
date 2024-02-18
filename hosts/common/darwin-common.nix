@@ -1,7 +1,7 @@
 { pkgs, lib, inputs, ... }:
-let 
+let
   inherit (inputs) nixpkgs nixpkgs-unstable;
-in 
+in
 {
   # Nix configuration ------------------------------------------------------------------------------
   users.users.alex.home = "/Users/alex";
@@ -27,16 +27,6 @@ in
       path = inputs.nixpkgs-unstable;
     };
   };
-
-  # nix.buildMachines = [{
-  #   systems = [ "x86_64-linux" ];
-  #   supportedFeatures = [ "kvm" "big-parallel" ];
-  #   sshUser = "ragon";
-  #   maxJobs = 12;
-  #   hostName = "ds9";
-  #   sshKey = "/Users/ragon/.ssh/id_ed25519";
-  #   publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUorQkJYdWZYQUpoeVVIVmZocWxrOFk0ekVLSmJLWGdKUXZzZEU0ODJscFYgcm9vdEBpc28K";
-  # }
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.overlays = [
@@ -84,7 +74,7 @@ in
     ];
     casks = [
       #"alfred" # you are on alfred4 not 5
-      "autodesk-fusion360"
+      #"autodesk-fusion360" # slow and unreliable to install
       "audacity"
       "balenaetcher"
       "bartender"
