@@ -1,22 +1,22 @@
 {
   inputs = {
-      nixpkgs.url = "github:NixOS/nixpkgs/release-23.11";
+      nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
       nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
       nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-23.11-darwin";
-
-      vscode-server.url = "github:nix-community/nixos-vscode-server";
-
-      home-manager.url = "github:nix-community/home-manager/release-23.11";
-      home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
       nix-darwin.url = "github:lnl7/nix-darwin";
       nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
+      #nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+      #nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
+
+      home-manager.url = "github:nix-community/home-manager/release-23.11";
+      home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
       disko.url = "github:nix-community/disko";
       disko.inputs.nixpkgs.follows = "nixpkgs";
 
-      #nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-      #nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
+      vscode-server.url = "github:nix-community/nixos-vscode-server";
   };
 
   outputs = inputs@{ self
@@ -27,7 +27,7 @@
       # creates correct package sets for specified arch
       genPkgs = system: import nixpkgs {
         inherit system;
-        config.allowUnfree = true;
+        #config.allowUnfree = true;
       };
       genDarwinPkgs = system: import nixpkgs-darwin {
         inherit system;
@@ -36,30 +36,33 @@
 
 
       # creates a nixos system config
-      nixosSystem = system: hostName: username:
+      nixosSystem = system: hostname: username:
         let
           pkgs = genPkgs system;
         in
-          nixpkgs.lib.nixosSystem
-          {
+          nixpkgs.lib.nixosSystem {
             inherit system;
-            modules = [
+            specialArgs = {
               # adds unstable to be available in top-level evals (like in common-packages)
-              { _module.args = { unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; }; }
+              unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
 
+              # lets us use these things in modules
+              customArgs = { inherit username pkgs system; };
+            };
+            modules = [
               disko.nixosModules.disko
-              ./hosts/nixos/${hostName}/disko-config.nix
+              ./hosts/nixos/${hostname}/disko-config.nix
               {
                 _module.args.disks = [
                   "/dev/vda"
                 ];
               }
 
-              ./hosts/nixos/${hostName} # ip address, host specific stuff
+              ./hosts/nixos/${hostname}
+
               vscode-server.nixosModules.default
-              home-manager.nixosModules.home-manager
-              {
-                networking.hostName = hostName;
+              home-manager.nixosModules.home-manager {
+                networking.hostName = hostname;
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
                 home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
@@ -69,21 +72,24 @@
           };
 
       # creates a macos system config
-      darwinSystem = system: hostName: username:
+      darwinSystem = system: hostname: username:
         let
           pkgs = genDarwinPkgs system;
         in
-          nix-darwin.lib.darwinSystem 
-          {
-            inherit system inputs;
-            modules = [
+          nix-darwin.lib.darwinSystem {
+            #inherit system inputs;
+            inherit system;
+            specialArgs = {
               # adds unstable to be available in top-level evals (like in common-packages)
-              { _module.args = { unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; }; }
+              unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
 
-              ./hosts/darwin/${hostName} # ip address, host specific stuff
-              home-manager.darwinModules.home-manager 
-              {
-                networking.hostName = hostName;
+              # lets us use these things in modules
+              customArgs = { inherit username pkgs system; };
+            };
+
+              ./hosts/darwin/${hostname} # ip address, host specific stuff
+              home-manager.darwinModules.home-manager {
+                networking.hostName = hostname;
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
                 home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
@@ -91,8 +97,7 @@
               ./hosts/common/darwin-common.nix
             ];
           };
-    in
-    {
+    in {
       darwinConfigurations = {
         magrathea = darwinSystem "aarch64-darwin" "magrathea" "alex";
         slartibartfast = darwinSystem "aarch64-darwin" "slartibartfast" "alex";
