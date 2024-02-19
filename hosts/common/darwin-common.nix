@@ -1,4 +1,4 @@
-{ pkgs, lib, inputs, ... }:
+{ pkgs, lib, inputs, customArgs, ... }:
 let
   inherit (inputs) nixpkgs nixpkgs-unstable;
 in
@@ -36,7 +36,7 @@ in
         system = "x86_64-darwin";
         config.allowUnfree = true;
       };
-    }) 
+    })
   ];
 
   # Keyboard
@@ -50,7 +50,7 @@ in
     enable = true;
     enableCompletion = true;
     promptInit = (builtins.readFile ./../mac-dot-zshrc);
-    #interactiveShellInit = "/Users/alex/go/bin/figurine -f \"Rammstein.flf\" magrathea";
+    interactiveShellInit = "figurine -f \"3d.flf\" ${customArgs.hostname}";
   };
 
   homebrew = {
@@ -88,7 +88,6 @@ in
       "google-chrome"
       "istat-menus"
       "iterm2"
-      #"lingon-x"
       "little-snitch"
       "logitech-options"
       "macwhisper"
@@ -142,7 +141,7 @@ in
       # these apps with uk apple id
       #"Final Cut Pro" = 424389933;
       #"Logic Pro" = 634148309;
-      #"MainStage" = 634159523; 
+      #"MainStage" = 634159523;
       #"Garageband" = 682658836;
       #"ShutterCount" = 720123827;
       #"Teleprompter" = 1533078079;

@@ -47,7 +47,7 @@
               unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
 
               # lets us use these things in modules
-              customArgs = { inherit username pkgs system; };
+              customArgs = { inherit system hostname username pkgs; };
             };
             modules = [
               disko.nixosModules.disko
@@ -83,7 +83,7 @@
               unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
 
               # lets us use these things in modules
-              customArgs = { inherit username pkgs system; };
+              customArgs = { inherit system hostname username pkgs; };
             };
             modules = [
               ./hosts/darwin/${hostname} # ip address, host specific stuff
@@ -98,10 +98,13 @@
           };
     in {
       darwinConfigurations = {
-        magrathea = darwinSystem "aarch64-darwin" "magrathea" "alex";
         slartibartfast = darwinSystem "aarch64-darwin" "slartibartfast" "alex";
         awesomo = darwinSystem "aarch64-darwin" "awesomo" "alex";
         cat-laptop = darwinSystem "aarch64-darwin" "cat-laptop" "alex";
+
+        # work
+        magrathea = darwinSystem "aarch64-darwin" "magrathea" "alex";
+        m2mba = darwinSystem "aarch64-darwin" "m2mba" "alex";
       };
 
       nixosConfigurations = {
