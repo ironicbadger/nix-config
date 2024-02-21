@@ -1,4 +1,4 @@
-{ config, pkgs, unstablePkgs, nixos-hardware, ... }:
+{ lib, config, pkgs, unstablePkgs, nixos-hardware, ... }:
 
 {
   imports =
@@ -18,21 +18,27 @@
     isNormalUser = true;
     extraGroups = [ "networkmanager" "wheel" "docker" "libvirt" "kvm"];
     packages = with pkgs; [
-      gnome.gnome-boxes
       audacity
       bitwarden-cli
+      discord
+      element-desktop
       firefox
-      virt-manager
+      gnome.gnome-boxes
+      google-chrome
       kate
+      plexamp
       quickemu
       quickgui
-      telegram-desktop
-      element-desktop
-      discord
       slack
+      telegram-desktop
       todoist-electron
+      virt-manager
     ];
   };
+
+  systemd.services.systemd-udevd.restartIfChanged = false;
+  systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
+  systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
   services.fwupd.enable = true;
   services.tailscale.enable = true;
