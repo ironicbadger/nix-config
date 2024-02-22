@@ -4,7 +4,6 @@ with pkgs; [
   ## unstable
   unstablePkgs.yt-dlp
   unstablePkgs.get_iplayer
-  unstablePkgs.figurine
 
   ## stable
   ansible
@@ -29,6 +28,7 @@ with pkgs; [
   fira-code
   fira-mono
   fd
+  figurine
   #fzf # programs.fzf
   git # programs.git
   gh
