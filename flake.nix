@@ -50,13 +50,8 @@
               customArgs = { inherit system hostname username pkgs; };
             };
             modules = [
-              disko.nixosModules.disko
-              ./hosts/nixos/${hostname}/disko-config.nix
-              {
-                _module.args.disks = [
-                  "/dev/vda"
-                ];
-              }
+              #disko.nixosModules.disko
+              #./hosts/nixos/${hostname}/disko-config.nix
 
               ./hosts/nixos/${hostname}
 
