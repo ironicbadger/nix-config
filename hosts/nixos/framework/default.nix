@@ -23,7 +23,7 @@
       discord
       element-desktop
       firefox
-      gnome.gnome-boxes
+      #gnome.gnome-boxes
       google-chrome
       kate
       plexamp
