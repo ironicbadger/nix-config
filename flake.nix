@@ -103,8 +103,12 @@
       };
 
       nixosConfigurations = {
+        # clients
         framework = nixosSystem "x86_64-linux" "framework" "alex";
         nix-dev = nixosSystem "x86_64-linux" "nix-dev" "alex";
+
+        # servers
+        zoidberg = nixosSystem "x86_64-linux" "zoidberg" "alex";
 
         # test system
         yeager = nixosSystem "x86_64-linux" "yeager" "alex";

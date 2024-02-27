@@ -18,15 +18,13 @@
 
   time.timeZone = "America/New_York";
 
-  users.users.alex = 
-  {
+  users.users.alex = {
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" ];
     hashedPassword = "$6$wW/xsljhhG/vssC3$ujh/4jSZp7APUsbI6FAAUtIkaWVl9ElocFV6FKO7vD4ouoXKiebecrfmtd46NNVJBOFO8blNaEvkOLmOW5X3j.";
   };
 
-  services.openssh = 
-  {
+  services.openssh = {
     enable = true;
     settings.PasswordAuthentication = true;
     settings.PermitRootLogin = "yes";
@@ -36,12 +34,11 @@
 
   environment.systemPackages = import ./../../common/common-packages.nix
   { #what is this?
-    pkgs = pkgs; 
-    unstablePkgs = unstablePkgs; 
+    pkgs = pkgs;
+    unstablePkgs = unstablePkgs;
   };
 
-  virtualisation = 
-  {
+  virtualisation = {
     docker = {
       enable = true;
       autoPrune = {
