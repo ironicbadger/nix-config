@@ -23,14 +23,15 @@
       discord
       element-desktop
       firefox
-      #gnome.gnome-boxes
       google-chrome
       kate
+      obs-studio
       plexamp
       quickemu
       quickgui
       slack
       telegram-desktop
+      thunderbird
       todoist-electron
       virt-manager
     ];
