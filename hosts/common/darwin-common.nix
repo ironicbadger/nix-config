@@ -50,7 +50,7 @@ in
     enable = true;
     enableCompletion = true;
     promptInit = (builtins.readFile ./../mac-dot-zshrc);
-    interactiveShellInit = "figurine -f \"3d.flf\" ${customArgs.hostname}";
+    #interactiveShellInit = "figurine -f \"3d.flf\" ${customArgs.hostname}";
   };
 
   homebrew = {

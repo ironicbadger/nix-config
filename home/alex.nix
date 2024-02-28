@@ -41,6 +41,8 @@
     settings.show_program_path = true;
   };
 
+  programs.lf.enable = true;
+
   programs.tmux = {
     enable = true;
     #keyMode = "vi";
@@ -79,6 +81,10 @@
     '';
     matchBlocks = {
       # wd
+      "dt deepthought" = {
+        hostname = "10.42.0.42";
+        user = "root";
+      };
       "m morpheus" = {
         hostname = "morpheus";
         user = "alex";
