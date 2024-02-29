@@ -99,7 +99,7 @@
 
         # work
         magrathea = darwinSystem "aarch64-darwin" "magrathea" "alex";
-        m2mba = darwinSystem "aarch64-darwin" "m2mba" "alex";
+        tsMBA = darwinSystem "aarch64-darwin" "tsMBA" "alex";
       };
 
       nixosConfigurations = {
