@@ -38,6 +38,7 @@ with pkgs; [
   jetbrains-mono # font
   just
   jq
+  kubectl
   mc
   mosh
   neofetch
