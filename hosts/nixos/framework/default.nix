@@ -35,6 +35,7 @@
       todoist-electron
       virt-manager
 
+      # unstable below this line
       unstablePkgs.vscode
     ];
   };
