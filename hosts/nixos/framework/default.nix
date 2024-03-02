@@ -34,6 +34,9 @@
       thunderbird
       todoist-electron
       virt-manager
+
+      # unstable below this line
+      unstablePkgs.vscode
     ];
   };
 
@@ -45,8 +48,7 @@
   services.tailscale.enable = true;
   services.flatpak.enable = true;
 
-  environment.systemPackages = import ./../../common/common-packages.nix
-  {
+  environment.systemPackages = import ./../../common/common-packages.nix {
     pkgs = pkgs;
     unstablePkgs = unstablePkgs;
   };
