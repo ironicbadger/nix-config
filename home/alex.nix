@@ -83,7 +83,7 @@
       # wd
       "dt deepthought" = {
         hostname = "10.42.0.42";
-        user = "root";
+        user = "alex";
       };
       "m morpheus" = {
         hostname = "morpheus";
