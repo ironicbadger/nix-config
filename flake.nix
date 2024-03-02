@@ -39,9 +39,6 @@
             inherit system;
             specialArgs = {
               inherit pkgs unstablePkgs;
-              # adds unstable to be available in top-level evals (like in common-packages)
-              #unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
-
               # lets us use these things in modules
               customArgs = { inherit system hostname username pkgs unstablePkgs; };
             };
