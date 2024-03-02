@@ -24,20 +24,10 @@
     , home-manager, nix-darwin, disko, vscode-server, nixos-hardware, ... }:
     let
       inputs = { inherit disko home-manager nixpkgs nixpkgs-unstable nix-darwin; };
-      # creates correct package sets for specified arch
-      genPkgs = system: import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
-      genUnstablePkgs = system: import nixpkgs-unstable {
-        inherit system;
-        config.allowUnfree = true;
-      };
-      genDarwinPkgs = system: import nixpkgs-darwin {
-        inherit system;
-        config.allowUnfree = true;
-      };
 
+      genPkgs = system: import nixpkgs { inherit system; config.allowUnfree = true; };
+      genUnstablePkgs = system: import nixpkgs-unstable { inherit system; config.allowUnfree = true; };
+      genDarwinPkgs = system: import nixpkgs-darwin { inherit system; config.allowUnfree = true; };
 
       # creates a nixos system config
       nixosSystem = system: hostname: username:
