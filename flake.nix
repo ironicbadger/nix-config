@@ -54,6 +54,7 @@
               #./hosts/nixos/${hostname}/disko-config.nix
 
               ./hosts/nixos/${hostname}
+              ./hosts/nixos/framework/plasma6.nix
 
               vscode-server.nixosModules.default
               home-manager.nixosModules.home-manager {
