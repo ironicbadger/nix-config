@@ -53,7 +53,7 @@
               unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
 
               # lets us use these things in modules
-              customArgs = { inherit system hostname username pkgs; };
+              customArgs = { inherit system hostname username pkgs unstable; };
             };
             modules = [
               #disko.nixosModules.disko
