@@ -43,17 +43,17 @@
       nixosSystem = system: hostname: username:
         let
           pkgs = genPkgs system;
-          unstable = genUnstablePkgs system;
+          unstablePkgs = genUnstablePkgs system;
         in
           nixpkgs.lib.nixosSystem {
             inherit system;
             specialArgs = {
-              inherit pkgs unstable;
+              inherit pkgs unstablePkgs;
               # adds unstable to be available in top-level evals (like in common-packages)
-              unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+              #unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
 
               # lets us use these things in modules
-              customArgs = { inherit system hostname username pkgs unstable; };
+              customArgs = { inherit system hostname username pkgs unstablePkgs; };
             };
             modules = [
               #disko.nixosModules.disko
