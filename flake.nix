@@ -27,7 +27,11 @@
       # creates correct package sets for specified arch
       genPkgs = system: import nixpkgs {
         inherit system;
-        #config.allowUnfree = true;
+        config.allowUnfree = true;
+      };
+      genUnstablePkgs = system: import nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
       };
       genDarwinPkgs = system: import nixpkgs-darwin {
         inherit system;
@@ -39,10 +43,12 @@
       nixosSystem = system: hostname: username:
         let
           pkgs = genPkgs system;
+          unstable = genUnstablePkgs system;
         in
           nixpkgs.lib.nixosSystem {
             inherit system;
             specialArgs = {
+              inherit pkgs unstable;
               # adds unstable to be available in top-level evals (like in common-packages)
               unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
 

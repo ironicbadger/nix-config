@@ -45,11 +45,14 @@
   services.tailscale.enable = true;
   services.flatpak.enable = true;
 
-  environment.systemPackages = import ./../../common/common-packages.nix
+  environment.systemPackages = with #import ./../../common/common-packages.nix
   {
     pkgs = pkgs;
     unstablePkgs = unstablePkgs;
   };
+  [
+    unstablePkgs.vscode
+  ];
 
 
   # Enable sound with pipewire.
