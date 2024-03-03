@@ -6,6 +6,7 @@
     #   "${builtins.fetchGit { url = "https://github.com/NixOS/nixos-hardware.git"; }}/framework/13-inch/7040-amd"
       #nixos-hardware.nixosModules.framework-13-7040-amd
       ./hardware-configuration.nix
+      ./../../common/common-packages.nix
     ];
 
   # Bootloader
@@ -48,10 +49,10 @@
   services.tailscale.enable = true;
   services.flatpak.enable = true;
 
-  environment.systemPackages = import ./../../common/common-packages.nix {
-    pkgs = pkgs;
-    unstablePkgs = unstablePkgs;
-  };
+  # environment.systemPackages = import ./../../common/common-packages.nix {
+  #   pkgs = pkgs;
+  #   unstablePkgs = unstablePkgs;
+  # };
 
 
   # Enable sound with pipewire.
