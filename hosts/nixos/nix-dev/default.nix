@@ -3,6 +3,7 @@
 {
   imports = [
       ./hardware-configuration.nix
+      ./../../common/common-packages.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -25,11 +26,6 @@
   };
   services.vscode-server.enable = true;
   services.tailscale.enable = true;
-
-  environment.systemPackages = import ./../../common/common-packages.nix {
-    pkgs = pkgs;
-    unstablePkgs = unstablePkgs;
-  };
 
   virtualisation = {
     docker = {
