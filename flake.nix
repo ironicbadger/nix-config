@@ -43,8 +43,8 @@
               customArgs = { inherit system hostname username pkgs unstablePkgs; };
             };
             modules = [
-              #disko.nixosModules.disko
-              #./hosts/nixos/${hostname}/disko-config.nix
+              disko.nixosModules.disko
+              ./hosts/nixos/${hostname}/disko-config.nix
 
               ./hosts/nixos/${hostname}
 
