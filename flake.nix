@@ -44,7 +44,11 @@
             };
             modules = [
               disko.nixosModules.disko
-              ./hosts/nixos/${hostname}/disko-config.nix
+              ./hosts/nixos/${hostname}/disko-config.nix {
+                _module.args.disks = [
+                  "/dev/vda"
+                ];
+              }
 
               ./hosts/nixos/${hostname}
 
