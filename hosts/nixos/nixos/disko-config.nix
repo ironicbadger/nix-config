@@ -1,7 +1,7 @@
 { disks ? [ "/dev/vda" ], ... }: {
   disko.devices = {
     disk = {
-      vdb = {
+      vda = {
         device = builtins.elemAt disks 0;
         type = "disk";
         content = {
