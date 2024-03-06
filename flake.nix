@@ -46,7 +46,7 @@
               disko.nixosModules.disko
               ./hosts/nixos/${hostname}/disko-config.nix {
                 _module.args.disks = [
-                  "/dev/vda"
+                  #"/dev/vda"
                 ];
               }
 
