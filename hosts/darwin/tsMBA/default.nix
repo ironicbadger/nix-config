@@ -1,4 +1,5 @@
-{ config, ... }:
+{ config, ... }: {
   imports = [
       ./../../common/common-packages.nix
     ];
+}
