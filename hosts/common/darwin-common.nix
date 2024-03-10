@@ -68,6 +68,7 @@ in
       "doctl"
       "helm"
       "flyctl"
+      "lima"
       "npm"
       "node"
       "tailscale"
