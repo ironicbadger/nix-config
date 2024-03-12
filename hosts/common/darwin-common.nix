@@ -65,9 +65,11 @@ in
       # home.nix
       # home.packages
       "argocd"
+      "ata"
       "doctl"
       "helm"
       "flyctl"
+      "lima"
       "npm"
       "node"
       "tailscale"
@@ -92,6 +94,7 @@ in
       "logitech-options"
       "macwhisper"
       "monitorcontrol"
+      "mpv"
       "mqtt-explorer"
       "nextcloud"
       "notion"

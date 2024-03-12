@@ -82,8 +82,8 @@
     matchBlocks = {
       # wd
       "dt deepthought" = {
-        hostname = "10.42.0.42";
-        user = "alex";
+        hostname = "deepthought";
+        user = "root";
       };
       "m morpheus" = {
         hostname = "morpheus";
