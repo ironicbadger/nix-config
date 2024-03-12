@@ -83,6 +83,7 @@
   services.fwupd.enable = true;
   services.openssh = {
     enable = true;
+    # just for testing, do not panic.
     settings.PasswordAuthentication = true;
     settings.PermitRootLogin = "yes";
   };
