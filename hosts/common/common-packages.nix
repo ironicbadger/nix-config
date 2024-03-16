@@ -11,6 +11,7 @@
     bitwarden-cli
     btop
     coreutils
+    devbox
     diffr # Modern Unix `diff`
     difftastic # Modern Unix `diff`
     dua # Modern Unix `du`
