@@ -1,4 +1,3 @@
-[root@morpheus:~]# cat /etc/nixos/configuration.nix
 { config, pkgs, ... }:
 {
   imports = [
@@ -9,6 +8,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelModules = [ "drivetemp" ];
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+  boot.kernelParams = ["i915.fastboot=1" "drm.edid_firmware=edid/1280x1024.bin"];
 
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.extraPools = [ "nvme-appdata" "ssd4tb" "bigrust18" ];
@@ -21,13 +21,12 @@
     extraGroups = [ "wheel" "docker" ];
   };
   users.defaultUserShell = pkgs.bash;
-  #programs.bash.interactiveShellInit = "figurine -f \"3d.flf\" morpheus-nix";
+  programs.bash.interactiveShellInit = "figurine -f \"3d.flf\" morphnix";
 
   environment.systemPackages = with pkgs; [
     devbox
     gcc
     dig
-    docker-compose
     figurine
     git
     gptfdisk
@@ -65,8 +64,7 @@
 
   networking = {
     firewall.enable = false;
-    hostName = "morpheus";
-    #hostId = "e5f8d402";
+    hostName = "morphnix";
     interfaces = {
       eno1 = {
         useDHCP = false;
@@ -107,5 +105,4 @@
   };
   system.copySystemConfiguration = true;
   system.stateVersion = "23.11";
-
 }
