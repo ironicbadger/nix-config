@@ -12,11 +12,25 @@
 
   time.timeZone = "America/New_York";
 
+  users.users.alex = {
+    isNormalUser = true;
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirt" "kvm"];
+
+  };
+
   users.groups.${customArgs.username} = {};
   users.users.${customArgs.username} = {
     group = customArgs.username;
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" ];
+    packages = with pkgs; [
+      firefox
+      google-chrome
+      sunshine
+
+      # unstable below this line
+      unstablePkgs.vscode
+    ];
   };
 
   services.openssh = {
