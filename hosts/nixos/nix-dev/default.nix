@@ -12,12 +12,6 @@
 
   time.timeZone = "America/New_York";
 
-  users.users.alex = {
-    isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirt" "kvm"];
-
-  };
-
   users.groups.${customArgs.username} = {};
   users.users.${customArgs.username} = {
     group = customArgs.username;
