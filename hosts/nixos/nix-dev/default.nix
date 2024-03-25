@@ -34,6 +34,7 @@
   };
   services.vscode-server.enable = true;
   services.tailscale.enable = true;
+  services.qemuGuest.enable = true;
 
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
