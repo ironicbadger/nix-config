@@ -26,6 +26,7 @@
       firefox
       google-chrome
       kate
+      inter
       obs-studio
       plexamp
       quickemu
@@ -35,9 +36,11 @@
       thunderbird
       todoist-electron
       virt-manager
+      vscode
 
       # unstable below this line
       unstablePkgs.vscode
+      #unstablePkgs.telegram-desktop
     ];
   };
 
@@ -77,14 +80,14 @@
   ## enable printer auto discovery
   services.avahi = {
     enable = true;
-    nssmdns = true;
+    nssmdns4 = true;
     openFirewall = true;
   };
 
   services.xserver.enable = true;
   # Enable the KDE Plasma Desktop Environment.
   # services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.desktopManager.plasma6.enable = true;
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.displayManager.gdm.wayland = true;
 
