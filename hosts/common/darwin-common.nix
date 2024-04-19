@@ -91,6 +91,7 @@ in
       "istat-menus"
       "iterm2"
       "little-snitch"
+      "lm-studio"
       "logitech-options"
       "macwhisper"
       "monitorcontrol"
