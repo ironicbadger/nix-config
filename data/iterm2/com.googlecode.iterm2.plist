@@ -7,7 +7,7 @@
 	<key>AboutToPasteTabsWithCancel_selection</key>
 	<integer>2</integer>
 	<key>Command</key>
-	<string></string>
+	<string>/etc/profiles/per-user/alex/bin/fish</string>
 	<key>Custom Color Presets</key>
 	<dict>
 		<key>Adventure</key>
@@ -648,7 +648,7 @@
 			<key>Columns</key>
 			<integer>110</integer>
 			<key>Command</key>
-			<string>/etc/profiles/per-user/alex/bin/fish</string>
+			<string>/etc/profiles/per-user/alex/bin/zsh</string>
 			<key>Cursor Color</key>
 			<dict>
 				<key>Alpha Component</key>
