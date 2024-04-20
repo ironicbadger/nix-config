@@ -48,10 +48,15 @@
     interactiveShellInit = ''
       set fish_greeting # Disable greeting
     '';
-    plugins = [
-      # Enable a plugin (here grc for colorized command output) from nixpkgs
-      { name = "grc"; src = pkgs.fishPlugins.grc.src; }
-    ];
+    plugins = [{
+        name="foreign-env";
+        src = pkgs.fetchFromGitHub {
+            owner = "oh-my-fish";
+            repo = "plugin-foreign-env";
+            rev = "dddd9213272a0ab848d474d0cbde12ad034e65bc";
+            sha256 = "00xqlyl3lffc5l0viin1nyp819wf81fncqyz87jx8ljjdhilmgbs";
+        };
+    }];
   };
 
   programs.tmux = {
