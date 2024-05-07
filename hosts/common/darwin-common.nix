@@ -93,6 +93,7 @@ in
       "little-snitch"
       "logitech-options"
       "macwhisper"
+      "marta"
       "monitorcontrol"
       "mpv"
       "mqtt-explorer"
