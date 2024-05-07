@@ -91,6 +91,7 @@
         cat-laptop = darwinSystem "aarch64-darwin" "cat-laptop" "alex";
 
         # work
+        baldrick = darwinSystem "aarch64-darwin" "baldrick" "alex";
         magrathea = darwinSystem "aarch64-darwin" "magrathea" "alex";
         tsMBA = darwinSystem "aarch64-darwin" "tsMBA" "alex";
       };

@@ -10,7 +10,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixNv";
+  networking.hostName = "nix-nvllama";
   networking.networkmanager.enable = true;
 
   hardware.opengl.enable = true;
@@ -21,10 +21,13 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   services.xserver = {
+    enable = true;
     layout = "us";
     xkbVariant = "";
     videoDrivers = [ "nvidia" ];
   };
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   users.users.alex = {
     isNormalUser = true;
@@ -55,6 +58,7 @@
   # List services that you want to enable:
   services.openssh.enable = true;
   services.qemuGuest.enable = true;
+  services.tailscale.enable = true;
 
   virtualisation = {
     docker = {

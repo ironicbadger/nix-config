@@ -91,6 +91,7 @@ in
       "istat-menus"
       "iterm2"
       "little-snitch"
+      "lm-studio"
       "logitech-options"
       "macwhisper"
       "marta"
@@ -101,8 +102,8 @@ in
       "notion"
       "obs"
       "obsidian"
+      "ollama"
       "omnidisksweeper"
-      "onyx"
       "openscad"
       "openttd"
       "plexamp"
@@ -131,6 +132,7 @@ in
       "Creator's Best Friend" = 1524172135;
       "Disk Speed Test" = 425264550;
       "iA Writer" = 775737590;
+      #"Ivory for Mastodon by Tapbots" = 2145332318;
       "Microsoft Remote Desktop" = 1295203466;
       "Reeder" = 1529448980;
       "Resize Master" = 1025306797;
