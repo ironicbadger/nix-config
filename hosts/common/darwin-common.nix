@@ -99,6 +99,7 @@ in
       "lm-studio"
       "logitech-options"
       "macwhisper"
+      "marta"
       "monitorcontrol"
       "mpv"
       "mqtt-explorer"
