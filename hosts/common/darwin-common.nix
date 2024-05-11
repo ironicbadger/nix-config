@@ -59,7 +59,7 @@ in
     # updates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
     taps = [
-      #
+      "homebrew/cask-fonts"
     ];
     brews = [
       # home.nix
@@ -72,12 +72,14 @@ in
       "lima"
       "npm"
       "node"
+      "superfile"
       "tailscale"
     ];
     casks = [
       #"alfred" # you are on alfred4 not 5
       #"autodesk-fusion360" # slow and unreliable to install
       "audacity"
+      "autodesk-fusion"
       "balenaetcher"
       "bartender"
       "bambu-studio"
@@ -87,6 +89,9 @@ in
       "docker"
       "element"
       "firefox"
+      "font-fira-code-nerd-font"
+      "font-hack-nerd-font"
+      "font-jetbrains-mono-nerd-font"
       "google-chrome"
       "istat-menus"
       "iterm2"
