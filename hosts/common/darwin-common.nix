@@ -72,7 +72,7 @@ in
       "lima"
       "npm"
       "node"
-      "superfile"
+      #"superfile"
       "tailscale"
     ];
     casks = [
