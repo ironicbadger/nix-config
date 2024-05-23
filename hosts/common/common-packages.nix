@@ -49,12 +49,14 @@
     skopeo
     smartmontools
     terraform
+    tmux
     tree
     unzip
     watch
     wget
     wireguard-tools
     vim
+    zoxide
 
     # requires nixpkgs.config.allowUnfree = true;
     vscode-extensions.ms-vscode-remote.remote-ssh

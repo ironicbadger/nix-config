@@ -85,8 +85,31 @@
   #programs.exa.enableAliases = true;
 
   programs.home-manager.enable = true;
-  programs.neovim.enable = true;
   programs.nix-index.enable = true;
+
+
+  programs.alacritty.enable = true;
+  # programs.alacritty.settings = import ./.config/alacritty.toml;
+  # xdg.configFile."alacritty.toml" = {
+  #   text = ''
+  #     [window]
+  #     padding.x = 10
+  #     padding.y = 10
+  #   '';
+  #   #executable = true;
+  # };
+
+  programs.bat.enable = true;
+  programs.bat.config.theme = "Nord";
+  programs.zsh.shellAliases.cat = "${pkgs.bat}/bin/bat";
+
+  programs.neovim.enable = true;
+  programs.neovim.extraPackages = with pkgs; [
+    ripgrep
+    fzf
+    bat
+  ];
+
   programs.zoxide.enable = true;
 
   programs.ssh = {

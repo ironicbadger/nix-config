@@ -78,6 +78,7 @@ in
     casks = [
       #"alfred" # you are on alfred4 not 5
       #"autodesk-fusion360" # slow and unreliable to install
+      "alacritty"
       "audacity"
       "autodesk-fusion"
       "balenaetcher"
@@ -92,6 +93,7 @@ in
       "font-fira-code-nerd-font"
       "font-hack-nerd-font"
       "font-jetbrains-mono-nerd-font"
+      "font-meslo-lg-nerd-font"
       "google-chrome"
       "istat-menus"
       "iterm2"
