@@ -88,21 +88,17 @@
       darwinConfigurations = {
         slartibartfast = darwinSystem "aarch64-darwin" "slartibartfast" "alex";
         awesomo = darwinSystem "aarch64-darwin" "awesomo" "alex";
-        cat-laptop = darwinSystem "aarch64-darwin" "cat-laptop" "alex";
+        wallace = darwinSystem "aarch64-darwin" "wallace" "alex";
 
         # work
         baldrick = darwinSystem "aarch64-darwin" "baldrick" "alex";
         magrathea = darwinSystem "aarch64-darwin" "magrathea" "alex";
-        tsMBA = darwinSystem "aarch64-darwin" "tsMBA" "alex";
       };
 
       nixosConfigurations = {
-        # clients
-        framework = nixosSystem "x86_64-linux" "framework" "alex";
-        nix-dev = nixosSystem "x86_64-linux" "nix-dev" "alex";
-
         # servers
-        zoidberg = nixosSystem "x86_64-linux" "zoidberg" "alex";
+        morphnix = nixosSystem "x86_64-linux" "morphnix" "alex";
+        nix-dev = nixosSystem "x86_64-linux" "nix-dev" "alex";
 
         # test system
         yeager = nixosSystem "x86_64-linux" "yeager" "alex";
