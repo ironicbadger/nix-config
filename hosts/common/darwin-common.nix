@@ -59,7 +59,7 @@ in
     # updates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
     taps = [
-      "homebrew/cask-fonts"
+      #"homebrew/cask-fonts"
     ];
     brews = [
       # home.nix
@@ -80,7 +80,7 @@ in
       #"autodesk-fusion360" # slow and unreliable to install
       "alacritty"
       "audacity"
-      "autodesk-fusion"
+      #"autodesk-fusion"
       "balenaetcher"
       "bartender"
       "bambu-studio"
@@ -97,7 +97,7 @@ in
       "google-chrome"
       "istat-menus"
       "iterm2"
-      "little-snitch"
+      #"little-snitch"
       "lm-studio"
       "logitech-options"
       "macwhisper"
@@ -152,7 +152,7 @@ in
       "Wireguard" = 1451685025;
 
       # these apps with uk apple id
-      #"Final Cut Pro" = 424389933;
+      "Final Cut Pro" = 424389933;
       #"Logic Pro" = 634148309;
       #"MainStage" = 634159523;
       #"Garageband" = 682658836;
