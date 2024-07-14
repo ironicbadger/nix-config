@@ -8,14 +8,13 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelModules = [ "drivetemp" ];
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
-  boot.kernelParams = ["i915.fastboot=1" "drm.edid_firmware=edid/1280x1024.bin"];
+  boot.kernelParams = ["i915.fastboot=1"];
 
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.extraPools = [ "nvme-appdata" "ssd4tb" "bigrust18" ];
   services.zfs.autoScrub.enable = true;
 
   time.timeZone = "America/New_York";
-
   users.users.alex = {
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" ];
@@ -24,6 +23,7 @@
   programs.bash.interactiveShellInit = "figurine -f \"3d.flf\" morphnix";
 
   environment.systemPackages = with pkgs; [
+    bc
     devbox
     gcc
     dig
@@ -35,12 +35,15 @@
     intel-gpu-tools
     inxi
     iotop
+    jq
     lm_sensors
     mergerfs
     mc
+    molly-guard
     ncdu
     nmap
     nvme-cli
+    powertop
     snapraid
     tdns-cli
     tmux
@@ -51,22 +54,26 @@
     smartmontools
     e2fsprogs # badblocks
 
-    # sanoid
+    # zfs send/rec with sanoid/syncoid
     sanoid
     lzop
     mbuffer
+    pv
+    zstd
 
+    ansible
+    python3
     # ansible
-    (python3.withPackages(ps: [
-         ps.ansible ps.pip ps.requests
-         ]))
+    #(python3.withPackages(ps: [
+    #     ps.ansible ps.pip ps.requests
+    #     ]))
   ];
 
   networking = {
     firewall.enable = false;
     hostName = "morphnix";
     interfaces = {
-      eno1 = {
+      enp13s0 = {
         useDHCP = false;
         ipv4.addresses = [ {
           address = "10.42.1.10";
@@ -76,6 +83,9 @@
     };
     defaultGateway = "10.42.0.254";
     nameservers = [ "10.42.0.253" ];
+  localCommands = ''
+    ip rule add to 10.42.0.0/20 priority 2500 lookup main
+  '';
   };
 
   services.fwupd.enable = true;
@@ -87,12 +97,91 @@
   };
   services.tailscale.enable = true;
 
+  services.sanoid = {
+    enable = true;
+    interval = "hourly";
+    templates.backupmedia = {
+      daily = 3;
+      monthly = 3;
+      autoprune = true;
+      autosnap = true;
+    };
+
+    datasets."bigrust18/media" = {
+      useTemplate = [ "backupmedia" ];
+      recursive = true;
+    };
+    extraArgs = [ "--debug" ];
+  };
+
+  services.syncoid = {
+    enable = true;
+    user = "root";
+    interval = "hourly";
+    commands = {
+      "bigrust18/media" = {
+        target = "root@deepthought:bigrust20/media";
+        extraArgs = [ "--sshoption=StrictHostKeyChecking=off" ];
+        recursive = true;
+      };
+    };
+    commonArgs = [ "--debug"];
+  };
+
   virtualisation = {
     docker = {
       enable = true;
       autoPrune = {
         enable = true;
         dates = "weekly";
+      };
+    };
+  };
+
+  services.samba-wsdd.enable = true; # make shares visible for windows 10 clients
+  services.samba = {
+    enable = true;
+    securityType = "user";
+    extraConfig = ''
+      workgroup = WORKGROUP
+      server string = morphnix
+      netbios name = morphnix
+      security = user
+      guest ok = yes
+      guest account = nobody
+      map to guest = bad user
+      load printers = no
+    '';
+    shares = {
+      jbod = {
+        path = "/mnt/jbod";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "alex";
+        "force group" = "users";
+      };
+      bigrust18 = {
+        path = "/mnt/bigrust18";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "alex";
+        "force group" = "users";
+      };
+      downloads = {
+        path = "/mnt/downloads";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "alex";
+        "force group" = "users";
       };
     };
   };
