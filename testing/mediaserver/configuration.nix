@@ -2,6 +2,7 @@
 {
   imports = [
       ./hardware-configuration.nix
+      (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
     ];
 
   boot.loader.systemd-boot.enable = true;
@@ -137,6 +138,8 @@
       };
     };
   };
+
+  services.vscode-server.enable = true;
 
   services.samba-wsdd.enable = true; # make shares visible for windows 10 clients
   services.samba = {
