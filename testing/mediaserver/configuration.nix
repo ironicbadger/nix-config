@@ -155,37 +155,21 @@
       map to guest = bad user
       load printers = no
     '';
-    shares = {
-      jbod = {
-        path = "/mnt/jbod";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "yes";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "alex";
-        "force group" = "users";
-      };
-      bigrust18 = {
-        path = "/mnt/bigrust18";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "yes";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "alex";
-        "force group" = "users";
-      };
-      downloads = {
-        path = "/mnt/downloads";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "yes";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "alex";
-        "force group" = "users";
-      };
+    shares = let
+    mkShare = path: {
+      path = path;
+      browseable = "yes";
+      "read only" = "no";
+      "guest ok" = "yes";
+      "create mask" = "0644";
+      "directory mask" = "0755";
+      "force user" = "alex";
+      "force group" = "users";
+    };
+    in {
+      jbod = mkShare "/mnt/jbod";
+      bigrust18 = mkShare "/mnt/bigrust18";
+      downloads = mkShare "/mnt/downloads";
     };
   };
 
