@@ -6,6 +6,6 @@
     vscode-server.url = "github:nix-community/nixos-vscode-server";
   };
 
-  outputs = { nixpkgs, ... }@inputs:
+  outputs = { nixpkgs, ... }@inputs: { };
 
-};
+}
