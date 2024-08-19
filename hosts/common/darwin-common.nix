@@ -124,7 +124,7 @@ in
       "viscosity"
       "visual-studio-code"
       "vlc"
-      "whisky"
+      #"whisky"
       "wireshark"
       "yubico-yubikey-manager"
 
