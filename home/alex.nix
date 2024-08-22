@@ -115,8 +115,7 @@
   programs.ssh = {
     enable = true;
     extraConfig = ''
-    Host *
-      StrictHostKeyChecking no
+  StrictHostKeyChecking no
     '';
     matchBlocks = {
       # wd
