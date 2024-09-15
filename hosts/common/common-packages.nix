@@ -44,6 +44,7 @@
     mc
     mosh
     neofetch
+    nixos-rebuild
     nmap
     qemu
     ripgrep
