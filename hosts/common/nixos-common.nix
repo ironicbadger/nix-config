@@ -17,6 +17,11 @@ in
       options = "--delete-older-than 5";
     };
   };
+  nix.distributedBuilds = true;
+  # Speeds things up by downloading dependencies remotely:
+  nix.extraOptions = ''
+    builders-use-substitutes = true
+  '';
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [

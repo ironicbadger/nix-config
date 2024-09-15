@@ -12,7 +12,7 @@
     bitwarden-cli
     btop
     coreutils
-    devbox
+    #devbox
     diffr # Modern Unix `diff`
     difftastic # Modern Unix `diff`
     dua # Modern Unix `du`
@@ -22,6 +22,7 @@
     drill
     entr # Modern Unix `watch`
     esptool
+    fastfetch
     ffmpeg
     fira-code
     fira-mono
