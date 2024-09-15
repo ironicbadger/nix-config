@@ -12,22 +12,19 @@
 
   networking.hostName = "nix-nvllama";
   networking.networkmanager.enable = true;
-
-  hardware.opengl.enable = true;
-  hardware.opengl.driSupport32Bit = true;
+  networking.localCommands = ''
+    ip rule add to 10.42.0.0/20 priority 2500 lookup main
+  '';
 
   time.timeZone = "America/New_York";
-
   i18n.defaultLocale = "en_US.UTF-8";
 
   services.xserver = {
-    enable = true;
-    layout = "us";
-    xkbVariant = "";
+    enable = false;
     videoDrivers = [ "nvidia" ];
   };
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  #services.xserver.displayManager.gdm.enable = true;
+  #services.xserver.desktopManager.gnome.enable = true;
 
   users.users.alex = {
     isNormalUser = true;
@@ -51,9 +48,13 @@
          ]))
   ];
 
+  hardware.opengl.enable = true;
+  hardware.opengl.driSupport32Bit = true;
   hardware.nvidia.modesetting.enable = true;
+  hardware.nvidia.open = false;
   hardware.nvidia.nvidiaSettings = true;
   hardware.nvidia.powerManagement.enable = true;
+  hardware.nvidia-container-toolkit.enable = true;
 
   # List services that you want to enable:
   services.openssh.enable = true;
@@ -61,14 +62,22 @@
   services.tailscale.enable = true;
 
   virtualisation = {
+    containers.enable = true;
     docker = {
       enable = true;
-      enableNvidia = true;
+      package = pkgs.docker_27;
+      #enableNvidia = true;
       autoPrune = {
         enable = true;
         dates = "weekly";
       };
     };
+  };
+
+  fileSystems."/mnt/jbod" = {
+    device = "//10.42.1.10/jbod";
+    fsType = "cifs";
+    options = [ "username=alex" "password=awdpign23" "x-systemd.automount" "noauto" ];
   };
 
   system.stateVersion = "23.11"; # Did you read the comment?
