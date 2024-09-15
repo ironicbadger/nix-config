@@ -16,6 +16,21 @@ in
   services.nix-daemon.enable = true;
   system.stateVersion = 5;
 
+  # Add remote build machine
+  nix.buildMachines = [{
+    hostName = "builder";
+    system = "x86_64-linux";
+    maxJobs = 1;
+    speedFactor = 2;
+    supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" "x86_64-linux"];
+    mandatoryFeatures = [ ];
+  }];
+  nix.distributedBuilds = true;
+  # Speeds things up by downloading dependencies remotely:
+  nix.extraOptions = ''
+    builders-use-substitutes = true
+  '';
+
   # pins to stable as unstable updates very often
   #nix.registry.nixpkgs.flake = inputs.nixpkgs;
   nix.registry = {

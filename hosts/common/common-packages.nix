@@ -4,6 +4,7 @@
     ## unstable
     unstablePkgs.yt-dlp
     unstablePkgs.get_iplayer
+    unstablePkgs.colmena
 
     ## stable
     ansible

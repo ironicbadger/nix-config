@@ -131,6 +131,10 @@
         hostname = "10.42.1.20";
         user = "root";
       };
+      "builder" = {
+        hostname = "10.42.1.13";
+        user = "root";
+      };
       "bricktop" = {
         hostname = "10.42.1.80";
         user = "pi";
