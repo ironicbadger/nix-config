@@ -99,6 +99,7 @@
         # servers
         morphnix = nixosSystem "x86_64-linux" "morphnix" "alex";
         nix-dev = nixosSystem "x86_64-linux" "nix-dev" "alex";
+        nixApp = nixosSystem "x86_64-linux" "nixApp" "alex";
 
         # test system
         yeager = nixosSystem "x86_64-linux" "yeager" "alex";

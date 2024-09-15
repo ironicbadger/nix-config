@@ -4,6 +4,7 @@
     ## unstable
     unstablePkgs.yt-dlp
     unstablePkgs.get_iplayer
+    unstablePkgs.colmena
 
     ## stable
     ansible
@@ -11,7 +12,7 @@
     bitwarden-cli
     btop
     coreutils
-    devbox
+    #devbox
     diffr # Modern Unix `diff`
     difftastic # Modern Unix `diff`
     dua # Modern Unix `du`
@@ -21,6 +22,7 @@
     drill
     entr # Modern Unix `watch`
     esptool
+    fastfetch
     ffmpeg
     fira-code
     fira-mono
@@ -43,6 +45,7 @@
     mc
     mosh
     neofetch
+    nixos-rebuild
     nmap
     qemu
     ripgrep
