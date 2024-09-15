@@ -20,7 +20,7 @@ in
   nix.buildMachines = [{
     hostName = "builder";
     system = "x86_64-linux";
-    maxJobs = 1;
+    maxJobs = 16;
     speedFactor = 2;
     supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" "x86_64-linux"];
     mandatoryFeatures = [ ];
