@@ -89,6 +89,7 @@
   '';
   };
 
+  services.fstrim.enable = true;
   services.fwupd.enable = true;
   services.openssh = {
     enable = true;
