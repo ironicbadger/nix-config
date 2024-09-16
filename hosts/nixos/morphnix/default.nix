@@ -2,6 +2,7 @@
 {
   imports = [
       ./hardware-configuration.nix
+      (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
     ];
 
   boot.loader.systemd-boot.enable = true;
@@ -23,6 +24,7 @@
   programs.bash.interactiveShellInit = "figurine -f \"3d.flf\" morphnix";
 
   environment.systemPackages = with pkgs; [
+    bc
     devbox
     gcc
     dig
@@ -34,9 +36,11 @@
     intel-gpu-tools
     inxi
     iotop
+    jq
     lm_sensors
     mergerfs
     mc
+    molly-guard
     ncdu
     nmap
     nvme-cli
@@ -51,10 +55,12 @@
     smartmontools
     e2fsprogs # badblocks
 
-    # sanoid
+    # zfs send/rec with sanoid/syncoid
     sanoid
     lzop
     mbuffer
+    pv
+    zstd
 
     ansible
     python3
@@ -68,7 +74,7 @@
     firewall.enable = false;
     hostName = "morphnix";
     interfaces = {
-      eno1 = {
+      enp13s0 = {
         useDHCP = false;
         ipv4.addresses = [ {
           address = "10.42.1.10";
@@ -78,8 +84,22 @@
     };
     defaultGateway = "10.42.0.254";
     nameservers = [ "10.42.0.253" ];
+  localCommands = ''
+    ip rule add to 10.42.0.0/20 priority 2500 lookup main
+  '';
   };
 
+  virtualisation = {
+    docker = {
+      enable = true;
+      autoPrune = {
+        enable = true;
+        dates = "weekly";
+      };
+    };
+  };
+
+  services.fstrim.enable = true;
   services.fwupd.enable = true;
   services.openssh = {
     enable = true;
@@ -89,13 +109,68 @@
   };
   services.tailscale.enable = true;
 
-  virtualisation = {
-    docker = {
-      enable = true;
-      autoPrune = {
-        enable = true;
-        dates = "weekly";
+  services.sanoid = {
+    enable = true;
+    interval = "hourly";
+    templates.backupmedia = {
+      daily = 3;
+      monthly = 3;
+      autoprune = true;
+      autosnap = true;
+    };
+
+    datasets."bigrust18/media" = {
+      useTemplate = [ "backupmedia" ];
+      recursive = true;
+    };
+    extraArgs = [ "--debug" ];
+  };
+
+  services.syncoid = {
+    enable = true;
+    user = "root";
+    interval = "hourly";
+    commands = {
+      "bigrust18/media" = {
+        target = "root@deepthought:bigrust20/media";
+        extraArgs = [ "--sshoption=StrictHostKeyChecking=off" ];
+        recursive = true;
       };
+    };
+    commonArgs = [ "--debug"];
+  };
+
+  services.vscode-server.enable = true;
+
+  services.samba-wsdd.enable = true; # make shares visible for windows 10 clients
+  services.samba = {
+    enable = true;
+    securityType = "user";
+    extraConfig = ''
+      workgroup = WORKGROUP
+      server string = morphnix
+      netbios name = morphnix
+      security = user
+      guest ok = yes
+      guest account = nobody
+      map to guest = bad user
+      load printers = no
+    '';
+    shares = let
+    mkShare = path: {
+      path = path;
+      browseable = "yes";
+      "read only" = "no";
+      "guest ok" = "yes";
+      "create mask" = "0644";
+      "directory mask" = "0755";
+      "force user" = "alex";
+      "force group" = "users";
+    };
+    in {
+      jbod = mkShare "/mnt/jbod";
+      bigrust18 = mkShare "/mnt/bigrust18";
+      downloads = mkShare "/mnt/downloads";
     };
   };
 
