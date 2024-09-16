@@ -1,4 +1,5 @@
 { config, lib, pkgs, modulesPath, ... }:
+
 {
   imports =
     [ (modulesPath + "/installer/scan/not-detected.nix")
@@ -26,15 +27,29 @@
     };
 
   swapDevices = [];
-    #[ { device = "/dev/disk/by-uuid/1b81359f-61fa-4345-9dfa-da68ffe68212"; }
-    #  { device = "/dev/disk/by-uuid/95104585-1624-411b-809e-a6c5bc39793e"; }
-    #];
 
-# zfs disks
-# "/dev/disk/by-id/ata-WDC_WD180EDGZ-11B9PA0_2GH0M6HS-part1"
-# "/dev/disk/by-id/ata-WDC_WD180EDGZ-11B9PA0_2TGGDS5Z-part1";
-# "/dev/disk/by-id/ata-WDC_WD180EDGZ-11B9PA0_3ZGA70DZ-part1";
+## zfs disks
+############
+## rpool - boot mirror
+# ata-Samsung_SSD_870_EVO_1TB_S6PTNM0TA60489X
+# ata-Samsung_SSD_870_EVO_1TB_S6PTNZ0T331139A
+#
+## nvme-appdata - mirrored nvme ssds for appdata
+# nvme-Samsung_SSD_970_EVO_Plus_2TB_S59CNJ0N604556L
+# nvme-Samsung_SSD_990_PRO_2TB_S7KHNJ0WC22256R
+#
+## ssd4tb - downloads and other iops heavy workloads
+# ata-CT4000MX500SSD1_2332E86B4A28
+# ata-CT4000MX500SSD1_2332E86B4BAA
+# ata-CT4000MX500SSD1_2332E86B49E0
+#
+## bigrust18 - primary data pool
+# mirror0 - ata-WDC_WD180EDGZ-11B9PA0_2GH0M6HS
+# mirror0 - ata-WDC_WD180EDGZ-11B9PA0_2TGGDS5Z
+# mirror1 - ata-WDC_WD180EDGZ-11B9PA0_3ZGA70DZ
+# mirror1 - ata-ST20000NM007D-3DJ103_ZVT5JTWC
 
+# media storage disks etc
   fileSystems."/mnt/jbod" =
     { device = "/mnt/disks/disk*";
       fsType = "mergerfs";
