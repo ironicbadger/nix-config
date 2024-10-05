@@ -27,7 +27,7 @@
           };
         };
 
-        cloud = import ./hosts/cloud;
+        ktz-cloud = import ./hosts/ktz-cloud;
       };
     };
 }
