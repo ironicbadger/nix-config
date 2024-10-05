@@ -27,7 +27,7 @@
           };
         };
 
-        ktz-cloud-nix = import ./hosts/ktz-cloud-nix;
+        cloud = import ./hosts/cloud;
       };
     };
 }
