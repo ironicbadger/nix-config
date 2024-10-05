@@ -31,8 +31,5 @@
     python3
   ];
 
-  services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "server";
-
-
 }
