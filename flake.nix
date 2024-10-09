@@ -7,9 +7,6 @@
       nix-darwin.url = "github:lnl7/nix-darwin";
       nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-      #nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-      #nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
-
       home-manager.url = "github:nix-community/home-manager/release-24.05";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -19,80 +16,66 @@
       vscode-server.url = "github:nix-community/nixos-vscode-server";
   };
 
-  outputs = inputs@{ self
-    , nixpkgs, nixpkgs-unstable, nixpkgs-darwin
-    , home-manager, nix-darwin, disko, vscode-server, nixos-hardware, ... }:
+  outputs = { ... }@inputs:
+    with inputs;
     let
-      inputs = { inherit disko home-manager nixpkgs nixpkgs-unstable nix-darwin; };
+      inherit (self) outputs;
 
-      genPkgs = system: import nixpkgs { inherit system; config.allowUnfree = true; };
-      genUnstablePkgs = system: import nixpkgs-unstable { inherit system; config.allowUnfree = true; };
-      genDarwinPkgs = system: import nixpkgs-darwin { inherit system; config.allowUnfree = true; };
+      stateVersion = "24.05";
+      libz = import ./lib { inherit inputs outputs stateVersion; };
+
+      #genPkgs = system: import nixpkgs { inherit system; config.allowUnfree = true; };
+      #genUnstablePkgs = system: import nixpkgs-unstable { inherit system; config.allowUnfree = true; };
+      #genDarwinPkgs = system: import nixpkgs-darwin { inherit system; config.allowUnfree = true; };
 
       # creates a nixos system config
-      nixosSystem = system: hostname: username:
-        let
-          pkgs = genPkgs system;
-          unstablePkgs = genUnstablePkgs system;
-        in
-          nixpkgs.lib.nixosSystem {
-            inherit system;
-            specialArgs = {
-              inherit pkgs unstablePkgs;
-              # lets us use these things in modules
-              customArgs = { inherit system hostname username pkgs unstablePkgs; };
-            };
-            modules = [
-              #disko.nixosModules.disko
-              #./hosts/nixos/${hostname}/disko-config.nix
+      # nixosSystem = system: hostname: username:
+      #   let
+      #     pkgs = genPkgs system;
+      #     unstablePkgs = genUnstablePkgs system;
+      #   in
+      #     nixpkgs.lib.nixosSystem {
+      #       inherit system;
+      #       specialArgs = {
+      #         inherit pkgs unstablePkgs;
+      #         # lets us use these things in modules
+      #         customArgs = { inherit system hostname username pkgs unstablePkgs; };
+      #       };
+      #       modules = [
+      #         #disko.nixosModules.disko
+      #         #./hosts/nixos/${hostname}/disko-config.nix
 
-              ./hosts/nixos/${hostname}
+      #         ./hosts/nixos/${hostname}
 
-              vscode-server.nixosModules.default
-              home-manager.nixosModules.home-manager {
-                networking.hostName = hostname;
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
-              }
-              ./hosts/common/nixos-common.nix
-            ];
-          };
+      #         vscode-server.nixosModules.default
+      #         home-manager.nixosModules.home-manager {
+      #           networking.hostName = hostname;
+      #           home-manager.useGlobalPkgs = true;
+      #           home-manager.useUserPackages = true;
+      #           home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
+      #         }
+      #         ./hosts/common/nixos-common.nix
+      #       ];
+      #     };
 
       # creates a macos system config
-      darwinSystem = system: hostname: username:
-        let
-          pkgs = genDarwinPkgs system;
-        in
-          nix-darwin.lib.darwinSystem {
-            inherit system inputs;
-            specialArgs = {
-              # adds unstable to be available in top-level evals (like in common-packages)
-              unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+      #lib.mkDarwin
+      #darwinSystem = system: hostname: username:
 
-              # lets us use these things in modules
-              customArgs = { inherit system hostname username pkgs; };
-            };
-            modules = [
-              ./hosts/darwin/${hostname} # ip address, host specific stuff
-              home-manager.darwinModules.home-manager {
-                networking.hostName = hostname;
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
-              }
-              ./hosts/common/darwin-common.nix
-            ];
-          };
     in {
       darwinConfigurations = {
-        slartibartfast = darwinSystem "aarch64-darwin" "slartibartfast" "alex";
-        awesomo = darwinSystem "aarch64-darwin" "awesomo" "alex";
-        wallace = darwinSystem "aarch64-darwin" "wallace" "alex";
 
-        # work
-        baldrick = darwinSystem "aarch64-darwin" "baldrick" "alex";
-        magrathea = darwinSystem "aarch64-darwin" "magrathea" "alex";
+        slartibartfast = libz.mkDarwin {
+          hostname = "slartibartfast";
+        };
+
+        #slartibartfast = darwinSystem "aarch64-darwin" "slartibartfast" "alex";
+        # awesomo = darwinSystem "aarch64-darwin" "awesomo" "alex";
+        # wallace = darwinSystem "aarch64-darwin" "wallace" "alex";
+
+        # # work
+        # baldrick = darwinSystem "aarch64-darwin" "baldrick" "alex";
+        # magrathea = darwinSystem "aarch64-darwin" "magrathea" "alex";
       };
 
       nixosConfigurations = {
