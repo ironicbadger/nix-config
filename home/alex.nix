@@ -140,7 +140,7 @@
         user = "pi";
       };
       "z zoidberg" = {
-        hostname = "10.42.1.42";
+        hostname = "100.88.250.125";
         user = "root";
       };
       "m1" = {
