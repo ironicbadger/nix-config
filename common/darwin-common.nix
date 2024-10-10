@@ -118,7 +118,7 @@ in
       "viscosity"
       "visual-studio-code"
       "vlc"
-      # "iterm2"
+      "iterm2"
       # "lm-studio"
 
       # # rogue amoeba
