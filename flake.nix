@@ -7,13 +7,18 @@
       nix-darwin.url = "github:lnl7/nix-darwin";
       nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
+      nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+      homebrew-core = { url = "github:homebrew/homebrew-core"; flake = false; };
+      homebrew-cask = { url = "github:homebrew/homebrew-cask"; flake = false; };
+      homebrew-bundle = { url = "github:homebrew/homebrew-bundle"; flake = false; };
+
       home-manager.url = "github:nix-community/home-manager/release-24.05";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-      disko.url = "github:nix-community/disko";
-      disko.inputs.nixpkgs.follows = "nixpkgs";
+      # disko.url = "github:nix-community/disko";
+      # disko.inputs.nixpkgs.follows = "nixpkgs";
 
-      vscode-server.url = "github:nix-community/nixos-vscode-server";
+      # vscode-server.url = "github:nix-community/nixos-vscode-server";
   };
 
   outputs = { ... }@inputs:
@@ -58,16 +63,10 @@
       #       ];
       #     };
 
-      # creates a macos system config
-      #lib.mkDarwin
-      #darwinSystem = system: hostname: username:
-
     in {
       darwinConfigurations = {
 
-        slartibartfast = libx.mkDarwin {
-          hostname = "slartibartfast";
-        };
+        slartibartfast = libx.mkDarwin { hostname = "slartibartfast"; };
 
         #slartibartfast = darwinSystem "aarch64-darwin" "slartibartfast" "alex";
         # awesomo = darwinSystem "aarch64-darwin" "awesomo" "alex";

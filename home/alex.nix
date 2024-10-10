@@ -87,7 +87,6 @@
   programs.home-manager.enable = true;
   programs.nix-index.enable = true;
 
-
   programs.alacritty.enable = true;
   # programs.alacritty.settings = import ./.config/alacritty.toml;
   # xdg.configFile."alacritty.toml" = {
@@ -129,10 +128,6 @@
       };
       "a anton" = {
         hostname = "10.42.1.20";
-        user = "root";
-      };
-      "builder" = {
-        hostname = "10.42.1.13";
         user = "root";
       };
       "bricktop" = {

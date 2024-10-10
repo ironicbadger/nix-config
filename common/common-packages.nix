@@ -4,18 +4,10 @@ let
 in
 {
   environment.systemPackages = with pkgs; [
-    ## unstable
-    unstablePkgs.yt-dlp
-    unstablePkgs.get_iplayer
-    unstablePkgs.colmena
-
     ## stable
     ansible
-    asciinema
-    bitwarden-cli
     btop
     coreutils
-    #devbox
     diffr # Modern Unix `diff`
     difftastic # Modern Unix `diff`
     dua # Modern Unix `du`
@@ -32,11 +24,11 @@ in
     fd
     figurine
     #fzf # programs.fzf
-    git # programs.git
+    #git # programs.git
     gh
     go
     gnused
-    htop # programs.htop
+    #htop # programs.htop
     hub
     hugo
     iperf3
@@ -47,15 +39,13 @@ in
     kubectl
     mc
     mosh
-    neofetch
-    nixos-rebuild
     nmap
     qemu
     ripgrep
     skopeo
     smartmontools
     terraform
-    tmux
+    #tmux
     tree
     unzip
     watch
