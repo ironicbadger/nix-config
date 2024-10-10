@@ -36,10 +36,8 @@ in
     pkgs.mkalias
     pkgs.obsidian
     pkgs.openscad
-    pkgs.ollama
     pkgs.prusa-slicer
     pkgs.spotify
-    pkgs.slack
     pkgs.vscode
 
     ## stable CLI
@@ -117,15 +115,11 @@ in
       # "tailscale"
     #];
     casks = [
-      # #"alfred" # you are on alfred4 not 5
-      # #"autodesk-fusion360" # slow and unreliable to install
-      # "balenaetcher"
+      "balenaetcher"
       "bambu-studio"
-      # #"canon-eos-utility" #old version and v3 not in repo
-      # "discord"
       "displaylink"
       "docker" # specified here for docker-desktop for mac
-      # "element"
+      "element"
       "firefox"
       "font-fira-code-nerd-font"
       "font-hack-nerd-font"
@@ -133,35 +127,24 @@ in
       "font-meslo-lg-nerd-font"
       "istat-menus"
       # "iterm2"
-      # #"little-snitch"
       # "lm-studio"
       "logitech-options"
       "macwhisper"
       "marta"
-      # "monitorcontrol"
-      # "mpv"
       "mqtt-explorer"
       "nextcloud"
       "notion"
-      # "obs"
-      # "ollama"
+      "obs"
+      "ollama"
       "omnidisksweeper"
-      # "openscad"
       "openttd"
       "plexamp"
-      # "prusaslicer"
-      # "rectangle"
       "signal"
-      # "slack"
-      # "spotify"
+      "slack"
       "steam"
       # "thunderbird"
       "viscosity"
-      # "visual-studio-code"
-      # "vlc"
-      # #"whisky"
-      # "wireshark"
-      # "yubico-yubikey-manager"
+      "vlc"
 
       # # rogue amoeba
       "audio-hijack"
