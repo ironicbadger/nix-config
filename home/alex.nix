@@ -28,13 +28,13 @@
       };
       merge = {
         conflictStyle = "diff3";
-          tool = "meld";
-        };
-        pull = {
-          rebase = false;
-        };
+        tool = "meld";
       };
-    }; # end git
+      pull = {
+        rebase = false;
+      };
+    };
+  };
 
   programs.htop = {
     enable = true;
@@ -42,22 +42,6 @@
   };
 
   programs.lf.enable = true;
-
-  # programs.fish = {
-  #   enable = true;
-  #   interactiveShellInit = ''
-  #     set fish_greeting # Disable greeting
-  #   '';
-  #   plugins = [{
-  #       name="foreign-env";
-  #       src = pkgs.fetchFromGitHub {
-  #           owner = "oh-my-fish";
-  #           repo = "plugin-foreign-env";
-  #           rev = "dddd9213272a0ab848d474d0cbde12ad034e65bc";
-  #           sha256 = "00xqlyl3lffc5l0viin1nyp819wf81fncqyz87jx8ljjdhilmgbs";
-  #       };
-  #   }];
-  # };
 
   programs.tmux = {
     enable = true;
@@ -80,28 +64,14 @@
     #initExtra = (builtins.readFile ../mac-dot-zshrc);
   };
 
-  # exa deprecated
-  #programs.exa.enable = true;
-  #programs.exa.enableAliases = true;
-
   programs.home-manager.enable = true;
   programs.nix-index.enable = true;
 
-
   programs.alacritty.enable = true;
-  # programs.alacritty.settings = import ./.config/alacritty.toml;
-  # xdg.configFile."alacritty.toml" = {
-  #   text = ''
-  #     [window]
-  #     padding.x = 10
-  #     padding.y = 10
-  #   '';
-  #   #executable = true;
-  # };
 
   programs.bat.enable = true;
   programs.bat.config.theme = "Nord";
-  programs.zsh.shellAliases.cat = "${pkgs.bat}/bin/bat";
+  #programs.zsh.shellAliases.cat = "${pkgs.bat}/bin/bat";
 
   programs.neovim.enable = true;
   programs.neovim.extraPackages = with pkgs; [
@@ -129,10 +99,6 @@
       };
       "a anton" = {
         hostname = "10.42.1.20";
-        user = "root";
-      };
-      "builder" = {
-        hostname = "10.42.1.13";
         user = "root";
       };
       "bricktop" = {

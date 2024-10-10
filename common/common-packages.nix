@@ -1,18 +1,13 @@
-{ pkgs, unstablePkgs, ... }:
+{ inputs, pkgs, unstablePkgs, ... }:
+let
+  inherit (inputs) nixpkgs nixpkgs-unstable;
+in
 {
   environment.systemPackages = with pkgs; [
-    ## unstable
-    unstablePkgs.yt-dlp
-    unstablePkgs.get_iplayer
-    unstablePkgs.colmena
-
     ## stable
     ansible
-    asciinema
-    bitwarden-cli
     btop
     coreutils
-    #devbox
     diffr # Modern Unix `diff`
     difftastic # Modern Unix `diff`
     dua # Modern Unix `du`
@@ -29,12 +24,11 @@
     fd
     figurine
     #fzf # programs.fzf
-    git # programs.git
+    #git # programs.git
     gh
     go
     gnused
-    htop # programs.htop
-    hub
+    #htop # programs.htop
     hugo
     iperf3
     ipmitool
@@ -44,15 +38,13 @@
     kubectl
     mc
     mosh
-    neofetch
-    nixos-rebuild
     nmap
     qemu
     ripgrep
     skopeo
     smartmontools
     terraform
-    tmux
+    #tmux
     tree
     unzip
     watch

@@ -1,4 +1,5 @@
-{ pkgs, lib, inputs, customArgs, ... }:
+{ inputs, outputs, config, lib,
+  hostname, system, username, pkgs, unstablePkgs, ... }:
 let
   inherit (inputs) nixpkgs nixpkgs-unstable;
 in
@@ -7,7 +8,6 @@ in
   users.users.alex.home = "/Users/alex";
 
   nix = {
-    #package = lib.mkDefault pkgs.unstable.nix;
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
       warn-dirty = false;
@@ -16,23 +16,33 @@ in
   services.nix-daemon.enable = true;
   system.stateVersion = 5;
 
-  # Add remote build machine
-  nix.buildMachines = [{
-    hostName = "builder";
-    system = "x86_64-linux";
-    maxJobs = 16;
-    speedFactor = 2;
-    supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" "x86_64-linux"];
-    mandatoryFeatures = [ ];
-  }];
-  nix.distributedBuilds = true;
-  # Speeds things up by downloading dependencies remotely:
-  nix.extraOptions = ''
-    builders-use-substitutes = true
-  '';
+  nixpkgs = {
+    config.allowUnfree = true;
+    hostPlatform = lib.mkDefault "${system}";
+  };
+
+  environment.systemPackages = with pkgs; [
+    ## unstable
+    unstablePkgs.yt-dlp
+    unstablePkgs.get_iplayer
+    unstablePkgs.colmena
+
+    ## stable CLI
+    pkgs.just
+  ];
+
+  fonts.packages = [
+    (pkgs.nerdfonts.override {
+      fonts = [
+        "FiraCode"
+        "FiraMono"
+        "Hack"
+        "JetBrainsMono"
+      ];
+    })
+  ];
 
   # pins to stable as unstable updates very often
-  #nix.registry.nixpkgs.flake = inputs.nixpkgs;
   nix.registry = {
     n.to = {
       type = "path";
@@ -44,66 +54,41 @@ in
     };
   };
 
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.overlays = [
-    (final: prev: lib.optionalAttrs (prev.stdenv.system == "aarch64-darwin") {
-      # Add access to x86 packages system is running Apple Silicon
-      pkgs-x86 = import nixpkgs {
-        system = "x86_64-darwin";
-        config.allowUnfree = true;
-      };
-    })
-  ];
-
-  # Keyboard
-  system.keyboard.enableKeyMapping = true;
-  system.keyboard.remapCapsLockToEscape = false;
-
-  # Add ability to used TouchID for sudo authentication
-  security.pam.enableSudoTouchIdAuth = true;
-
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    promptInit = (builtins.readFile ./../mac-dot-zshrc);
-    #interactiveShellInit = "figurine -f \"3d.flf\" ${customArgs.hostname}";
+    promptInit = (builtins.readFile ./../data/mac-dot-zshrc);
   };
 
   homebrew = {
     enable = true;
+    onActivation.autoUpdate = true;
+    onActivation.cleanup = "zap";
     onActivation.upgrade = true;
-    # updates homebrew packages on activation,
-    # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
-    taps = [
-      #"homebrew/cask-fonts"
-    ];
-    brews = [
+
+    #brews = [
       # home.nix
       # home.packages
-      "argocd"
-      "ata"
-      "doctl"
-      "helm"
-      "flyctl"
-      "lima"
-      "npm"
-      "node"
-      #"superfile"
-      "tailscale"
-    ];
+      # "argocd"
+      # "ata"
+      # "doctl"
+      # "helm"
+      # "flyctl"
+      # "lima"
+      # "npm"
+      # "node"
+      # #"superfile"
+      # "tailscale"
+    #];
     casks = [
-      #"alfred" # you are on alfred4 not 5
-      #"autodesk-fusion360" # slow and unreliable to install
+      "adobe-creative-cloud"
       "alacritty"
       "audacity"
-      #"autodesk-fusion"
       "balenaetcher"
-      "bartender"
       "bambu-studio"
-      #"canon-eos-utility" #old version and v3 not in repo
       "discord"
       "displaylink"
-      "docker"
+      "docker" # specified here for docker-desktop for mac
       "element"
       "firefox"
       "font-fira-code-nerd-font"
@@ -111,40 +96,32 @@ in
       "font-jetbrains-mono-nerd-font"
       "font-meslo-lg-nerd-font"
       "google-chrome"
+      "iina"
       "istat-menus"
-      "iterm2"
-      #"little-snitch"
-      "lm-studio"
       "logitech-options"
       "macwhisper"
       "marta"
-      "monitorcontrol"
-      "mpv"
       "mqtt-explorer"
       "nextcloud"
       "notion"
       "obs"
-      "obsidian"
       "ollama"
       "omnidisksweeper"
       "openscad"
       "openttd"
       "plexamp"
       "prusaslicer"
-      "rectangle"
       "signal"
       "slack"
       "spotify"
       "steam"
-      "thunderbird"
       "viscosity"
       "visual-studio-code"
       "vlc"
-      #"whisky"
-      "wireshark"
-      "yubico-yubikey-manager"
+      # "iterm2"
+      # "lm-studio"
 
-      # rogue amoeba
+      # # rogue amoeba
       "audio-hijack"
       "farrago"
       "loopback"
@@ -156,20 +133,21 @@ in
       "Creator's Best Friend" = 1524172135;
       "Disk Speed Test" = 425264550;
       "iA Writer" = 775737590;
-      #"Ivory for Mastodon by Tapbots" = 2145332318;
+      "Ivory for Mastodon by Tapbots" = 6444602274;
       "Microsoft Remote Desktop" = 1295203466;
       "Reeder" = 1529448980;
       "Resize Master" = 1025306797;
-      # "Steam Link" = 123;
       "Tailscale" = 1475387142;
       "Telegram" = 747648890;
       "The Unarchiver" = 425424353;
       "Todoist" = 585829637;
       "UTM" = 1538878817;
       "Wireguard" = 1451685025;
+      "Yoink" = 457622435;
 
-      # these apps with uk apple id
       "Final Cut Pro" = 424389933;
+
+      # these apps only available via uk apple id
       #"Logic Pro" = 634148309;
       #"MainStage" = 634159523;
       #"Garageband" = 682658836;
@@ -181,6 +159,13 @@ in
       "Pages" = 409201541;
     };
   };
+
+  # Keyboard
+  system.keyboard.enableKeyMapping = true;
+  system.keyboard.remapCapsLockToEscape = false;
+
+  # Add ability to used TouchID for sudo authentication
+  security.pam.enableSudoTouchIdAuth = true;
 
   # macOS configuration
   system.activationScripts.postUserActivation.text = ''
@@ -198,11 +183,18 @@ in
     NSGlobalDomain.NSDocumentSaveNewDocumentsToCloud = false;
     NSGlobalDomain.ApplePressAndHoldEnabled = false;
     NSGlobalDomain.InitialKeyRepeat = 25;
-    NSGlobalDomain.KeyRepeat = 4;
+    NSGlobalDomain.KeyRepeat = 2;
     NSGlobalDomain."com.apple.mouse.tapBehavior" = 1;
     LaunchServices.LSQuarantine = false; # disables "Are you sure?" for new apps
     loginwindow.GuestEnabled = false;
-
+    finder.FXPreferredViewStyle = "Nlsv";
+    dock.persistent-apps = [
+      "${pkgs.google-chrome}/Applications/Google Chrome.app"
+      "/Applications/Telegram.app"
+      "${pkgs.discord}/Applications/Discord.app"
+      "${pkgs.vscode}/Applications/Visual Studio Code.app"
+      "${pkgs.alacritty}/Applications/Alacritty.app"
+    ];
   };
   system.defaults.CustomUserPreferences = {
       "com.apple.finder" = {

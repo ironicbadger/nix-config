@@ -17,16 +17,16 @@ in
       options = "--delete-older-than 5";
     };
   };
-  nix.distributedBuilds = true;
-  # Speeds things up by downloading dependencies remotely:
-  nix.extraOptions = ''
-    builders-use-substitutes = true
-  '';
+  # nix.distributedBuilds = true;
+  # # Speeds things up by downloading dependencies remotely:
+  # nix.extraOptions = ''
+  #   builders-use-substitutes = true
+  # '';
 
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-24.8.6"
-  ];
+  #nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.permittedInsecurePackages = [
+  #   "electron-24.8.6"
+  # ];
 
   environment.systemPackages = with pkgs; [
     # intel-gpu-tools
