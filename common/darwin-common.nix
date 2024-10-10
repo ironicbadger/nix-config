@@ -33,13 +33,10 @@ in
     pkgs.discord
     pkgs.google-chrome
     pkgs.iina
-    #pkgs.nextcloud-client #unsupported platform arch
-    #pkgs.obs-studio #unsupported platform arch
+    pkgs.mkalias
     pkgs.obsidian
-    #pkgs.openttd #unsupported platform arch
     pkgs.openscad
     pkgs.ollama
-    #pkgs.plexamp #unsupported platform arch
     pkgs.prusa-slicer
     pkgs.spotify
     pkgs.slack
@@ -48,6 +45,38 @@ in
     ## stable CLI
     pkgs.just
   ];
+
+  fonts.packages = [
+    (pkgs.nerdfonts.override {
+      fonts = [
+        "FiraCode"
+        "FiraMono"
+        "Hack"
+        "JetBrainsMono"
+      ];
+    })
+  ];
+
+  # spotlight fix for nix apps
+  system.activationScripts.applications.text = let
+    env = pkgs.buildEnv {
+      name = "system-applications";
+      paths = config.environment.systemPackages;
+      pathsToLink = "/Applications";
+    };
+  in
+    pkgs.lib.mkForce ''
+    # Set up applications.
+    echo "setting up /Applications..." >&2
+    rm -rf /Applications/Nix\ Apps
+    mkdir -p /Applications/Nix\ Apps
+    find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
+    while read src; do
+      app_name=$(basename "$src")
+      echo "copying $src" >&2
+      ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
+    done
+        '';
 
   # pins to stable as unstable updates very often
   nix.registry = {

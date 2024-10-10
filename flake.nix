@@ -29,65 +29,30 @@
       stateVersion = "24.05";
       libx = import ./lib { inherit inputs outputs stateVersion; };
 
-      #genPkgs = system: import nixpkgs { inherit system; config.allowUnfree = true; };
-      #genUnstablePkgs = system: import nixpkgs-unstable { inherit system; config.allowUnfree = true; };
-      #genDarwinPkgs = system: import nixpkgs-darwin { inherit system; config.allowUnfree = true; };
-
-      # creates a nixos system config
-      # nixosSystem = system: hostname: username:
-      #   let
-      #     pkgs = genPkgs system;
-      #     unstablePkgs = genUnstablePkgs system;
-      #   in
-      #     nixpkgs.lib.nixosSystem {
-      #       inherit system;
-      #       specialArgs = {
-      #         inherit pkgs unstablePkgs;
-      #         # lets us use these things in modules
-      #         customArgs = { inherit system hostname username pkgs unstablePkgs; };
-      #       };
-      #       modules = [
-      #         #disko.nixosModules.disko
-      #         #./hosts/nixos/${hostname}/disko-config.nix
-
-      #         ./hosts/nixos/${hostname}
-
-      #         vscode-server.nixosModules.default
-      #         home-manager.nixosModules.home-manager {
-      #           networking.hostName = hostname;
-      #           home-manager.useGlobalPkgs = true;
-      #           home-manager.useUserPackages = true;
-      #           home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
-      #         }
-      #         ./hosts/common/nixos-common.nix
-      #       ];
-      #     };
-
     in {
+
       darwinConfigurations = {
-
+        # personal
         slartibartfast = libx.mkDarwin { hostname = "slartibartfast"; };
+        mac-studio = libx.mkDarwin { hostname = "mac-studio"; };
+        mooncake = libx.mkDarwin { hostname = "mooncake"; };
 
-        #slartibartfast = darwinSystem "aarch64-darwin" "slartibartfast" "alex";
-        # awesomo = darwinSystem "aarch64-darwin" "awesomo" "alex";
-        # wallace = darwinSystem "aarch64-darwin" "wallace" "alex";
-
-        # # work
-        # baldrick = darwinSystem "aarch64-darwin" "baldrick" "alex";
-        # magrathea = darwinSystem "aarch64-darwin" "magrathea" "alex";
+        # work
+        baldrick = libx.mkDarwin { hostname = "baldrick"; };
+        magrathea = libx.mkDarwin { hostname = "magrathea"; };
       };
 
       nixosConfigurations = {
-        # servers
-        morphnix = nixosSystem "x86_64-linux" "morphnix" "alex";
-        nix-dev = nixosSystem "x86_64-linux" "nix-dev" "alex";
-        nixApp = nixosSystem "x86_64-linux" "nixApp" "alex";
+        # # servers
+        # morphnix = nixosSystem "x86_64-linux" "morphnix" "alex";
+        # nix-dev = nixosSystem "x86_64-linux" "nix-dev" "alex";
+        # nixApp = nixosSystem "x86_64-linux" "nixApp" "alex";
 
-        # test system
-        yeager = nixosSystem "x86_64-linux" "yeager" "alex";
+        # # test system
+        # yeager = nixosSystem "x86_64-linux" "yeager" "alex";
 
-        # use this for a blank ISO + disko to work
-        nixos = nixosSystem "x86_64-linux" "nixos" "alex";
+        # # use this for a blank ISO + disko to work
+        # nixos = nixosSystem "x86_64-linux" "nixos" "alex";
       };
     };
 
