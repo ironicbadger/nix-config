@@ -27,19 +27,6 @@ in
     unstablePkgs.get_iplayer
     unstablePkgs.colmena
 
-    ## stable GUI
-    pkgs.alacritty
-    pkgs.audacity
-    pkgs.discord
-    pkgs.google-chrome
-    pkgs.iina
-    pkgs.mkalias
-    pkgs.obsidian
-    pkgs.openscad
-    pkgs.prusa-slicer
-    pkgs.spotify
-    pkgs.vscode
-
     ## stable CLI
     pkgs.just
   ];
@@ -54,27 +41,6 @@ in
       ];
     })
   ];
-
-  # spotlight fix for nix apps
-  system.activationScripts.applications.text = let
-    env = pkgs.buildEnv {
-      name = "system-applications";
-      paths = config.environment.systemPackages;
-      pathsToLink = "/Applications";
-    };
-  in
-    pkgs.lib.mkForce ''
-    # Set up applications.
-    echo "setting up /Applications..." >&2
-    rm -rf /Applications/Nix\ Apps
-    mkdir -p /Applications/Nix\ Apps
-    find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
-    while read src; do
-      app_name=$(basename "$src")
-      echo "copying $src" >&2
-      ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
-    done
-        '';
 
   # pins to stable as unstable updates very often
   nix.registry = {
@@ -116,8 +82,11 @@ in
     #];
     casks = [
       "adobe-creative-cloud"
+      "alacritty"
+      "audacity"
       "balenaetcher"
       "bambu-studio"
+      "discord"
       "displaylink"
       "docker" # specified here for docker-desktop for mac
       "element"
@@ -126,9 +95,9 @@ in
       "font-hack-nerd-font"
       "font-jetbrains-mono-nerd-font"
       "font-meslo-lg-nerd-font"
+      "google-chrome"
+      "iina"
       "istat-menus"
-      # "iterm2"
-      # "lm-studio"
       "logitech-options"
       "macwhisper"
       "marta"
@@ -138,13 +107,19 @@ in
       "obs"
       "ollama"
       "omnidisksweeper"
+      "openscad"
       "openttd"
       "plexamp"
+      "prusaslicer"
       "signal"
       "slack"
+      "spotify"
       "steam"
       "viscosity"
+      "visual-studio-code"
       "vlc"
+      # "iterm2"
+      # "lm-studio"
 
       # # rogue amoeba
       "audio-hijack"
