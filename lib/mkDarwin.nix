@@ -1,7 +1,6 @@
 { inputs, outputs, system ? "aarch64-darwin", username ? "alex", ... }:
 let
     #pkgs = system: import nixpkgs-darwin { inherit system; config.allowUnfree = true; }; system;
-    a = "123";
 in
     inputs.nix-darwin.lib.darwinSystem {
         inherit system inputs;
