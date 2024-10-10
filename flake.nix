@@ -22,7 +22,7 @@
       inherit (self) outputs;
 
       stateVersion = "24.05";
-      libz = import ./lib { inherit inputs outputs stateVersion; };
+      libx = import ./lib { inherit inputs outputs stateVersion; };
 
       #genPkgs = system: import nixpkgs { inherit system; config.allowUnfree = true; };
       #genUnstablePkgs = system: import nixpkgs-unstable { inherit system; config.allowUnfree = true; };
@@ -65,7 +65,7 @@
     in {
       darwinConfigurations = {
 
-        slartibartfast = libz.mkDarwin {
+        slartibartfast = libx.mkDarwin {
           hostname = "slartibartfast";
         };
 
