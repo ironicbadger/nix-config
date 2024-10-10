@@ -28,13 +28,13 @@
       };
       merge = {
         conflictStyle = "diff3";
-          tool = "meld";
-        };
-        pull = {
-          rebase = false;
-        };
+        tool = "meld";
       };
-    }; # end git
+      pull = {
+        rebase = false;
+      };
+    };
+  };
 
   programs.htop = {
     enable = true;
@@ -63,10 +63,6 @@
     autosuggestion.enable = true;
     #initExtra = (builtins.readFile ../mac-dot-zshrc);
   };
-
-  # exa deprecated
-  #programs.exa.enable = true;
-  #programs.exa.enableAliases = true;
 
   programs.home-manager.enable = true;
   programs.nix-index.enable = true;
