@@ -12,11 +12,12 @@
       system ? "aarch64-darwin",
     }:
     let
-        #pkgs = system: import nixpkgs-darwin { inherit system; config.allowUnfree = true; }; system;
+        genUnstablePkgs = system: import inputs.nixpkgs-unstable { inherit system; config.allowUnfree = true; };
+        unstablePkgs = genUnstablePkgs system;
     in
     inputs.nix-darwin.lib.darwinSystem {
         specialArgs = {
-            inherit system inputs;
+            inherit system inputs unstablePkgs;
         };
         modules = [
             ../common/common-packages.nix

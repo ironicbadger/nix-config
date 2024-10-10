@@ -1,10 +1,13 @@
-{ pkgs, ... }:
+{ inputs, pkgs, unstablePkgs, ... }:
+let
+  inherit (inputs) nixpkgs nixpkgs-unstable;
+in
 {
   environment.systemPackages = with pkgs; [
     ## unstable
-    # unstablePkgs.yt-dlp
-    # unstablePkgs.get_iplayer
-    # unstablePkgs.colmena
+    unstablePkgs.yt-dlp
+    unstablePkgs.get_iplayer
+    unstablePkgs.colmena
 
     ## stable
     ansible
