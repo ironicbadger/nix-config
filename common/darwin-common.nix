@@ -142,7 +142,6 @@ in
       "signal"
       "slack"
       "steam"
-      # "thunderbird"
       "viscosity"
       "vlc"
 
@@ -158,11 +157,10 @@ in
       "Creator's Best Friend" = 1524172135;
       "Disk Speed Test" = 425264550;
       "iA Writer" = 775737590;
-      #"Ivory for Mastodon by Tapbots" = 2145332318;
+      "Ivory for Mastodon by Tapbots" = 6444602274;
       "Microsoft Remote Desktop" = 1295203466;
       "Reeder" = 1529448980;
       "Resize Master" = 1025306797;
-      # "Steam Link" = 123;
       "Tailscale" = 1475387142;
       "Telegram" = 747648890;
       "The Unarchiver" = 425424353;
@@ -171,8 +169,9 @@ in
       "Wireguard" = 1451685025;
       "Yoink" = 457622435;
 
-      # these apps with uk apple id
       "Final Cut Pro" = 424389933;
+
+      # these apps only available via uk apple id
       #"Logic Pro" = 634148309;
       #"MainStage" = 634159523;
       #"Garageband" = 682658836;
