@@ -29,7 +29,6 @@ in
     go
     gnused
     #htop # programs.htop
-    hub
     hugo
     iperf3
     ipmitool
