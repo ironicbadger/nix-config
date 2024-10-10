@@ -1,4 +1,4 @@
-{ pkgs, lib, inputs, customArgs, ... }:
+{ inputs, outputs, config, lib, hostname, system, username, ... }:
 let
   inherit (inputs) nixpkgs nixpkgs-unstable;
 in
@@ -16,21 +16,6 @@ in
   services.nix-daemon.enable = true;
   system.stateVersion = 5;
 
-  # Add remote build machine
-  nix.buildMachines = [{
-    hostName = "builder";
-    system = "x86_64-linux";
-    maxJobs = 16;
-    speedFactor = 2;
-    supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" "x86_64-linux"];
-    mandatoryFeatures = [ ];
-  }];
-  nix.distributedBuilds = true;
-  # Speeds things up by downloading dependencies remotely:
-  nix.extraOptions = ''
-    builders-use-substitutes = true
-  '';
-
   # pins to stable as unstable updates very often
   #nix.registry.nixpkgs.flake = inputs.nixpkgs;
   nix.registry = {
@@ -44,16 +29,20 @@ in
     };
   };
 
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.overlays = [
-    (final: prev: lib.optionalAttrs (prev.stdenv.system == "aarch64-darwin") {
-      # Add access to x86 packages system is running Apple Silicon
-      pkgs-x86 = import nixpkgs {
-        system = "x86_64-darwin";
-        config.allowUnfree = true;
-      };
-    })
-  ];
+  nixpkgs = {
+    config.allowUnfree = true;
+    hostPlatform = lib.mkDefault "${system}";
+  };
+
+  # nixpkgs.config.overlays = [
+  #   (final: prev: lib.optionalAttrs (prev.stdenv.system == "aarch64-darwin") {
+  #     # Add access to x86 packages system is running Apple Silicon
+  #     pkgs-x86 = import nixpkgs {
+  #       system = "x86_64-darwin";
+  #       config.allowUnfree = true;
+  #     };
+  #   })
+  # ];
 
   # Keyboard
   system.keyboard.enableKeyMapping = true;
@@ -65,7 +54,7 @@ in
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    promptInit = (builtins.readFile ./../mac-dot-zshrc);
+    promptInit = (builtins.readFile ./../data/mac-dot-zshrc);
     #interactiveShellInit = "figurine -f \"3d.flf\" ${customArgs.hostname}";
   };
 

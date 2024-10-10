@@ -7,18 +7,21 @@
 {
   mkDarwin =
     {
-      desktop ? "aqua",
       hostname,
-      username ? "martin",
-      platform ? "aarch64-darwin",
+      username ? "alex",
+      system ? "aarch64-darwin",
     }:
     let
         #pkgs = system: import nixpkgs-darwin { inherit system; config.allowUnfree = true; }; system;
     in
     inputs.nix-darwin.lib.darwinSystem {
-    modules = [
-        ../common/common-packages.nix
-        ../common/darwin-common.nix
+        specialArgs = {
+            inherit system inputs;
+        };
+        modules = [
+            ../common/common-packages.nix
+            ../common/darwin-common.nix
+        ];
     };
 
   forAllSystems = inputs.nixpkgs.lib.genAttrs [
