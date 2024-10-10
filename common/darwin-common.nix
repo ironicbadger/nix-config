@@ -115,6 +115,7 @@ in
       # "tailscale"
     #];
     casks = [
+      "adobe-creative-cloud"
       "balenaetcher"
       "bambu-studio"
       "displaylink"
