@@ -86,9 +86,10 @@ in
       "audacity"
       "balenaetcher"
       "bambu-studio"
+      "bentobox"
       "discord"
       "displaylink"
-      "docker" # specified here for docker-desktop for mac
+      "docker"
       "element"
       "firefox"
       "font-fira-code-nerd-font"
@@ -98,6 +99,7 @@ in
       "google-chrome"
       "iina"
       "istat-menus"
+      "iterm2"
       "logitech-options"
       "macwhisper"
       "marta"
@@ -118,7 +120,6 @@ in
       "viscosity"
       "visual-studio-code"
       "vlc"
-      "iterm2"
       # "lm-studio"
 
       # # rogue amoeba
