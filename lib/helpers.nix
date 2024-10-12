@@ -52,21 +52,3 @@
       ];
     };
 }
-
-
-
-            #   unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
-
-            #   # lets us use these things in modules
-            #   customArgs = { inherit system hostname username pkgs; };
-            # };
-            # modules = [
-            #   ./hosts/darwin/${hostname} # ip address, host specific stuff
-            #   home-manager.darwinModules.home-manager {
-            #     networking.hostName = hostname;
-            #     home-manager.useGlobalPkgs = true;
-            #     home-manager.useUserPackages = true;
-            #     home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
-            #   }
-            #   ./hosts/common/darwin-common.nix
-            # ];
