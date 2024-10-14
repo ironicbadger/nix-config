@@ -136,6 +136,7 @@ in
       "Bitwarden" = 1352778147;
       "Creator's Best Friend" = 1524172135;
       "Disk Speed Test" = 425264550;
+      "Fantastical" = 975937182;
       "Ivory for Mastodon by Tapbots" = 6444602274;
       "Microsoft Remote Desktop" = 1295203466;
       "Resize Master" = 1025306797;
