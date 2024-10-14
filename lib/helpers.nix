@@ -22,9 +22,8 @@
   let
     inherit (inputs.nixpkgs) lib;
     unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
-    customDock = if builtins.pathExists ./../hosts/darwin/${hostname}/custom-dock.nix
-                      then ./../hosts/darwin/${hostname}/custom-dock.nix
-                      else ./../common/darwin-common-dock.nix;
+    customDockPath = ./../hosts/darwin/${hostname}/custom-dock.nix;
+    customDock = if builtins.pathExists (customDockPath) then customDockPath else ./../common/darwin-common-dock.nix;
   in
     inputs.nix-darwin.lib.darwinSystem {
       specialArgs = {

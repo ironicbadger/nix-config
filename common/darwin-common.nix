@@ -109,6 +109,7 @@ in
       "nextcloud"
       "notion"
       "obs"
+      "obsidian"
       "ollama"
       "omnidisksweeper"
       "openscad"
