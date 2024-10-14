@@ -22,9 +22,11 @@
   let
     inherit (inputs.nixpkgs) lib;
     unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
-    dockConfigPath = if builtins.pathExists ./../hosts/darwin/${hostname}/default.nix
-                      then ./../hosts/darwin/${hostname}/custom-dock.nix
-                      else ./../common/darwin-common-dock.nix;
+    customConfig = if builtins.pathExists (./../hosts/darwin/${hostname}/default.nix)
+                      #then ./../hosts/darwin/${hostname}/custom-dock.nix
+                      then ./../common/darwin-defaults.nix
+                      else ./../common/darwin-defaults.nix;
+                      #else ./../hosts/darwin/${hostname}/custom-dock.nix;
   in
     inputs.nix-darwin.lib.darwinSystem {
       specialArgs = {
@@ -33,7 +35,7 @@
       modules = [
         ../common/common-packages.nix
         ../common/darwin-common.nix
-        dockConfigPath
+        customConfig
         inputs.home-manager.darwinModules.home-manager {
             networking.hostName = hostname;
             home-manager.useGlobalPkgs = true;
