@@ -18,9 +18,13 @@
   #       }
   #     ];
 
-  mkDarwin = { hostname, username ? "alex", system ? "aarch64-darwin", }:
+  mkDarwin = { hostname, username ? "alex", system ? "aarch64-darwin",}:
   let
+    inherit (inputs.nixpkgs) lib;
     unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+    dockConfigPath = if builtins.pathExists ./../hosts/darwin/${hostname}/default.nix
+                      then ./../hosts/darwin/${hostname}/custom-dock.nix
+                      else ./../common/darwin-common-dock.nix;
   in
     inputs.nix-darwin.lib.darwinSystem {
       specialArgs = {
@@ -29,6 +33,7 @@
       modules = [
         ../common/common-packages.nix
         ../common/darwin-common.nix
+        dockConfigPath
         inputs.home-manager.darwinModules.home-manager {
             networking.hostName = hostname;
             home-manager.useGlobalPkgs = true;
@@ -42,13 +47,16 @@
             autoMigrate = true;
             mutableTaps = true;
             user = "${username}";
-            taps = {
-              "homebrew/homebrew-core" = inputs.homebrew-core;
-              "homebrew/homebrew-cask" = inputs.homebrew-cask;
-              "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
+            taps = with inputs; {
+              "homebrew/homebrew-core" = homebrew-core;
+              "homebrew/homebrew-cask" = homebrew-cask;
+              "homebrew/homebrew-bundle" = homebrew-bundle;
             };
           };
         }
       ];
+      # ] ++ lib.optionals (builtins.pathExists ./../hosts/darwin/${hostname}/default.nix) [
+      #     (import ./../hosts/darwin/${hostname}/default.nix)
+      #   ];
     };
 }

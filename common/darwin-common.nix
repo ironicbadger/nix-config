@@ -1,5 +1,4 @@
-{ inputs, outputs, config, lib,
-  hostname, system, username, pkgs, unstablePkgs, ... }:
+{ inputs, outputs, config, lib, hostname, system, username, pkgs, unstablePkgs, ... }:
 let
   inherit (inputs) nixpkgs nixpkgs-unstable;
 in
@@ -62,9 +61,12 @@ in
 
   homebrew = {
     enable = true;
-    onActivation.autoUpdate = true;
-    onActivation.cleanup = "zap";
-    onActivation.upgrade = true;
+    onActivation = {
+      cleanup = "zap";
+      autoUpdate = true;
+      upgrade = true;
+    };
+    global.autoUpdate = true;
 
     #brews = [
       # home.nix
@@ -86,7 +88,7 @@ in
       "audacity"
       "balenaetcher"
       "bambu-studio"
-      "bentobox"
+      #"bentobox"
       "discord"
       "displaylink"
       "docker"
@@ -187,14 +189,8 @@ in
     LaunchServices.LSQuarantine = false; # disables "Are you sure?" for new apps
     loginwindow.GuestEnabled = false;
     finder.FXPreferredViewStyle = "Nlsv";
-    dock.persistent-apps = [
-      "${pkgs.google-chrome}/Applications/Google Chrome.app"
-      "/Applications/Telegram.app"
-      "${pkgs.discord}/Applications/Discord.app"
-      "${pkgs.vscode}/Applications/Visual Studio Code.app"
-      "${pkgs.alacritty}/Applications/Alacritty.app"
-    ];
   };
+
   system.defaults.CustomUserPreferences = {
       "com.apple.finder" = {
         ShowExternalHardDrivesOnDesktop = true;
