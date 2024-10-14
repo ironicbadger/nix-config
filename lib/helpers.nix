@@ -23,15 +23,15 @@
     inherit (inputs.nixpkgs) lib;
     unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
     customConfPath = ./../hosts/darwin/${hostname};
-    customConf = if builtins.pathExists (customConfPath) then (customConfPath + "/default.nix") else ./../common/darwin-common-dock.nix;
+    customConf = if builtins.pathExists (customConfPath) then (customConfPath + "/default.nix") else ./../hosts/common/darwin-common-dock.nix;
   in
     inputs.nix-darwin.lib.darwinSystem {
       specialArgs = {
         inherit system inputs username unstablePkgs;
       };
       modules = [
-        ../common/common-packages.nix
-        ../common/darwin-common.nix
+        ../hosts/common/common-packages.nix
+        ../hosts/common/darwin-common.nix
         customConf
         inputs.home-manager.darwinModules.home-manager {
             networking.hostName = hostname;
