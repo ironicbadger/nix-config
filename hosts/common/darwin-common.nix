@@ -68,7 +68,8 @@ in
     };
     global.autoUpdate = true;
 
-    #brews = [
+    brews = [
+      #"jordanbaird-ice"
       # home.nix
       # home.packages
       # "argocd"
@@ -81,7 +82,7 @@ in
       # "node"
       # #"superfile"
       # "tailscale"
-    #];
+    ];
     casks = [
       "adobe-creative-cloud"
       "alacritty"
@@ -102,6 +103,7 @@ in
       "iina"
       "istat-menus"
       "iterm2"
+      "jordanbaird-ice"
       "logitech-options"
       "macwhisper"
       "marta"
