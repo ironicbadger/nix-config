@@ -14,9 +14,11 @@ fi
 # Enable colours in ls etc.
 export CLICOLOR=1
 export LSCOLORS=gxfxcxdxbxgggdabagacad
+export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
 
 # path fix for homebrew
 export PATH=$PATH:/opt/homebrew/bin/
+export EDITOR=vi
 
 # Nix
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then

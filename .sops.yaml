@@ -2,9 +2,12 @@
 # nix shell nixpkgs#age -c age-keygen -y ~/.config/sops/age/keys.txt
 
 keys:
-  - &primary age1x5jt0dstzg8qz8t350rj0tjxyjg6c672clqmkdu7c9kq7vm54s0qszmu2c
+  - &hosts:
+    - &nix-nvllama: age17h7ugzlh8lzlxcl2rd2pv4h5v9qwwznu9vpzvyahmn5suv778cfq9v80ff
+    - &slartibartfast: age1x5jt0dstzg8qz8t350rj0tjxyjg6c672clqmkdu7c9kq7vm54s0qszmu2c
 creation_rules:
   - path_regex: secrets/secrets.yaml$
     key_groups:
       - age:
-        - *primary
+        - *nix-nvllama
+        - *slartibartfast

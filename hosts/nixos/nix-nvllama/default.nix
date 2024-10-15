@@ -16,12 +16,16 @@
     tags = [ "nix-nvllama" ];
   };
 
-  ## sops
-  sops.defaultSopsFile = ./../../secrets/secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
-  sops.age.keyFile = "~/.config/sops/age/keys.txt";
-  sops.secrets.morphnix-smb-user = { };
-  sops.secrets.morphnix-smb-pass = { };
+  sops = {
+    defaultSopsFile = ./../../../secrets/secrets.yaml;
+    defaultSopsFormat = "yaml";
+    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+    age.keyFile = "/root/.config/sops/age/keys.txt";
+  };
+  sops.secrets = {
+    morphnix-smb-user = { };
+    morphnix-smb-pass = { };
+  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -95,7 +99,7 @@
   fileSystems."/mnt/jbod" = {
     device = "//10.42.1.10/jbod";
     fsType = "cifs";
-    options = [ "username=${sops.secrets.morphnix-smb-user}" "password=${sops.secrets.morphnix-smb-pass}" "x-systemd.automount" "noauto" ];
+    options = [ "username=${config.sops.secrets.morphnix-smb-user.path}" "password=${config.sops.secrets.morphnix-smb-pass.path}" "x-systemd.automount" "noauto" ];
   };
 
 }
