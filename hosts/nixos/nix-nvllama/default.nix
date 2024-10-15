@@ -99,7 +99,11 @@
   fileSystems."/mnt/jbod" = {
     device = "//10.42.1.10/jbod";
     fsType = "cifs";
-    options = [ "username=${config.sops.secrets.morphnix-smb-user.path}" "password=${config.sops.secrets.morphnix-smb-pass.path}" "x-systemd.automount" "noauto" ];
+    options = [
+      "username=${config.sops.secrets.morphnix-smb-user.path}"
+      "password=${config.sops.secrets.morphnix-smb-pass.path}"
+      "x-systemd.automount"
+      "noauto" ];
   };
 
 }
