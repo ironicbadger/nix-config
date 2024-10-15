@@ -69,19 +69,7 @@ in
     global.autoUpdate = true;
 
     brews = [
-      #"jordanbaird-ice"
-      # home.nix
-      # home.packages
-      # "argocd"
-      # "ata"
-      # "doctl"
-      # "helm"
-      # "flyctl"
-      # "lima"
-      # "npm"
-      # "node"
-      # #"superfile"
-      # "tailscale"
+      #
     ];
     casks = [
       "adobe-creative-cloud"
