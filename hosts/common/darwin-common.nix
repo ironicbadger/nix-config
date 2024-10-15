@@ -89,7 +89,7 @@ in
       "audacity"
       "balenaetcher"
       "bambu-studio"
-      #"bentobox"
+      "bentobox"
       "discord"
       "displaylink"
       "docker"
