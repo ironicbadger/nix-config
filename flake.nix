@@ -54,6 +54,18 @@
         # # use this for a blank ISO + disko to work
         # nixos = nixosSystem "x86_64-linux" "nixos" "alex";
       };
+
+      colmena = {
+        meta = {
+          nixpkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
+          specialArgs = {
+            inherit inputs;
+          };
+        };
+
+        ktz-cloud = import ./hosts/nixos/ktz-cloud;
+      };
+
     };
 
 }
