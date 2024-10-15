@@ -6,10 +6,11 @@
   ];
 
   ## DEPLOYMENT
-  deployment.targetHost = name;
   deployment = {
+    targetHost = name;
     targetUser = "root";
     buildOnTarget = true;
+    tags = [ "ktz-cloud" ];
   };
 
   boot.tmp.cleanOnBoot = true;
