@@ -33,8 +33,6 @@
     ansible
     figurine
     htop
-    inxi
-    pciutils
     python3
     tmux
     vim
