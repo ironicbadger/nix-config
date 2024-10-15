@@ -1,0 +1,23 @@
+# https://github.com/wimpysworld/nix-config/blob/main/.github/workflows/flake-checker.yml
+name: Flake ❄️ Checker ✅
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    # l33t o'clock
+    - cron: '37 13 * * *'
+  workflow_dispatch:
+
+jobs:
+  flake-checker:
+    name: Flake Checker
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: DeterminateSystems/nix-installer-action@v4
+      - uses: DeterminateSystems/magic-nix-cache-action@v2
+      - uses: DeterminateSystems/flake-checker-action@v5
