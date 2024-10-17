@@ -9,7 +9,7 @@
 
   ## DEPLOYMENT
   deployment = {
-    targetHost = name;
+    targetHost = "nixapp";
     targetUser = "root";
     buildOnTarget = true;
   };
