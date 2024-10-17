@@ -1,9 +1,20 @@
-{ config, pkgs, ... }:
+{ config, inputs, pkgs, name, ... }:
 {
   imports = [
       ./hardware-configuration.nix
-      (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
+      (builtins.fetchTarball {
+        url = "https://github.com/nix-community/nixos-vscode-server/tarball/master";
+        sha256 = "1rq8mrlmbzpcbv9ys0x88alw30ks70jlmvnfr2j8v830yy5wvw7h";
+      })
+      ./../../common/nixos-common.nix
     ];
+
+  ## DEPLOYMENT
+  deployment = {
+    targetHost = name;
+    targetUser = "root";
+    buildOnTarget = true;
+  };
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -180,6 +191,4 @@
         warn-dirty = false;
     };
   };
-  system.copySystemConfiguration = true;
-  system.stateVersion = "23.11";
 }

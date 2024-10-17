@@ -67,6 +67,7 @@
         };
 
         ktz-cloud = import ./hosts/nixos/ktz-cloud;
+        morphnix = import ./hosts/nixos/morphnix;
         nix-nvllama = import ./hosts/nixos/nix-nvllama;
       };
 
