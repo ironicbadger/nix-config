@@ -51,8 +51,7 @@
         # nix-dev = nixosSystem "x86_64-linux" "nix-dev" "alex";
         # nixApp = nixosSystem "x86_64-linux" "nixApp" "alex";
 
-        # # test system
-        # yeager = nixosSystem "x86_64-linux" "yeager" "alex";
+
 
         # # use this for a blank ISO + disko to work
         # nixos = nixosSystem "x86_64-linux" "nixos" "alex";
@@ -66,9 +65,16 @@
           };
         };
 
+        # cloud
         ktz-cloud = import ./hosts/nixos/ktz-cloud;
+
+        # wd
         morphnix = import ./hosts/nixos/morphnix;
+        nix-app = import ./hosts/nixos/nix-app;
         nix-nvllama = import ./hosts/nixos/nix-nvllama;
+
+        # test system
+        # yeager = nixosSystem "x86_64-linux" "yeager" "alex";
       };
 
     };

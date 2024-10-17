@@ -12,14 +12,17 @@
     targetHost = name;
     targetUser = "root";
     buildOnTarget = true;
-    tags = [ "nix-nvllama" ];
   };
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixApp";
   networking.networkmanager.enable = true;
+  networking.localCommands = ''
+    ip rule add to 10.42.0.0/21 priority 2500 lookup main
+  '';
   time.timeZone = "America/New_York";
 
   users.users.alex = {
@@ -28,12 +31,16 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
+  users.defaultUserShell = pkgs.bash;
+  programs.bash.interactiveShellInit = "figurine -f \"3d.flf\" nixApp";
 
   environment.systemPackages = with pkgs; [
+    figurine
     vim
   ];
 
   services.openssh.enable = true;
   services.openssh.settings.PermitRootLogin = "yes";
   services.qemuGuest.enable = true;
+  services.tailscale.enable = true;
 }
