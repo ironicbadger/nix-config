@@ -35,36 +35,36 @@
   programs.bash.interactiveShellInit = "figurine -f \"3d.flf\" morphnix";
 
   environment.systemPackages = with pkgs; [
+    ansible
     bc
     devbox
-    gcc
     dig
+    e2fsprogs # badblocks
     figurine
     git
     gptfdisk
-    htop
     hddtemp
+    htop
     intel-gpu-tools
     inxi
     iotop
     jq
     lm_sensors
-    mergerfs
     mc
+    mergerfs
     molly-guard
     ncdu
     nmap
     nvme-cli
     powertop
+    python3
+    smartmontools
     snapraid
-    tdns-cli
     tmux
     tree
     vim
     wget
     xfsprogs
-    smartmontools
-    e2fsprogs # badblocks
 
     # zfs send/rec with sanoid/syncoid
     sanoid
@@ -72,13 +72,6 @@
     mbuffer
     pv
     zstd
-
-    ansible
-    python3
-    # ansible
-    #(python3.withPackages(ps: [
-    #     ps.ansible ps.pip ps.requests
-    #     ]))
   ];
 
   networking = {
@@ -112,24 +105,19 @@
 
   services.fstrim.enable = true;
   services.fwupd.enable = true;
-  services.openssh = {
-    enable = true;
-    # just for testing, do not panic.
-    settings.PasswordAuthentication = true;
-    settings.PermitRootLogin = "yes";
-  };
+  services.openssh.enable = true;
   services.tailscale.enable = true;
 
   services.sanoid = {
     enable = true;
     interval = "hourly";
+    # backupmedia
     templates.backupmedia = {
       daily = 3;
       monthly = 3;
       autoprune = true;
       autosnap = true;
     };
-
     datasets."bigrust18/media" = {
       useTemplate = [ "backupmedia" ];
       recursive = true;
@@ -168,16 +156,16 @@
       load printers = no
     '';
     shares = let
-    mkShare = path: {
-      path = path;
-      browseable = "yes";
-      "read only" = "no";
-      "guest ok" = "yes";
-      "create mask" = "0644";
-      "directory mask" = "0755";
-      "force user" = "alex";
-      "force group" = "users";
-    };
+      mkShare = path: {
+        path = path;
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "alex";
+        "force group" = "users";
+      };
     in {
       jbod = mkShare "/mnt/jbod";
       bigrust18 = mkShare "/mnt/bigrust18";
