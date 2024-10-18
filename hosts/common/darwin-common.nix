@@ -3,7 +3,6 @@ let
   inherit (inputs) nixpkgs nixpkgs-unstable;
 in
 {
-  # Nix configuration ------------------------------------------------------------------------------
   users.users.alex.home = "/Users/alex";
 
   nix = {
@@ -28,6 +27,7 @@ in
 
     ## stable CLI
     pkgs.just
+    pkgs.nix
   ];
 
   fonts.packages = [
@@ -83,7 +83,9 @@ in
       "docker"
       "element"
       "firefox"
+      "font-fira-code"
       "font-fira-code-nerd-font"
+      "font-fira-mono-for-powerline"
       "font-hack-nerd-font"
       "font-jetbrains-mono-nerd-font"
       "font-meslo-lg-nerd-font"

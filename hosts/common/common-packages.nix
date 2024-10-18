@@ -38,6 +38,8 @@ in
     kubectl
     mc
     mosh
+    nerdfonts
+    fira-code-nerdfont
     nmap
     qemu
     ripgrep
