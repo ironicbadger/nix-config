@@ -43,6 +43,12 @@
 
   programs.lf.enable = true;
 
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = pkgs.lib.importTOML ./../data/starship.toml;
+  };
+
   programs.tmux = {
     enable = true;
     #keyMode = "vi";

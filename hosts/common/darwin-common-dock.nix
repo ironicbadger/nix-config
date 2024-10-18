@@ -16,6 +16,7 @@
       "/Applications/Plexamp.app"
       "/Applications/iTerm.app"
       "/Applications/Alacritty.app"
+      "/Applications/Warp.app"
     ];
   };
 }

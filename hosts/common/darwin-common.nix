@@ -69,7 +69,7 @@ in
     global.autoUpdate = true;
 
     brews = [
-      #
+      #"starship"
     ];
     casks = [
       "adobe-creative-cloud"
@@ -110,6 +110,7 @@ in
       "slack"
       "spotify"
       "steam"
+      "warp"
       "viscosity"
       "visual-studio-code"
       "vlc"
