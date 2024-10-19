@@ -30,12 +30,20 @@
   services.tailscale.useRoutingFeatures = "server";
 
   users.users.root.openssh.authorizedKeys.keys = [''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM7aI+bMjxTx7L9FRzJlk4UFCyYPzHs9Xs+vAhvPEYtk'' ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILkK1tv8BNtQJFt+n5yOJf6TQ/Ms9WkRi56MpyZOlWIk'' ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA2bSgQvelWzGLh4v1nv+OYx8YNijAikvVq4E9qXDWYN'' ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII+F3XpAIh4l8GfPgwoTqWQj0OdZRnnG9Ak4Z0wu0Upj'' ];
-  users.defaultUserShell = pkgs.bash;
-  programs.bash.interactiveShellInit = ''
-    echo \"\"
-    figurine -f \"3d.flf\" ktz-cloud"
-    echo \"\"
-  '';
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.users.alex = { imports = [ ./../../../home/alex.nix ]; };
+
+  users.users.alex = {
+    isNormalUser = true;
+    description = "alex";
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    packages = with pkgs; [
+      home-manager
+    ];
+  };
+  programs.bash.interactiveShellInit = "echo \"\" \n figurine -f \"3d.flf\" nixApp";
 
   environment.systemPackages = with pkgs; [
     ansible
