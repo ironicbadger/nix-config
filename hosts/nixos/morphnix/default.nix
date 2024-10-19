@@ -27,12 +27,20 @@
   services.zfs.autoScrub.enable = true;
 
   time.timeZone = "America/New_York";
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  #home-manager.backupFileExtension = "bak";
+  home-manager.users.alex = { imports = [ ./../../../home/alex.nix ]; };
   users.users.alex = {
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" ];
+    packages = with pkgs; [
+      home-manager
+    ];
   };
   users.defaultUserShell = pkgs.bash;
-  programs.bash.interactiveShellInit = "figurine -f \"3d.flf\" morphnix";
+  programs.bash.interactiveShellInit = "echo \"\" \n figurine -f \"3d.flf\" morphnix";
 
   environment.systemPackages = with pkgs; [
     ansible
