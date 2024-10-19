@@ -1,23 +1,5 @@
 { inputs, outputs, stateVersion, ... }:
 {
-  # untested
-  # mkNixos = { hostname, username ? "alex", system ? "x86_64-linux", }:
-  #   let
-  #     unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
-  #   in
-  #     modules = [
-  #       ../common/common-packages.nix
-  #       ../common/nixos-common.nix
-  #       ../hosts/nixos/${hostname}
-  #       inputs.vscode-server.nixosModules.default
-  #       inputs.home-manager.nixosModules.home-manager {
-  #         networking.hostName = hostname;
-  #         home-manager.useGlobalPkgs = true;
-  #         home-manager.useUserPackages = true;
-  #         home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
-  #       }
-  #     ];
-
   mkDarwin = { hostname, username ? "alex", system ? "aarch64-darwin",}:
   let
     inherit (inputs.nixpkgs) lib;

@@ -45,28 +45,22 @@
         magrathea = libx.mkDarwin { hostname = "magrathea"; };
       };
 
-      nixosConfigurations = {
-        # # servers
-        # morphnix = nixosSystem "x86_64-linux" "morphnix" "alex";
-        # nix-dev = nixosSystem "x86_64-linux" "nix-dev" "alex";
-        # nixApp = nixosSystem "x86_64-linux" "nixApp" "alex";
-
-
-
-        # # use this for a blank ISO + disko to work
-        # nixos = nixosSystem "x86_64-linux" "nixos" "alex";
-      };
-
       colmena = {
         meta = {
           nixpkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
           specialArgs = {
-            inherit inputs stateVersion;
+            inherit inputs outputs stateVersion self;
           };
         };
 
+        defaults = { lib, config, name, ... }: {
+          imports = [
+            inputs.home-manager.nixosModules.home-manager
+          ];
+        };
+
         # cloud
-        ktz-cloud = import ./hosts/nixos/ktz-cloud;
+        #ktz-cloud = import ./hosts/nixos/ktz-cloud;
 
         # wd
         morphnix = import ./hosts/nixos/morphnix;
