@@ -25,14 +25,20 @@
   '';
   time.timeZone = "America/New_York";
 
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.users.alex = { imports = [ ./../../../home/alex.nix ]; };
+
   users.users.alex = {
     isNormalUser = true;
     description = "alex";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
+    packages = with pkgs; [
+      home-manager
+    ];
   };
   users.defaultUserShell = pkgs.bash;
-  programs.bash.interactiveShellInit = "figurine -f \"3d.flf\" nixApp";
+  programs.bash.interactiveShellInit = "echo \"\" \n figurine -f \"3d.flf\" nixApp";
 
   environment.systemPackages = with pkgs; [
     figurine

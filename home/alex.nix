@@ -46,7 +46,17 @@
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
+    enableBashIntegration = true;
     settings = pkgs.lib.importTOML ./../data/starship.toml;
+  };
+
+  programs.bash.enable = true;
+
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    autosuggestion.enable = true;
+    #initExtra = (builtins.readFile ../mac-dot-zshrc);
   };
 
   programs.tmux = {
@@ -61,13 +71,6 @@
       new-session -s main
       bind-key -n C-a send-prefix
     '';
-  };
-
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    autosuggestion.enable = true;
-    #initExtra = (builtins.readFile ../mac-dot-zshrc);
   };
 
   programs.home-manager.enable = true;
