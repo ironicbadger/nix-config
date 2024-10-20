@@ -82,12 +82,36 @@
   programs.bat.config.theme = "Nord";
   #programs.zsh.shellAliases.cat = "${pkgs.bat}/bin/bat";
 
-  programs.neovim.enable = true;
-  programs.neovim.extraPackages = with pkgs; [
-    ripgrep
-    fzf
-    bat
-  ];
+  programs.neovim =
+  let
+    toLua = str: "lua << EOF\n${str}\nEOF\n";
+    toLuaFile = file: "lua << EOF\n${builtins.readFile file}\nEOF\n";
+  in
+  {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+    plugins = with pkgs.vimPlugins; [
+      ## regular
+      comment-nvim
+
+      ## with config
+      {
+        plugin = gruvbox-nvim;
+        config = "colorscheme gruvbox";
+      }
+    ];
+    extraLuaConfig = ''
+      ${builtins.readFile ./../data/nvim/options.lua}
+      ${builtins.readFile ./../data/nvim/keymap.lua}
+    '';
+    extraPackages = with pkgs; [
+      ripgrep
+      fzf
+      bat
+    ];
+  };
 
   programs.zoxide.enable = true;
 
