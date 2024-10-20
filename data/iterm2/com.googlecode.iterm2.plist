@@ -648,7 +648,7 @@
 			<key>Close Sessions On End</key>
 			<true/>
 			<key>Columns</key>
-			<integer>110</integer>
+			<integer>120</integer>
 			<key>Command</key>
 			<string>/etc/profiles/per-user/alex/bin/zsh</string>
 			<key>Cursor Color</key>
@@ -1037,7 +1037,7 @@
 			<key>Non-ASCII Ligatures</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>FiraCodeNFM-Reg 17</string>
+			<string>FiraCodeNFM-Reg 16</string>
 			<key>Only The Default BG Color Uses Transparency</key>
 			<false/>
 			<key>Option Key Sends</key>
@@ -1047,7 +1047,7 @@
 			<key>Right Option Key Sends</key>
 			<integer>0</integer>
 			<key>Rows</key>
-			<integer>28</integer>
+			<integer>38</integer>
 			<key>Screen</key>
 			<integer>-1</integer>
 			<key>Scrollback Lines</key>
