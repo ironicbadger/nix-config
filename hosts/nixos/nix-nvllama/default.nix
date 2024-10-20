@@ -56,11 +56,12 @@
       home-manager
     ];
   };
-  programs.bash.interactiveShellInit = "echo \"\" \n figurine -f \"3d.flf\" nixApp";
+  #programs.bash.interactiveShellInit = "fastfetch";
 
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     ansible
+    #fastfetch
     htop
     inxi
     pciutils
