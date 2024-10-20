@@ -71,7 +71,6 @@
     snapraid
     tmux
     tree
-    vim
     wget
     xfsprogs
 

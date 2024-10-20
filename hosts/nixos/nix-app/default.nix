@@ -42,7 +42,6 @@
 
   environment.systemPackages = with pkgs; [
     figurine
-    vim
   ];
 
   services.openssh.enable = true;

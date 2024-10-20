@@ -38,7 +38,6 @@
     htop
     tmux
     inxi
-    vim
     wget
     pciutils
 

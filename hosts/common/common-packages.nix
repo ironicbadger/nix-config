@@ -52,7 +52,6 @@ in
     watch
     wget
     wireguard-tools
-    vim
     zoxide
 
     # requires nixpkgs.config.allowUnfree = true;

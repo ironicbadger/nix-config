@@ -49,7 +49,6 @@
     tdns-cli
     tmux
     tree
-    vim
     wget
     xfsprogs
     smartmontools

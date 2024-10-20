@@ -29,7 +29,7 @@ fi
 autoload -Uz compinit
 compinit
 source <(kubectl completion zsh)
-export KUBE_EDITOR="vim"
+export KUBE_EDITOR="nvim"
 
 alias -- -='cd -'
 alias ..='cd ..'

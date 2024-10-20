@@ -52,7 +52,6 @@
     molly-guard
     python3
     tmux
-    vim
     wget
   ];
 }

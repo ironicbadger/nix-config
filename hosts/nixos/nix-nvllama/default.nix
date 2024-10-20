@@ -67,7 +67,6 @@
     pciutils
     python3
     tmux
-    vim
     wget
   ];
 
