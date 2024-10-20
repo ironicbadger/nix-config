@@ -106,15 +106,15 @@
       {
         plugin = telescope-nvim;
         type = "lua";
-        config = ./nvim/plugins/telescope.lua;
+        config = builtins.readFile ./nvim/plugins/telescope.lua;
       }
       telescope-fzf-native-nvim
 
 
     ];
     extraLuaConfig = ''
-      ${builtins.readFile ./../data/nvim/options.lua}
-      ${builtins.readFile ./../data/nvim/keymap.lua}
+      ${builtins.readFile ./nvim/options.lua}
+      ${builtins.readFile ./nvim/keymap.lua}
     '';
     extraPackages = with pkgs; [
       ripgrep
