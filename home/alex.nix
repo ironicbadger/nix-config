@@ -31,7 +31,7 @@
         tool = "meld";
       };
       pull = {
-        rebase = false;
+        rebase = true;
       };
     };
   };
@@ -47,7 +47,7 @@
     enable = true;
     enableZshIntegration = true;
     enableBashIntegration = true;
-    settings = pkgs.lib.importTOML ./../data/starship.toml;
+    settings = pkgs.lib.importTOML ./starship/starship.toml;
   };
 
   programs.bash.enable = true;
@@ -84,8 +84,8 @@
 
   programs.neovim =
   let
-    toLua = str: "lua << EOF\n${str}\nEOF\n";
-    toLuaFile = file: "lua << EOF\n${builtins.readFile file}\nEOF\n";
+    #toLua = str: "lua << EOF\n${str}\nEOF\n";
+    #toLuaFile = file: "lua << EOF\n${builtins.readFile file}\nEOF\n";
   in
   {
     enable = true;
@@ -101,6 +101,16 @@
         plugin = gruvbox-nvim;
         config = "colorscheme gruvbox";
       }
+
+      ## telescope
+      {
+        plugin = telescope-nvim;
+        type = "lua";
+        config = ./nvim/plugins/telescope.lua;
+      }
+      telescope-fzf-native-nvim
+
+
     ];
     extraLuaConfig = ''
       ${builtins.readFile ./../data/nvim/options.lua}
