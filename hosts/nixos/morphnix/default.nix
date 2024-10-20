@@ -7,6 +7,7 @@
         sha256 = "1rq8mrlmbzpcbv9ys0x88alw30ks70jlmvnfr2j8v830yy5wvw7h";
       })
       ./../../common/nixos-common.nix
+      ./../../common/common-packages.nix
     ];
 
   ## DEPLOYMENT

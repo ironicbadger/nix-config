@@ -3,6 +3,7 @@ let
   inherit (inputs) nixpkgs nixpkgs-unstable;
 in
 {
+  nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     ## stable
     ansible
@@ -13,7 +14,6 @@ in
     dua # Modern Unix `du`
     duf # Modern Unix `df`
     du-dust # Modern Unix `du`
-    docker-compose
     drill
     entr # Modern Unix `watch`
     esptool
