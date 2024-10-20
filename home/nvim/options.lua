@@ -33,3 +33,6 @@ opt.clipboard:append("unnamedplus") -- use system clipboard as the default regis
 -- window splits
 opt.splitright = true
 opt.splitbelow = true
+
+-- turn off swapfile
+opt.swapfile = false
