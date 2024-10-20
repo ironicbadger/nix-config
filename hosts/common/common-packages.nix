@@ -11,42 +11,38 @@ in
     coreutils
     diffr # Modern Unix `diff`
     difftastic # Modern Unix `diff`
+    drill
+    du-dust # Modern Unix `du`
     dua # Modern Unix `du`
     duf # Modern Unix `df`
-    du-dust # Modern Unix `du`
-    drill
     entr # Modern Unix `watch`
     esptool
     fastfetch
-    ffmpeg
-    fira-code
-    fira-mono
     fd
+    ffmpeg
     figurine
-    #fzf # programs.fzf
-    #git # programs.git
+    fira-code
+    fira-code-nerdfont
+    fira-mono
     gh
-    go
     gnused
-    #htop # programs.htop
+    go
     hugo
     iperf3
     ipmitool
     jetbrains-mono # font
-    just
     jq
+    just
     kubectl
     mc
     mosh
     nerdfonts
-    fira-code-nerdfont
     nmap
     qemu
     ripgrep
     skopeo
     smartmontools
     terraform
-    #tmux
     tree
     unzip
     watch
