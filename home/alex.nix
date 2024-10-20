@@ -1,4 +1,4 @@
-{ config, pkgs, lib, unstablePkgs, ... }:
+{ config, inputs, pkgs, lib, unstablePkgs, ... }:
 {
   home.stateVersion = "23.11";
 
@@ -12,6 +12,7 @@
 
   programs.fzf = {
     enable = true;
+    enableBashIntegration = true;
     enableZshIntegration = true;
     tmux.enableShellIntegration = true;
   };
@@ -66,6 +67,7 @@
     historyLimit = 10000;
     plugins = with pkgs.tmuxPlugins; [
       gruvbox
+      vim-tmux-navigator
     ];
     extraConfig = ''
       new-session -s main
@@ -82,12 +84,7 @@
   programs.bat.config.theme = "Nord";
   #programs.zsh.shellAliases.cat = "${pkgs.bat}/bin/bat";
 
-  programs.neovim =
-  let
-    #toLua = str: "lua << EOF\n${str}\nEOF\n";
-    #toLuaFile = file: "lua << EOF\n${builtins.readFile file}\nEOF\n";
-  in
-  {
+  programs.neovim = {
     enable = true;
     viAlias = true;
     vimAlias = true;
@@ -95,6 +92,7 @@
     plugins = with pkgs.vimPlugins; [
       ## regular
       comment-nvim
+      vim-tmux-navigator
 
       ## with config
       {
@@ -110,17 +108,11 @@
       }
       telescope-fzf-native-nvim
 
-
     ];
     extraLuaConfig = ''
       ${builtins.readFile ./nvim/options.lua}
       ${builtins.readFile ./nvim/keymap.lua}
     '';
-    extraPackages = with pkgs; [
-      ripgrep
-      fzf
-      bat
-    ];
   };
 
   programs.zoxide.enable = true;
