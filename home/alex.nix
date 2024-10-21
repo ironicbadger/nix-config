@@ -92,12 +92,19 @@
     plugins = with pkgs.vimPlugins; [
       ## regular
       comment-nvim
+      lualine-nvim
+      nvim-web-devicons
       vim-tmux-navigator
 
       ## with config
+      # {
+      #   plugin = gruvbox-nvim;
+      #   config = "colorscheme gruvbox";
+      # }
+
       {
-        plugin = gruvbox-nvim;
-        config = "colorscheme gruvbox";
+        plugin = catppuccin-nvim;
+        config = "colorscheme catppuccin";
       }
 
       ## telescope
