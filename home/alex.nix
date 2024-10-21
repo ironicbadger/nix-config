@@ -1,10 +1,9 @@
-{ config, inputs, pkgs, lib, unstablePkgs, ... }:
+{ inputs, pkgs, ... }:
 {
   home.stateVersion = "23.11";
 
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
-    #inputs.nixvim.nixDarwinModules.nixvim
   ];
   programs.nixvim = {
     enable = true;

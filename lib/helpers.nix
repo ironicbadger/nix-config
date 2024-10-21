@@ -2,7 +2,6 @@
 {
   mkDarwin = { hostname, username ? "alex", system ? "aarch64-darwin",}:
   let
-    inherit (inputs.nixpkgs) lib;
     unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
     customConfPath = ./../hosts/darwin/${hostname};
     customConf = if builtins.pathExists customConfPath then (customConfPath + "/default.nix") else ./../hosts/common/darwin-common-dock.nix;
@@ -18,7 +17,7 @@
             networking.hostName = hostname;
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
+            #home-manager.extraSpecialArgs = { inherit inputs; };
             #home-manager.sharedModules = [ inputs.nixvim.homeManagerModules.nixvim ];
             home-manager.users.${username} = { imports = [ ./../home/${username}.nix ]; };
         }
