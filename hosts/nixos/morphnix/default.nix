@@ -90,14 +90,14 @@
         useDHCP = false;
         ipv4.addresses = [ {
           address = "10.42.1.10";
-          prefixLength = 20;
+          prefixLength = 21;
         } ];
       };
     };
     defaultGateway = "10.42.0.254";
     nameservers = [ "10.42.0.253" ];
   localCommands = ''
-    ip rule add to 10.42.0.0/20 priority 2500 lookup main
+    ip rule add to 10.42.0.0/21 priority 2500 lookup main
   '';
   };
 
