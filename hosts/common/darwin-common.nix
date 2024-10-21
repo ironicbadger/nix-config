@@ -1,7 +1,4 @@
-{ inputs, outputs, config, lib, hostname, system, username, pkgs, unstablePkgs, ... }:
-let
-  inherit (inputs) nixpkgs nixpkgs-unstable;
-in
+{ inputs, lib, system, pkgs, unstablePkgs, ... }:
 {
   users.users.alex.home = "/Users/alex";
 
@@ -26,8 +23,8 @@ in
     unstablePkgs.colmena
 
     ## stable CLI
-    pkgs.just
-    pkgs.nix
+    just
+    nix
   ];
 
   fonts.packages = [
