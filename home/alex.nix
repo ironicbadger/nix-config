@@ -2,6 +2,14 @@
 {
   home.stateVersion = "23.11";
 
+  imports = [
+    inputs.nixvim.homeManagerModules.nixvim
+    #inputs.nixvim.nixDarwinModules.nixvim
+  ];
+  programs.nixvim = {
+    enable = true;
+  };
+
   # list of programs
   # https://mipmip.github.io/home-manager-option-search
 
@@ -84,36 +92,36 @@
   programs.bat.config.theme = "Nord";
   #programs.zsh.shellAliases.cat = "${pkgs.bat}/bin/bat";
 
-  programs.neovim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
-    plugins = with pkgs.vimPlugins; [
-      ## regular
-      comment-nvim
-      vim-tmux-navigator
+  # programs.neovim = {
+  #   enable = true;
+  #   viAlias = true;
+  #   vimAlias = true;
+  #   vimdiffAlias = true;
+  #   plugins = with pkgs.vimPlugins; [
+  #     ## regular
+  #     comment-nvim
+  #     vim-tmux-navigator
 
-      ## with config
-      {
-        plugin = gruvbox-nvim;
-        config = "colorscheme gruvbox";
-      }
+  #     ## with config
+  #     {
+  #       plugin = gruvbox-nvim;
+  #       config = "colorscheme gruvbox";
+  #     }
 
-      ## telescope
-      {
-        plugin = telescope-nvim;
-        type = "lua";
-        config = builtins.readFile ./nvim/plugins/telescope.lua;
-      }
-      telescope-fzf-native-nvim
+  #     ## telescope
+  #     {
+  #       plugin = telescope-nvim;
+  #       type = "lua";
+  #       config = builtins.readFile ./nvim/plugins/telescope.lua;
+  #     }
+  #     telescope-fzf-native-nvim
 
-    ];
-    extraLuaConfig = ''
-      ${builtins.readFile ./nvim/options.lua}
-      ${builtins.readFile ./nvim/keymap.lua}
-    '';
-  };
+  #   ];
+  #   extraLuaConfig = ''
+  #     ${builtins.readFile ./nvim/options.lua}
+  #     ${builtins.readFile ./nvim/keymap.lua}
+  #   '';
+  # };
 
   programs.zoxide.enable = true;
 
