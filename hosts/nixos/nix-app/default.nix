@@ -18,21 +18,41 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixApp";
-  networking.networkmanager.enable = true;
-  networking.localCommands = ''
+  time.timeZone = "America/New_York";
+
+  networking = {
+    firewall.enable = false;
+    hostName = "nixapp";
+    interfaces = {
+      ens18 = {
+        useDHCP = false;
+        ipv4.addresses = [ {
+          address = "10.42.1.11";
+          prefixLength = 21;
+        } ];
+      };
+    };
+    defaultGateway = "10.42.0.254";
+    nameservers = [ "10.42.0.253" ];
+  localCommands = ''
     ip rule add to 10.42.0.0/21 priority 2500 lookup main
   '';
-  time.timeZone = "America/New_York";
+  };
+
+  # networking.firewall.enable = false;
+  # networking.hostName = "nixApp";
+  # networking.networkmanager.enable = true;
+  # networking.localCommands = ''
+  #   ip rule add to 10.42.0.0/21 priority 2500 lookup main
+  # '';
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.alex = { imports = [ ./../../../home/alex.nix ]; };
-
   users.users.alex = {
     isNormalUser = true;
     description = "alex";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "wheel" "docker"];
     packages = with pkgs; [
       home-manager
     ];
