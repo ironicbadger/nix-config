@@ -31,11 +31,30 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nix-nvllama";
-  networking.networkmanager.enable = true;
-  networking.localCommands = ''
+  #networking.hostName = "nix-nvllama";
+  # networking.networkmanager.enable = true;
+  # networking.localCommands = ''
+  #   ip rule add to 10.42.0.0/21 priority 2500 lookup main
+  # '';
+
+  networking = {
+    firewall.enable = false;
+    hostName = "nix-nvllama";
+    interfaces = {
+      enp13s0 = {
+        useDHCP = false;
+        ipv4.addresses = [ {
+          address = "10.42.1.12";
+          prefixLength = 21;
+        } ];
+      };
+    };
+    defaultGateway = "10.42.0.254";
+    nameservers = [ "10.42.0.253" ];
+  localCommands = ''
     ip rule add to 10.42.0.0/21 priority 2500 lookup main
   '';
+  };
 
   time.timeZone = "America/New_York";
   i18n.defaultLocale = "en_US.UTF-8";
