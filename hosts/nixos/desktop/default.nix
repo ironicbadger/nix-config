@@ -4,6 +4,7 @@
     [
       ./hardware-configuration.nix
       ./../../common/nixos-common.nix
+      ./../../common/common-packages.nix
     ];
 
   ## DEPLOYMENT
@@ -23,7 +24,7 @@
     firewall.enable = false;
     hostName = "desktop";
     interfaces = {
-      ens18 = {
+      enp2s0 = {
         useDHCP = false;
         ipv4.addresses = [ {
           address = "10.42.1.15";
@@ -56,6 +57,8 @@
     fastfetch
     htop
     inxi
+    ripgrep
+    colmena
     pciutils
     python3
     tmux

@@ -8,6 +8,7 @@ in
     ## stable
     ansible
     btop
+    colmena
     coreutils
     diffr # Modern Unix `diff`
     difftastic # Modern Unix `diff`
