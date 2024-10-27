@@ -70,6 +70,7 @@ in
 
     brews = [
       #"starship"
+      "bitwarden-cli"
     ];
     casks = [
       "adobe-creative-cloud"
