@@ -38,8 +38,6 @@
   '';
   };
 
-  time.timeZone = "America/New_York";
-
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.alex = { imports = [ ./../../../home/alex.nix ]; };
@@ -49,6 +47,7 @@
     extraGroups = [ "wheel" "docker"];
     packages = with pkgs; [
       home-manager
+      steam
     ];
   };
 
@@ -68,11 +67,9 @@
     enable = true;
     videoDrivers = [ "nvidia" ];
   };
-
   services.displayManager.sddm = {
       enable = true;
       wayland.enable = true;
-    };
   };
   services.desktopManager.plasma6.enable = true;
 
