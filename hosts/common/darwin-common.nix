@@ -73,6 +73,8 @@ in
       "bitwarden-cli"
     ];
     casks = [
+      "screenflow"
+      "cleanshot"
       "adobe-creative-cloud"
       "alacritty"
       "audacity"
