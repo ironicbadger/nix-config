@@ -138,7 +138,7 @@ in
       "Ivory for Mastodon by Tapbots" = 6444602274;
       "Microsoft Remote Desktop" = 1295203466;
       "Resize Master" = 1025306797;
-      "Snippety" = "1530751461";
+      "Snippety" = 1530751461;
       "Tailscale" = 1475387142;
       "Telegram" = 747648890;
       "The Unarchiver" = 425424353;
