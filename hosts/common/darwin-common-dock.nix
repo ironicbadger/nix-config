@@ -5,6 +5,7 @@
       "/Applications/Firefox.app"
       "/Applications/Google Chrome.app"
       "/Applications/Telegram.app"
+      "/Applications/Signal.app"
       "/Applications/Discord.app"
       "/Applications/Element.app"
       "/Applications/Ivory.app"
@@ -15,8 +16,6 @@
       "/Applications/Spotify.app"
       "/Applications/Plexamp.app"
       "/Applications/iTerm.app"
-      "/Applications/Alacritty.app"
-      "/Applications/Warp.app"
     ];
   };
 }
