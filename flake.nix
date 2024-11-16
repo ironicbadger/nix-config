@@ -67,7 +67,7 @@
         morphnix = import ./hosts/nixos/morphnix;
         nix-app = import ./hosts/nixos/nix-app;
         nix-nvllama = import ./hosts/nixos/nix-nvllama;
-        desktop = import ./hosts/nixos/desktop;
+        #desktop = import ./hosts/nixos/desktop;
 
         # test system
         # yeager = nixosSystem "x86_64-linux" "yeager" "alex";
