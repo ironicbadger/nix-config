@@ -146,7 +146,6 @@ in
       "Todoist" = 585829637;
       "UTM" = 1538878817;
       "Wireguard" = 1451685025;
-      "Yoink" = 457622435;
 
       "Final Cut Pro" = 424389933;
 
