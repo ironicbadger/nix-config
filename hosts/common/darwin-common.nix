@@ -76,6 +76,7 @@ in
       "screenflow"
       "cleanshot"
       "adobe-creative-cloud"
+      "nikitabobko/tap/aerospace"
       "alacritty"
       "audacity"
       "balenaetcher"
@@ -187,6 +188,7 @@ in
     NSGlobalDomain.InitialKeyRepeat = 25;
     NSGlobalDomain.KeyRepeat = 2;
     NSGlobalDomain."com.apple.mouse.tapBehavior" = 1;
+    NSGlobalDomain.NSWindowShouldDragOnGesture = true;
     LaunchServices.LSQuarantine = false; # disables "Are you sure?" for new apps
     loginwindow.GuestEnabled = false;
     finder.FXPreferredViewStyle = "Nlsv";
