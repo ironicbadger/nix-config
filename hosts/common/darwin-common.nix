@@ -53,6 +53,12 @@ in
     };
   };
 
+  config = lib.mkMerge [
+    (lib.mkIf pkgs.stdenv.isDarwin {
+      home.file.".config/aerospace/aerospace.toml".text = builtins.readFile ../../home/aerospace/aerospace.toml;
+    })
+  ];
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
