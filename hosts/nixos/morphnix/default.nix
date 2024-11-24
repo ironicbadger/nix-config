@@ -154,14 +154,16 @@
     enable = true;
     securityType = "user";
     settings = {
-      "workgroup" = "WORKGROUP";
-      "server string" = "morphnix";
-      "netbios name" = "morphnix";
-      "security" = "user";
-      "guest ok" = "yes";
-      "guest account" = "nobody";
-      "map to guest" = "bad user";
-      "load printers" = "no";
+      global = {
+        "workgroup" = "WORKGROUP";
+        "server string" = "morphnix";
+        "netbios name" = "morphnix";
+        "security" = "user";
+        "guest ok" = "yes";
+        "guest account" = "nobody";
+        "map to guest" = "bad user";
+        "load printers" = "no";
+      };
     };
     shares = let
       mkShare = path: {
