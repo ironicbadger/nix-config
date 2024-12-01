@@ -5,11 +5,12 @@
   # list of programs
   # https://mipmip.github.io/home-manager-option-search
 
-  home.file = lib.mkMerge [
-    (lib.mkIf pkgs.stdenv.isDarwin {
-      ".config/aerospace/aerospace.toml".text = builtins.readFile ./aerospace/aerospace.toml;
-    })
-  ];
+  # aerospace config
+  # home.file = lib.mkMerge [
+  #   (lib.mkIf pkgs.stdenv.isDarwin {
+  #     ".config/aerospace/aerospace.toml".text = builtins.readFile ./aerospace/aerospace.toml;
+  #   })
+  # ];
 
   programs.direnv = {
     enable = true;

@@ -71,16 +71,16 @@ in
     brews = [
       #"starship"
       "bitwarden-cli"
-      "borders"
+      #"borders"
     ];
     taps = [
-      "FelixKratz/formulae"
+      #"FelixKratz/formulae" #sketchybar
     ];
     casks = [
       "screenflow"
       "cleanshot"
       "adobe-creative-cloud"
-      "nikitabobko/tap/aerospace"
+      #"nikitabobko/tap/aerospace"
       "alacritty"
       "audacity"
       "balenaetcher"
