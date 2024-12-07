@@ -17,6 +17,18 @@
     nix-direnv.enable = true;
   };
 
+  programs.eza = {
+    enable = true;
+    enableZshIntegration = true;
+    icons = "auto";
+    git = true;
+    extraOptions = [
+      "--group-directories-first"
+      "--header"
+      "--color=auto"
+    ];
+  };
+
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
