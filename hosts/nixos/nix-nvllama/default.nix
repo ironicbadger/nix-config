@@ -13,6 +13,7 @@
     targetHost = name;
     targetUser = "root";
     buildOnTarget = true;
+    allowLocalDeployment = true;
     tags = [ "nix-nvllama" ];
   };
 
@@ -41,7 +42,7 @@
     firewall.enable = false;
     hostName = "nix-nvllama";
     interfaces = {
-      enp13s0 = {
+      ens18 = {
         useDHCP = false;
         ipv4.addresses = [ {
           address = "10.42.1.12";
@@ -75,22 +76,23 @@
       home-manager
     ];
   };
-  #programs.bash.interactiveShellInit = "fastfetch";
 
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     ansible
-    #fastfetch
+    colmena
     htop
     inxi
+    just
+    ripgrep
     pciutils
     python3
     tmux
     wget
   ];
 
-  hardware.opengl.enable = true;
-  hardware.opengl.driSupport32Bit = true;
+  hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = true;
   hardware.nvidia.modesetting.enable = true;
   hardware.nvidia.open = false;
   hardware.nvidia.nvidiaSettings = true;
@@ -103,11 +105,8 @@
   services.tailscale.enable = true;
 
   virtualisation = {
-    #containers.enable = true;
     docker = {
       enable = true;
-      package = pkgs.docker_27;
-      #enableNvidia = true;
       autoPrune = {
         enable = true;
         dates = "weekly";
