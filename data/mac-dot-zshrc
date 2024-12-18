@@ -18,6 +18,7 @@ export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
 
 # path fix for homebrew
 export PATH=$PATH:/opt/homebrew/bin/
+export PATH=$PATH:/Users/alex/go/bin
 export EDITOR=vi
 
 # Nix
