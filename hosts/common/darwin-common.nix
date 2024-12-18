@@ -91,6 +91,7 @@ in
       "docker"
       "element"
       "firefox"
+      "flameshot"
       "font-fira-code"
       "font-fira-code-nerd-font"
       "font-fira-mono-for-powerline"
@@ -122,6 +123,7 @@ in
       "slack"
       "spotify"
       "steam"
+      "tailscale"
       "warp"
       "viscosity"
       "visual-studio-code"
@@ -145,7 +147,7 @@ in
       "Perplexity" = 6714467650;
       "Resize Master" = 102530679;
       "Snippety" = 1530751461;
-      "Tailscale" = 1475387142;
+      #"Tailscale" = 1475387142;
       "Telegram" = 747648890;
       "The Unarchiver" = 425424353;
       "Todoist" = 585829637;
