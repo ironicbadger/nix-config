@@ -19,7 +19,10 @@ export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
 # path fix for homebrew
 export PATH=$PATH:/opt/homebrew/bin/
 export PATH=$PATH:/Users/alex/go/bin
-export EDITOR=vi
+#export EDITOR=vi
+export VISUAL=/etc/profiles/per-user/alex/bin/nvim
+export EDITOR=/etc/profiles/per-user/alex/bin/nvim
+export TERM=xterm
 
 # Nix
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then

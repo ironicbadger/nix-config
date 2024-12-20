@@ -16,6 +16,7 @@
       "/Applications/Plexamp.app"
       "/Applications/Ghostty.app"
       "/Applications/iTerm.app"
+      "/Applications/Ghostty.app"
     ];
   };
 }
