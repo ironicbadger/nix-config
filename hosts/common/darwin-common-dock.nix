@@ -14,6 +14,7 @@
       "/Applications/Visual Studio Code.app"
       "/Applications/Spotify.app"
       "/Applications/Plexamp.app"
+      "/Applications/Ghostty.app"
       "/Applications/iTerm.app"
     ];
   };

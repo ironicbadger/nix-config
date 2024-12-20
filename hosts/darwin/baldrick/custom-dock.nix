@@ -8,6 +8,7 @@
       "/Applications/Obsidian.app"
       "/Applications/Visual Studio Code.app"
       "/Applications/OBS.app"
+      "/Applications/Ghostty.app"
       "/Applications/iTerm.app"
     ];
   };
