@@ -39,6 +39,7 @@
         slartibartfast = libx.mkDarwin { hostname = "slartibartfast"; };
         nauvis = libx.mkDarwin { hostname = "nauvis"; };
         mac-studio = libx.mkDarwin { hostname = "mac-studio"; };
+        mac-mini = libx.mkDarwin { hostname = "mac-mini"; };
         mooncake = libx.mkDarwin { hostname = "mooncake"; };
 
         # work
@@ -65,7 +66,6 @@
 
         # wd
         morphnix = import ./hosts/nixos/morphnix;
-        nix-app = import ./hosts/nixos/nix-app;
         nix-nvllama = import ./hosts/nixos/nix-nvllama;
         #desktop = import ./hosts/nixos/desktop;
 
