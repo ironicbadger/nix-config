@@ -97,7 +97,7 @@
     defaultGateway = "10.42.0.254";
     nameservers = [ "10.42.0.253" ];
   localCommands = ''
-    ip rule add to 10.42.0.0/21 priority 2500 lookup main
+    ip rule add to 10.42.0.0/21 priority 2500 lookup local
   '';
   };
 
