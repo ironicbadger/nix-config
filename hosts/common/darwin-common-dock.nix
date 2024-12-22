@@ -2,8 +2,8 @@
 {
   system.defaults.dock = {
     persistent-apps = [
-      "/Applications/Safari.app"
       "/Applications/Google Chrome.app"
+      "/Applications/Firefox.app"
       "/Applications/Telegram.app"
       "/Applications/Signal.app"
       "/Applications/Discord.app"
