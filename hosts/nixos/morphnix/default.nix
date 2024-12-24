@@ -15,6 +15,7 @@
     targetHost = name;
     targetUser = "root";
     buildOnTarget = true;
+    allowLocalDeployment = true;
   };
 
   boot.loader.systemd-boot.enable = true;
