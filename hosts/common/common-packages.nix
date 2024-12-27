@@ -25,6 +25,7 @@ in
     fira-code-nerdfont
     fira-mono
     gh
+    git-crypt
     gnused
     go
     hugo
