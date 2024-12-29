@@ -36,6 +36,9 @@
     enableBashIntegration = true;
     enableZshIntegration = true;
     tmux.enableShellIntegration = true;
+    defaultOptions = [
+      "--no-mouse"
+    ];
   };
 
   programs.git = {
