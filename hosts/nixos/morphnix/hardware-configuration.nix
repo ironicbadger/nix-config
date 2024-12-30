@@ -45,7 +45,7 @@
 #
 ## bigrust18 - primary data pool
 # mirror0 - ata-WDC_WD180EDGZ-11B9PA0_2GH0M6HS
-# mirror0 - ata-WDC_WD180EDGZ-11B9PA0_2TGGDS5Z
+# mirror0 - ata-WDC_WD200EDGZ-11B9PA0_2GJXH0XT
 # mirror1 - ata-WDC_WD180EDGZ-11B9PA0_3ZGA70DZ
 # mirror1 - ata-ST20000NM007D-3DJ103_ZVT5JTWC
 
@@ -77,9 +77,14 @@
     };
 
   fileSystems."/mnt/disks/disk5" =
-    { device = "/dev/disk/by-id/ata-ST10000DM0004-2GR11L_ZJV5CF96-part1";
+    { device = "/dev/disk/by-id/ata-WDC_WD180EDGZ-11B9PA0_2TGGDS5Z-part1";
       fsType = "xfs";
     };
+
+  # fileSystems."/mnt/disks/disk6" =
+  #   { device = "/dev/disk/by-id/ata-ST10000DM0004-2GR11L_ZJV5CF96-part1";
+  #     fsType = "xfs";
+  #   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
