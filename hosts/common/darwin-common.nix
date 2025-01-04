@@ -104,6 +104,7 @@ in
       "istat-menus"
       "iterm2"
       "jordanbaird-ice"
+      "lm-studio"
       "logitech-options"
       "macwhisper"
       "marta"
