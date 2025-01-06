@@ -6,6 +6,7 @@
       inputs.sops-nix.nixosModules.sops
       ./hardware-configuration.nix
       ./../../common/nixos-common.nix
+      ./../../common/common-packages.nix
     ];
 
   ## DEPLOYMENT
