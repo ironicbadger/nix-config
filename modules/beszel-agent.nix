@@ -72,7 +72,7 @@ in {
           "KEY=${cfg.key}"
           "EXTRA_FILESYSTEMS=${concatStringsSep "," cfg.extraFilesystems}"
         ];
-        ExecStart = "${cfg.package}/bin/beszel-agent";
+        ExecStart = "/run/current-system/sw/bin/beszel-agent";
         User = cfg.user;
         Group = cfg.group;
         Restart = "always";

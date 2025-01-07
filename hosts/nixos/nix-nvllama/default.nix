@@ -8,7 +8,7 @@
       ./../../common/nixos-common.nix
       ./../../common/common-packages.nix
       #./beszel.nix
-      ./../../modules/beszel-agent.nix
+      ./../../../modules/beszel-agent.nix
     ];
 
   ## DEPLOYMENT
