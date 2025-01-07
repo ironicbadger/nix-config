@@ -9,11 +9,11 @@ in {
   options.services.beszel-agent = {
     enable = mkEnableOption "Beszel agent service";
 
-    package = mkOption {
-      type = types.package;
-      default = pkgs.beszel;
-      description = "The beszel package to use.";
-    };
+    # package = mkOption {
+    #   type = types.package;
+    #   default = pkgs.beszel;
+    #   description = "The beszel package to use.";
+    # };
 
     port = mkOption {
       type = types.port;
@@ -23,7 +23,7 @@ in {
 
     key = mkOption {
       type = types.str;
-      default = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFIkr64nTWbuhU7l+VrLO7lPDRgh2LVqTtrIberNge1j";
+      default = "\"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFIkr64nTWbuhU7l+VrLO7lPDRgh2LVqTtrIberNge1j\"";
       description = "SSH key for the beszel agent.";
     };
 
