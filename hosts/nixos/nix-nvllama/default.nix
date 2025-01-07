@@ -7,7 +7,8 @@
       ./hardware-configuration.nix
       ./../../common/nixos-common.nix
       ./../../common/common-packages.nix
-      ./beszel.nix
+      #./beszel.nix
+      ./../../modules/beszel-agent.nix
     ];
 
   ## DEPLOYMENT
@@ -34,12 +35,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  #networking.hostName = "nix-nvllama";
-  # networking.networkmanager.enable = true;
-  # networking.localCommands = ''
-  #   ip rule add to 10.42.0.0/21 priority 2500 lookup main
-  # '';
-
   networking = {
     firewall.enable = false;
     hostName = "nix-nvllama";
@@ -61,6 +56,8 @@
 
   time.timeZone = "America/New_York";
   i18n.defaultLocale = "en_US.UTF-8";
+
+  services.beszel-agent.enable = true;
 
   services.xserver = {
     enable = false;
