@@ -71,6 +71,7 @@ in {
           "PORT=${toString cfg.port}"
           "KEY=${cfg.key}"
           "EXTRA_FILESYSTEMS=${concatStringsSep "," cfg.extraFilesystems}"
+          "PATH=/run/current-system/sw/bin:$PATH"
         ];
         ExecStart = "/run/current-system/sw/bin/beszel-agent";
         User = cfg.user;
