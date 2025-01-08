@@ -20,62 +20,79 @@
     tags = [ "nix-nvllama" ];
   };
 
+  # Secrets management configuration
   sops = {
     defaultSopsFile = ./../../../secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
-    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-    age.keyFile = "/root/.config/sops/age/keys.txt";
-  };
-  sops.secrets = {
-    morphnix-smb-user = { };
-    morphnix-smb-pass = { };
+    age = {
+      sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+      keyFile = "/root/.config/sops/age/keys.txt";
+    };
+    secrets = {
+      morphnix-smb-user = { };
+      morphnix-smb-pass = { };
+    };
   };
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Boot configuration
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
 
+  # Network configuration
   networking = {
     firewall.enable = false;
     hostName = "nix-nvllama";
-    interfaces = {
-      ens18 = {
-        useDHCP = false;
-        ipv4.addresses = [ {
-          address = "10.42.1.12";
-          prefixLength = 21;
-        } ];
-      };
+    interfaces.ens18 = {
+      useDHCP = false;
+      ipv4.addresses = [{
+        address = "10.42.1.12";
+        prefixLength = 21;
+      }];
     };
     defaultGateway = "10.42.0.254";
     nameservers = [ "10.42.0.253" ];
-  localCommands = ''
-    ip rule add to 10.42.0.0/21 priority 2500 lookup main
-  '';
+    # Add custom routing rule for local network
+    localCommands = ''
+      ip rule add to 10.42.0.0/21 priority 2500 lookup main
+    '';
   };
 
+  # System localization
   time.timeZone = "America/New_York";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  services.beszel-agent.enable = true;
-
-  services.xserver = {
-    enable = false;
-    videoDrivers = [ "nvidia" ];
+  # Service configurations
+  services = {
+    beszel-agent = {
+      enable = true;
+      extraFilesystems = [ "/" "/boot" ];
+    };
+    xserver = {
+      enable = false;
+      videoDrivers = [ "nvidia" ];
+    };
+    openssh.enable = true;
+    qemuGuest.enable = true;
+    tailscale.enable = true;
   };
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.users.alex = { imports = [ ./../../../home/alex.nix ]; };
+  # User and home-manager configuration
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.alex.imports = [ ./../../../home/alex.nix ];
+  };
+
   users.users.alex = {
     isNormalUser = true;
     description = "alex";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
-    packages = with pkgs; [
-      home-manager
-    ];
+    packages = with pkgs; [ home-manager ];
   };
 
+  # System packages configuration
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     ansible
@@ -90,35 +107,31 @@
     wget
   ];
 
-  hardware.graphics.enable = true;
-  hardware.graphics.enable32Bit = true;
-  hardware.nvidia.modesetting.enable = true;
-  hardware.nvidia.open = false;
-  hardware.nvidia.nvidiaSettings = true;
-  hardware.nvidia.powerManagement.enable = true;
-  hardware.nvidia-container-toolkit.enable = true;
-
-  # List services that you want to enable:
-  services.openssh.enable = true;
-  services.qemuGuest.enable = true;
-  services.tailscale.enable = true;
-
-  virtualisation = {
-    docker = {
+  # Hardware configuration
+  hardware = {
+    graphics = {
       enable = true;
-      autoPrune = {
-        enable = true;
-        dates = "weekly";
-      };
+      enable32Bit = true;
+    };
+    nvidia = {
+      modesetting.enable = true;
+      open = false;
+      nvidiaSettings = true;
+      powerManagement.enable = true;
+    };
+    nvidia-container-toolkit.enable = true;
+  };
+
+  # Virtualisation configuration
+  virtualisation.docker = {
+    enable = true;
+    autoPrune = {
+      enable = true;
+      dates = "weekly";
     };
   };
 
-#   fileSystems."/mnt/jbod" = {
-#     device = "//10.42.1.10/jbod";
-#     fsType = "cifs";
-#     options = [ "username=abc" "password=123" "x-systemd.automount" "noauto" ];
-#   };
-
+  # Filesystem mounts
   fileSystems."/mnt/jbod" = {
     device = "//10.42.1.10/jbod";
     fsType = "cifs";
@@ -126,7 +139,8 @@
       "username=${config.sops.secrets.morphnix-smb-user.path}"
       "password=${config.sops.secrets.morphnix-smb-pass.path}"
       "x-systemd.automount"
-      "noauto" ];
+      "noauto"
+    ];
   };
 
 }
