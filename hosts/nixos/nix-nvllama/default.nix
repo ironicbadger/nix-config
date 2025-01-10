@@ -63,26 +63,15 @@
   time.timeZone = "America/New_York";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  # Service configurations
-  services = {
-    beszel-agent = {
-      enable = true;
-      extraFilesystems = [ "/" "/boot" ];
-    };
-    xserver = {
-      enable = false;
-      videoDrivers = [ "nvidia" ];
-    };
-    openssh.enable = true;
-    qemuGuest.enable = true;
-    tailscale.enable = true;
+  services.beszel-agent = {
+    enable = true;
+    #groups = ["beszel" "video"];
+    gpu = true;
   };
 
-  # User and home-manager configuration
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    users.alex.imports = [ ./../../../home/alex.nix ];
+  services.xserver = {
+    enable = false;
+    videoDrivers = [ "nvidia" ];
   };
 
   users.users.alex = {

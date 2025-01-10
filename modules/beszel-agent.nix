@@ -29,20 +29,20 @@ in {
 
     extraFilesystems = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = ["/"];
       description = "List of additional filesystems to monitor.";
     };
 
     user = mkOption {
       type = types.str;
-      default = "beszel";
+      default = "root";
       description = "User account under which the service runs.";
     };
 
-    group = mkOption {
-      type = types.str;
-      default = "beszel";
-      description = "Group under which the service runs.";
+    groups = mkOption {
+      type = types.listOf types.str;
+      default = ["root"];
+      description = "Groups under which the service runs.";
     };
 
     restartSec = mkOption {
@@ -50,16 +50,24 @@ in {
       default = 5;
       description = "Time to wait before restarting the service.";
     };
+
+    gpu = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Sets env var to enable GPU monitoring.";
+    };
   };
 
   config = mkIf cfg.enable {
-    users.users.${cfg.user} = {
-      isSystemUser = true;
-      group = cfg.group;
-      description = "Beszel Agent service user";
-    };
+    # users.users.${cfg.user} = {
+    #   isSystemUser = true;
+    #   group = builtins.head cfg.groups;
+    #   extraGroups = builtins.tail cfg.groups;
+    #   description = "Beszel Agent service user";
+    # };
 
-    users.groups.${cfg.group} = {};
+    # #users.groups.${cfg.group} = {};
+    # users.groups = builtins.listToAttrs (map (g: { name = g; value = {}; }) cfg.groups);
 
     systemd.services.beszel-agent = {
       description = "Beszel Agent Service";
@@ -68,14 +76,13 @@ in {
 
       serviceConfig = {
         Environment = [
-          "PORT=${toString cfg.port}"
           "KEY=${cfg.key}"
           "EXTRA_FILESYSTEMS=${concatStringsSep "," cfg.extraFilesystems}"
           "PATH=/run/current-system/sw/bin:$PATH"
         ];
         ExecStart = "/run/current-system/sw/bin/beszel-agent";
         User = cfg.user;
-        Group = cfg.group;
+        Group = builtins.head cfg.groups;
         Restart = "always";
         RestartSec = cfg.restartSec;
       };
