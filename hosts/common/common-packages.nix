@@ -45,6 +45,7 @@ in
     ripgrep
     skopeo
     smartmontools
+    television
     terraform
     tree
     unzip
