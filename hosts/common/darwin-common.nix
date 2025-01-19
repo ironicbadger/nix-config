@@ -71,7 +71,6 @@ in
     brews = [
       "bitwarden-cli"
       #"borders"
-      "music-decoy" # github/FuzzyIdeas/MusicDecoy
     ];
     taps = [
       #"FelixKratz/formulae" #sketchybar
@@ -109,6 +108,7 @@ in
       "macwhisper"
       "marta"
       "mqtt-explorer"
+      "music-decoy" # github/FuzzyIdeas/MusicDecoy
       "nextcloud"
       "notion"
       "obs"
@@ -141,6 +141,7 @@ in
     ];
     masApps = {
       "Amphetamine" = 937984704;
+      "AutoMounter" = 1160435653;
       "Bitwarden" = 1352778147;
       "Creator's Best Friend" = 1524172135;
       "Disk Speed Test" = 425264550;
@@ -149,6 +150,7 @@ in
       "Microsoft Remote Desktop" = 1295203466;
       "Perplexity" = 6714467650;
       "Resize Master" = 102530679;
+      "rCmd" = 1596283165;
       "Snippety" = 1530751461;
       #"Tailscale" = 1475387142;
       "Telegram" = 747648890;
