@@ -69,9 +69,9 @@ in
     global.autoUpdate = true;
 
     brews = [
-      #"starship"
       "bitwarden-cli"
       #"borders"
+      "music-decoy" # github/FuzzyIdeas/MusicDecoy
     ];
     taps = [
       #"FelixKratz/formulae" #sketchybar
