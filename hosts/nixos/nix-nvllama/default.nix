@@ -5,6 +5,7 @@
     [
       inputs.sops-nix.nixosModules.sops
       ./hardware-configuration.nix
+      ./../../home/alex.nix
       ./../../common/nixos-common.nix
       ./../../common/common-packages.nix
       #./beszel.nix
