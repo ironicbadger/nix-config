@@ -6,11 +6,11 @@ in
   time.timeZone = "America/New_York";
   system.stateVersion = stateVersion;
 
-  home-manager = {
-      useGlobalPkgs = true;
-      useUserPackages = true;
-      users.alex = import ../../../home/alex.nix;
-  };
+  # home-manager = {
+  #     useGlobalPkgs = true;
+  #     useUserPackages = true;
+  #     users.alex = import ../../../home/alex.nix;
+  # };
 
   virtualisation = {
     docker = {
