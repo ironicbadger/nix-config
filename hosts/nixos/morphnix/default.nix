@@ -36,7 +36,7 @@
   home-manager.users.alex = { imports = [ ./../../../home/alex.nix ]; };
   users.users.alex = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" ];
+    extraGroups = [ "wheel" "docker" "render" "video"];
     packages = with pkgs; [
       home-manager
     ];
@@ -81,7 +81,27 @@
     mbuffer
     pv
     zstd
+
+    # quicksync
+    #intel-media-driver
+    vaapiIntel
   ];
+
+  ## quicksync
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+      # https://nixos.wiki/wiki/Accelerated_Video_Playback
+      intel-media-driver # LIBVA_DRIVER_NAME=iHD
+      libvdpau-va-gl
+      # OpenCL filter support (hardware tonemapping and subtitle burn-in)
+      intel-compute-runtime
+      # To make OBS HW recording work
+      # https://discourse.nixos.org/t/trouble-getting-quicksync-to-work-with-jellyfin/42275
+      onevpl-intel-gpu
+    ];
+  };
+  #environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; }; # Force intel-media-driver
 
   networking = {
     firewall.enable = false;
