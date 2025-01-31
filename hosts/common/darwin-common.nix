@@ -81,6 +81,7 @@ in
       "adobe-creative-cloud"
       #"nikitabobko/tap/aerospace"
       "alacritty"
+      "alcove"
       "audacity"
       "balenaetcher"
       "bambu-studio"
