@@ -56,7 +56,7 @@
     nameservers = [ "10.42.0.253" ];
     # Add custom routing rule for local network
     localCommands = ''
-      ip rule add to 10.42.0.0/21 priority 2500 lookup main
+      ip rule add to 10.42.0.0/21 priority 2500 lookup main || true
     '';
   };
 
