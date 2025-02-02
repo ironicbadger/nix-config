@@ -14,7 +14,7 @@
 
   ## DEPLOYMENT
   deployment = {
-    targetHost = name;
+    targetHost = "10.42.1.12";
     targetUser = "root";
     buildOnTarget = true;
     allowLocalDeployment = true;
@@ -75,11 +75,17 @@
     videoDrivers = [ "nvidia" ];
   };
 
+  # userland
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.users.alex = { imports = [ ./../../../home/alex.nix ]; };
   users.users.alex = {
     isNormalUser = true;
     description = "alex";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
-    packages = with pkgs; [ home-manager ];
+    packages = with pkgs; [
+      home-manager
+    ];
   };
 
   # System packages configuration
