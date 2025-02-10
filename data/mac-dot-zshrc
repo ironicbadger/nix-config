@@ -47,6 +47,10 @@ alias kc='kubectl'
 alias kcg='kubectl get'
 alias kcgpo='kubectl get pod'
 
+, () {
+  nix run nixpkgs#comma -- "$@"
+}
+
 eval "$(starship init zsh)"
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 alias ghostty="/Applications/Ghostty.app/Contents/MacOS/ghostty"

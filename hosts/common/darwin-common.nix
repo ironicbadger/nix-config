@@ -10,6 +10,7 @@ in
       experimental-features = [ "nix-command" "flakes" ];
       warn-dirty = false;
     };
+    channel.enable = false;
   };
   services.nix-daemon.enable = true;
   system.stateVersion = 5;
@@ -53,6 +54,8 @@ in
       path = inputs.nixpkgs-unstable;
     };
   };
+
+  programs.nix-index.enable = true;
 
   programs.zsh = {
     enable = true;
