@@ -26,6 +26,7 @@ in
     unstablePkgs.colmena
 
     ## stable CLI
+    pkgs.comma
     pkgs.just
     pkgs.nix
   ];
