@@ -246,6 +246,7 @@ in
         tilesize = 36;
         minimize-to-application = true;
         mineffect = "scale";
+        enable-window-tool = false;
       };
       "com.apple.ActivityMonitor" = {
         OpenMainWindow = true;
