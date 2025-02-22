@@ -13,7 +13,7 @@
   networking.hostName = "nix-nvllama";
   networking.networkmanager.enable = true;
   networking.localCommands = ''
-    ip rule add to 10.42.0.0/20 priority 2500 lookup main
+    ip rule add to 10.42.0.0/20 priority 2500 lookup main || true
   '';
 
   time.timeZone = "America/New_York";
