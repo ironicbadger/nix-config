@@ -22,7 +22,11 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelModules = [ "drivetemp" ];
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
-  boot.kernelParams = ["i915.fastboot=1"];
+  boot.kernelParams = [
+    "i915.fastboot=1"
+    "i915.enable_guc=3"
+    #"i915.force_probe=4e71"  # For Raptor Lake
+  ];
 
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.extraPools = [ "nvme-appdata" "ssd4tb" "bigrust18" ];
@@ -81,27 +85,38 @@
     mbuffer
     pv
     zstd
-
-    # quicksync
-    #intel-media-driver
-    vaapiIntel
   ];
 
   ## quicksync
+  hardware.firmware = [ pkgs.linux-firmware ];
   hardware.opengl = {
     enable = true;
     extraPackages = with pkgs; [
-      # https://nixos.wiki/wiki/Accelerated_Video_Playback
-      intel-media-driver # LIBVA_DRIVER_NAME=iHD
-      libvdpau-va-gl
-      # OpenCL filter support (hardware tonemapping and subtitle burn-in)
-      intel-compute-runtime
-      # To make OBS HW recording work
-      # https://discourse.nixos.org/t/trouble-getting-quicksync-to-work-with-jellyfin/42275
-      onevpl-intel-gpu
+    # VA-API drivers
+    intel-media-driver  # LIBVA_DRIVER_NAME=iHD
+    intel-vaapi-driver
+    libvdpau-va-gl
+
+    # OpenCL and compute support
+    intel-compute-runtime
+    intel-gmmlib
+    onevpl-intel-gpu
+
+    # VA-API utilities and libraries
+    libva
+    libva-utils
+
+    # Diagnostic tools
+    glxinfo
+    pciutils
     ];
   };
-  #environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; }; # Force intel-media-driver
+  environment.sessionVariables = {
+    LIBVA_DRIVER_NAME = "iHD";
+    LIBVA_DRIVERS_PATH = "/run/opengl-driver/lib/dri";
+    LIBVA_MESSAGING_LEVEL = "1";
+    GST_VAAPI_ALL_DRIVERS = "1";
+  };
 
   networking = {
     firewall.enable = false;
