@@ -14,7 +14,7 @@
 
   ## DEPLOYMENT
   deployment = {
-    targetHost = "10.42.1.12";
+    targetHost = "nix-nvllama";
     targetUser = "root";
     buildOnTarget = true;
     allowLocalDeployment = true;
