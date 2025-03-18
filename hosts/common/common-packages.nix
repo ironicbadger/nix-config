@@ -8,6 +8,7 @@ in
     nixpkgs-unstable.legacyPackages.${pkgs.system}.beszel
 
     ## stable
+    act
     ansible
     btop
     coreutils
