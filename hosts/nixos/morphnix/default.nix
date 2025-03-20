@@ -51,6 +51,7 @@
   environment.systemPackages = with pkgs; [
     ansible
     bc
+    colmena
     devbox
     dig
     e2fsprogs # badblocks
