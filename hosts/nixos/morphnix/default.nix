@@ -123,7 +123,7 @@
     firewall.enable = false;
     hostName = "morphnix";
     interfaces = {
-      enp14s0 = {
+      enp6s0 = {
         useDHCP = false;
         ipv4.addresses = [ {
           address = "10.42.1.10";
