@@ -153,36 +153,36 @@
   services.openssh.enable = true;
   services.tailscale.enable = true;
 
-  services.sanoid = {
-    enable = true;
-    interval = "hourly";
-    # backupmedia
-    templates.backupmedia = {
-      daily = 3;
-      monthly = 3;
-      autoprune = true;
-      autosnap = true;
-    };
-    datasets."bigrust18/media" = {
-      useTemplate = [ "backupmedia" ];
-      recursive = true;
-    };
-    extraArgs = [ "--debug" ];
-  };
+  # services.sanoid = {
+  #   enable = true;
+  #   interval = "hourly";
+  #   # backupmedia
+  #   templates.backupmedia = {
+  #     daily = 3;
+  #     monthly = 3;
+  #     autoprune = true;
+  #     autosnap = true;
+  #   };
+  #   datasets."bigrust18/media" = {
+  #     useTemplate = [ "backupmedia" ];
+  #     recursive = true;
+  #   };
+  #   extraArgs = [ "--debug" ];
+  # };
 
-  services.syncoid = {
-    enable = true;
-    user = "root";
-    interval = "hourly";
-    commands = {
-      "bigrust18/media" = {
-        target = "root@deepthought:bigrust20/media";
-        extraArgs = [ "--sshoption=StrictHostKeyChecking=off" ];
-        recursive = true;
-      };
-    };
-    commonArgs = [ "--debug"];
-  };
+  # services.syncoid = {
+  #   enable = true;
+  #   user = "root";
+  #   interval = "hourly";
+  #   commands = {
+  #     "bigrust18/media" = {
+  #       target = "root@deepthought:bigrust20/media";
+  #       extraArgs = [ "--sshoption=StrictHostKeyChecking=off" ];
+  #       recursive = true;
+  #     };
+  #   };
+  #   commonArgs = [ "--debug"];
+  # };
 
   services.vscode-server.enable = true;
 
