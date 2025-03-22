@@ -61,13 +61,9 @@
           ];
         };
 
-        # cloud
-        #ktz-cloud = import ./hosts/nixos/ktz-cloud;
-
         # wd
         morphnix = import ./hosts/nixos/morphnix;
         nvllama = import ./hosts/nixos/nvllama;
-        #desktop = import ./hosts/nixos/desktop;
 
         # test system
         # yeager = nixosSystem "x86_64-linux" "yeager" "alex";
