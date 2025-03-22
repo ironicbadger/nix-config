@@ -14,11 +14,11 @@
 
   ## DEPLOYMENT
   deployment = {
-    targetHost = "nix-nvllama";
+    targetHost = "nvllama";
     targetUser = "root";
     buildOnTarget = true;
     allowLocalDeployment = true;
-    tags = [ "nix-nvllama" ];
+    tags = [ "nvllama" ];
   };
 
   # Secrets management configuration
@@ -44,7 +44,7 @@
   # Network configuration
   networking = {
     firewall.enable = false;
-    hostName = "nix-nvllama";
+    hostName = "nvllama";
     interfaces.ens18 = {
       useDHCP = false;
       ipv4.addresses = [{

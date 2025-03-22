@@ -46,6 +46,14 @@ capply:
 update:
   nix flake update
 
+## remote nix vm installation
+install IP:
+  ssh -o "StrictHostKeyChecking no" nixos@{{IP}} "sudo bash -c '\
+    nix-shell -p git --run \"cd /root/ && \
+    git clone https://github.com/ironicbadger/nix-config.git && \
+    cd lib/install && \
+    sh install-nix.sh\"'"
+
 
 # Garbage collect old OS generations and remove stale packages from the nix store
 gc generations="5":

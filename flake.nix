@@ -66,7 +66,7 @@
 
         # wd
         morphnix = import ./hosts/nixos/morphnix;
-        nix-nvllama = import ./hosts/nixos/nix-nvllama;
+        nvllama = import ./hosts/nixos/nvllama;
         #desktop = import ./hosts/nixos/desktop;
 
         # test system

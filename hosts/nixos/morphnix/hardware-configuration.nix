@@ -66,17 +66,18 @@
       fsType = "ext4";
     };
 
-  fileSystems."/mnt/disks/disk3" =
-    { device = "/dev/disk/by-id/ata-WDC_WD120EDAZ-11F3RA0_5PJJ0K4F-part1";
-      fsType = "xfs";
-    };
+  # removed 2025-03-21
+  # fileSystems."/mnt/disks/disk3" =
+  #   { device = "/dev/disk/by-id/ata-WDC_WD120EDAZ-11F3RA0_5PJJ0K4F-part1";
+  #     fsType = "xfs";
+  #   };
 
-  fileSystems."/mnt/disks/disk4" =
+  fileSystems."/mnt/disks/disk3" =
     { device = "/dev/disk/by-id/ata-WDC_WD120EDAZ-11F3RA0_5PK9EAHE-part1";
       fsType = "xfs";
     };
 
-  fileSystems."/mnt/disks/disk5" =
+  fileSystems."/mnt/disks/disk4" =
     { device = "/dev/disk/by-id/ata-WDC_WD120EMAZ-11BLFA0_5PGENVSD-part1";
       fsType = "xfs";
     };
