@@ -50,8 +50,11 @@ update:
 install IP:
   ssh -o "StrictHostKeyChecking no" nixos@{{IP}} "sudo bash -c '\
     nix-shell -p git --run \"cd /root/ && \
+    if [ -d \"nix-config\" ]; then \
+        rm -rf nix-config; \
+    fi && \
     git clone https://github.com/ironicbadger/nix-config.git && \
-    cd lib/install && \
+    cd nix-config/lib/install && \
     sh install-nix.sh\"'"
 
 
