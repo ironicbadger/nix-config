@@ -87,7 +87,7 @@ in
       "alacritty"
       "alcove"
       "audacity"
-      "balenaetcher"
+      #"balenaetcher"
       "bambu-studio"
       "bentobox"
       "clop"
