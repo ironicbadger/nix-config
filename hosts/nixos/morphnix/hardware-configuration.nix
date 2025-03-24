@@ -62,8 +62,18 @@
     };
 
   fileSystems."/mnt/disks/disk2" =
+    { device = "/dev/disk/by-id/ata-ST16000NT001-3LV101_ZRS09BS4-part1";
+      fsType = "xfs";
+    };
+
+  fileSystems."/mnt/disks/disk3" =
     { device = "/dev/disk/by-id/ata-WDC_WD140EDGZ-11B1PA0_Y6GX1KWC-part1";
       fsType = "ext4";
+    };
+
+  fileSystems."/mnt/disks/disk4" =
+    { device = "/dev/disk/by-id/ata-WDC_WD120EDAZ-11F3RA0_5PK9EAHE-part1";
+      fsType = "xfs";
     };
 
   # removed 2025-03-21
@@ -72,15 +82,11 @@
   #     fsType = "xfs";
   #   };
 
-  fileSystems."/mnt/disks/disk3" =
-    { device = "/dev/disk/by-id/ata-WDC_WD120EDAZ-11F3RA0_5PK9EAHE-part1";
-      fsType = "xfs";
-    };
-
-  fileSystems."/mnt/disks/disk4" =
-    { device = "/dev/disk/by-id/ata-WDC_WD120EMAZ-11BLFA0_5PGENVSD-part1";
-      fsType = "xfs";
-    };
+  # removed 2025-03-24
+  # fileSystems."/mnt/disks/disk4" =
+  #   { device = "/dev/disk/by-id/ata-WDC_WD120EMAZ-11BLFA0_5PGENVSD-part1";
+  #     fsType = "xfs";
+  #   };
 
 
 
