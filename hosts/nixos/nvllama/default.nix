@@ -21,19 +21,19 @@
     tags = [ "nvllama" ];
   };
 
-  # Secrets management configuration
-  sops = {
-    defaultSopsFile = ./../../../secrets/secrets.yaml;
-    defaultSopsFormat = "yaml";
-    age = {
-      sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-      keyFile = "/root/.config/sops/age/keys.txt";
-    };
-    secrets = {
-      morphnix-smb-user = { };
-      morphnix-smb-pass = { };
-    };
-  };
+  # # Secrets management configuration
+  # sops = {
+  #   defaultSopsFile = ./../../../secrets/secrets.yaml;
+  #   defaultSopsFormat = "yaml";
+  #   age = {
+  #     sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+  #     keyFile = "/root/.config/sops/age/keys.txt";
+  #   };
+  #   secrets = {
+  #     morphnix-smb-user = { };
+  #     morphnix-smb-pass = { };
+  #   };
+  # };
 
   # Boot configuration
   boot.loader = {
@@ -48,7 +48,7 @@
     interfaces.ens18 = {
       useDHCP = false;
       ipv4.addresses = [{
-        address = "10.42.1.12";
+        address = "10.42.1.100";
         prefixLength = 21;
       }];
     };
@@ -132,16 +132,16 @@
     };
   };
 
-  # Filesystem mounts
-  fileSystems."/mnt/jbod" = {
-    device = "//10.42.1.10/jbod";
-    fsType = "cifs";
-    options = [
-      "username=${config.sops.secrets.morphnix-smb-user.path}"
-      "password=${config.sops.secrets.morphnix-smb-pass.path}"
-      "x-systemd.automount"
-      "noauto"
-    ];
-  };
+  # # Filesystem mounts
+  # fileSystems."/mnt/jbod" = {
+  #   device = "//10.42.1.10/jbod";
+  #   fsType = "cifs";
+  #   options = [
+  #     "username=${config.sops.secrets.morphnix-smb-user.path}"
+  #     "password=${config.sops.secrets.morphnix-smb-pass.path}"
+  #     "x-systemd.automount"
+  #     "noauto"
+  #   ];
+  # };
 
 }
