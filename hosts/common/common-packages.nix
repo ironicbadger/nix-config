@@ -46,6 +46,7 @@ in
     ripgrep
     skopeo
     smartmontools
+    talosctl
     television
     terraform
     tree
