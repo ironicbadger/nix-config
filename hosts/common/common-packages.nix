@@ -6,6 +6,7 @@ in
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     nixpkgs-unstable.legacyPackages.${pkgs.system}.beszel
+    nixpkgs-unstable.legacyPackages.${pkgs.system}.talosctl
 
     ## stable
     act
@@ -46,7 +47,6 @@ in
     ripgrep
     skopeo
     smartmontools
-    talosctl
     television
     terraform
     tree
