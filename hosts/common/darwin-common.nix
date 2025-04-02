@@ -155,6 +155,7 @@ in
       "AutoMounter" = 1160435653;
       "Bitwarden" = 1352778147;
       "Creator's Best Friend" = 1524172135;
+      "DaVinci Resolve" = 571213070;
       "Disk Speed Test" = 425264550;
       "Fantastical" = 975937182;
       "Ivory for Mastodon by Tapbots" = 6444602274;
