@@ -8,6 +8,7 @@
       })
       ./../../common/nixos-common.nix
       ./../../common/common-packages.nix
+      ./beszel.nix
     ];
 
   ## DEPLOYMENT
