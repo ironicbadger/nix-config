@@ -159,6 +159,9 @@
         hostname = "ssh.github.com";
         port = 443;
       };
+      "*" = {
+        user = "root";
+      };
       # wd
 
       # lancs
