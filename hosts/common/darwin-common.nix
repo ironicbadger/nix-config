@@ -138,7 +138,6 @@ in
       "spotify"
       "steam"
       "tailscale"
-      "warp"
       #"wireshark"
       "viscosity"
       "visual-studio-code"
