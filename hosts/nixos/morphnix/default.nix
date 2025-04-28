@@ -26,11 +26,10 @@
   boot.kernelParams = [
     "i915.fastboot=1"
     "i915.enable_guc=3"
-    #"i915.force_probe=4e71"  # For Raptor Lake
   ];
 
   boot.supportedFilesystems = [ "zfs" ];
-  boot.zfs.extraPools = [ "nvme-appdata" "ssd4tb" "bigrust18" ];
+  boot.zfs.extraPools = [ "nvme-appdata" "ssd4tb" "bigrust" ];
   services.zfs.autoScrub.enable = true;
 
   time.timeZone = "America/New_York";
