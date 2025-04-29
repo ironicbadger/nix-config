@@ -64,13 +64,20 @@
 # mirror0 - ata-WDC_WD200EDGZ-11B9PA0_2GJXH0XT
 # mirror1 - ata-ST20000NM007D-3DJ103_ZVT5JTWC
 
-# media storage disks etc
+## mergerfs mounts
   fileSystems."/mnt/jbod" =
     { device = "/mnt/disks/disk*";
       fsType = "mergerfs";
       options = ["defaults" "minfreespace=250G" "fsname=mergerfs-jbod"];
     };
 
+## snapraid parity mounts
+  fileSystems."/mnt/disks/parity1" =
+    { device = "/dev/disk/by-id/ata-WDC_WD180EDGZ-11B9PA0_3ZGA70DZ-part1";
+      fsType = "ext4";
+    };
+
+## data disk mounts
   fileSystems."/mnt/disks/disk1" =
     { device = "/dev/disk/by-id/ata-WDC_WD180EDGZ-11B9PA0_2TGGDS5Z-part1";
       fsType = "xfs";
@@ -78,7 +85,13 @@
 
   fileSystems."/mnt/disks/disk2" =
     { device = "/dev/disk/by-id/ata-WDC_WD180EDGZ-11B9PA0_2GH0M6HS-part1";
-      fsType = "xfs";
+      fsType = "btrfs";
+      options = [ "subvol=data" ];
+    };
+  fileSystems."/mnt/snapct/disk2" =
+    { device = "/dev/disk/by-id/ata-WDC_WD180EDGZ-11B9PA0_2GH0M6HS-part1";
+      fsType = "btrfs";
+      options = [ "subvol=content" ];
     };
 
   fileSystems."/mnt/disks/disk3" =
@@ -88,7 +101,13 @@
 
   fileSystems."/mnt/disks/disk4" =
     { device = "/dev/disk/by-id/ata-WDC_WD140EDGZ-11B1PA0_Y6GX1KWC-part1";
-      fsType = "xfs";
+      fsType = "btrfs";
+      options = [ "subvol=data" ];
+    };
+  fileSystems."/mnt/snapct/disk4" =
+    { device = "/dev/disk/by-id/ata-WDC_WD140EDGZ-11B1PA0_Y6GX1KWC-part1";
+      fsType = "btrfs";
+      options = [ "subvol=content" ];
     };
 
   # candidate for removal once data is migrated

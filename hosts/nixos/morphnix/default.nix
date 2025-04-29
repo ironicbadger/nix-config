@@ -51,6 +51,7 @@
   environment.systemPackages = with pkgs; [
     ansible
     bc
+    btrfs-progs
     colmena
     devbox
     dig
@@ -75,6 +76,7 @@
     python3
     smartmontools
     snapraid
+    snapper
     tmux
     tree
     wget
@@ -183,6 +185,42 @@
   #   };
   #   commonArgs = [ "--debug"];
   # };
+
+
+  services.snapraid = {
+    enable = true;
+    parityFiles = [
+      "/mnt/disks/parity1/snapraid.parity"
+    ];
+    contentFiles = [
+      "/var/snapraid.content"
+      "/mnt/snapct/disk2/snapraid.content"
+    ];
+    dataDisks = {
+      d1 = "/mnt/disks/disk2";
+      d2 = "/mnt/disks/disk4";
+    };
+    exclude = [
+      "*.unrecoverable"
+      "/tmp/"
+      "/lost+found/"
+      "downloads/"
+      "appdata/"
+      "*.!sync"
+      "/.snapshots/"
+    ];
+  };
+
+  services.snapper.configs = {
+    disk2 = {
+      SUBVOLUME = "/mnt/disks/disk2";
+      TIMELINE_CREATE = false;
+    };
+    disk4 = {
+      SUBVOLUME = "/mnt/disks/disk4";
+      TIMELINE_CREATE = false;
+    };
+  };
 
   services.vscode-server.enable = true;
 
