@@ -194,11 +194,13 @@
     ];
     contentFiles = [
       "/var/snapraid.content"
+      "/mnt/snapct/disk1/snapraid.content"
       "/mnt/snapct/disk2/snapraid.content"
     ];
     dataDisks = {
-      d1 = "/mnt/disks/disk2";
-      d2 = "/mnt/disks/disk4";
+      d1 = "/mnt/disks/disk1";
+      d2 = "/mnt/disks/disk2";
+      d3 = "/mnt/disks/disk4";
     };
     exclude = [
       "*.unrecoverable"

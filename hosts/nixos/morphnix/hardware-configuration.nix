@@ -77,10 +77,20 @@
       fsType = "ext4";
     };
 
+## btrfs commands
+### mkfs.btrfs /dev/disk/blah
+### btrfs subvolume create /mnt/disks/diskX/data
+### btrfs subvolume create /mnt/snapct/diskX/content
 ## data disk mounts
   fileSystems."/mnt/disks/disk1" =
     { device = "/dev/disk/by-id/ata-WDC_WD180EDGZ-11B9PA0_2TGGDS5Z-part1";
-      fsType = "xfs";
+      fsType = "btrfs";
+      options = [ "subvol=data" ];
+    };
+  fileSystems."/mnt/snapct/disk1" =
+    { device = "/dev/disk/by-id/ata-WDC_WD180EDGZ-11B9PA0_2TGGDS5Z-part1";
+      fsType = "btrfs";
+      options = [ "subvol=content" ];
     };
 
   fileSystems."/mnt/disks/disk2" =
