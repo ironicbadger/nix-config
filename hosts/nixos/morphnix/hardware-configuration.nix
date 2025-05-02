@@ -120,11 +120,11 @@
       options = [ "subvol=content" ];
     };
 
-  # candidate for removal once data is migrated
-  fileSystems."/mnt/disks/disk5" =
-    { device = "/dev/disk/by-id/ata-WDC_WD120EDAZ-11F3RA0_5PK9EAHE-part1";
-      fsType = "xfs";
-    };
+  # # candidate for removal once data is migrated
+  # fileSystems."/mnt/disks/disk5" =
+  #   { device = "/dev/disk/by-id/ata-WDC_WD120EDAZ-11F3RA0_5PK9EAHE-part1";
+  #     fsType = "xfs";
+  #   };
 
   networking.useDHCP = lib.mkDefault true;
   networking.hostId = "36833652";
