@@ -28,6 +28,7 @@ in
 
     ## stable CLI
     pkgs.comma
+    pkgs.hcloud
     pkgs.just
     pkgs.lima
     pkgs.nix
