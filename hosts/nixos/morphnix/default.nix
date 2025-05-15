@@ -200,7 +200,7 @@
     dataDisks = {
       d1 = "/mnt/disks/disk1";
       d2 = "/mnt/disks/disk2";
-      d3 = "/mnt/disks/disk4";
+      d3 = "/mnt/disks/disk3";
     };
     exclude = [
       "*.unrecoverable"
@@ -214,12 +214,16 @@
   };
 
   services.snapper.configs = {
+    disk1 = {
+      SUBVOLUME = "/mnt/disks/disk1";
+      TIMELINE_CREATE = false;
+    };
     disk2 = {
       SUBVOLUME = "/mnt/disks/disk2";
       TIMELINE_CREATE = false;
     };
-    disk4 = {
-      SUBVOLUME = "/mnt/disks/disk4";
+    disk3 = {
+      SUBVOLUME = "/mnt/disks/disk3";
       TIMELINE_CREATE = false;
     };
   };

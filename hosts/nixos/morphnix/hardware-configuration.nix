@@ -104,17 +104,17 @@
       options = [ "subvol=content" ];
     };
 
-  fileSystems."/mnt/disks/disk3" =
-    { device = "/dev/disk/by-id/ata-ST16000NT001-3LV101_ZRS09BS4-part1";
-      fsType = "xfs";
-    };
+  # fileSystems."/mnt/disks/disk3" =
+  #   { device = "/dev/disk/by-id/ata-ST16000NT001-3LV101_ZRS09BS4-part1";
+  #     fsType = "xfs";
+  #   };
 
-  fileSystems."/mnt/disks/disk4" =
+  fileSystems."/mnt/disks/disk3" =
     { device = "/dev/disk/by-id/ata-WDC_WD140EDGZ-11B1PA0_Y6GX1KWC-part1";
       fsType = "btrfs";
       options = [ "subvol=data" ];
     };
-  fileSystems."/mnt/snapct/disk4" =
+  fileSystems."/mnt/snapct/disk3" =
     { device = "/dev/disk/by-id/ata-WDC_WD140EDGZ-11B1PA0_Y6GX1KWC-part1";
       fsType = "btrfs";
       options = [ "subvol=content" ];
