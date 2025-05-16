@@ -163,7 +163,10 @@
         user = "root";
       };
       # wd
-
+      "dev" = {
+        hostname = "100.68.216.79";
+        user = "alex";
+      };
       # lancs
       # "e elrond" = {
       #   hostname = "100.117.223.78";
