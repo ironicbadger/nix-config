@@ -6,6 +6,11 @@
     unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
     customConfPath = ./../hosts/darwin/${hostname};
     customConf = if builtins.pathExists (customConfPath) then (customConfPath + "/default.nix") else ./../hosts/common/darwin-common-dock.nix;
+    
+    # Custom packages overlay
+    customPkgsOverlay = final: prev: {
+      customPkgs = import ../pkgs { pkgs = final; };
+    };
   in
     inputs.nix-darwin.lib.darwinSystem {
       specialArgs = { inherit system inputs username unstablePkgs; };
@@ -14,13 +19,16 @@
         ../hosts/common/common-packages.nix
         ../hosts/common/darwin-common.nix
         customConf
-        # Add nodejs overlay to fix build issues (https://github.com/NixOS/nixpkgs/issues/402079)
+        # Add overlays for nodejs and custom packages
         {
           nixpkgs.overlays = [
+            # Fix nodejs build issues
             (final: prev: {
               nodejs = prev.nodejs_22;
               nodejs-slim = prev.nodejs-slim_22;
             })
+            # Add custom packages
+            customPkgsOverlay
           ];
         }
         inputs.home-manager.darwinModules.home-manager {
