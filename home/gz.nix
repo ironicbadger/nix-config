@@ -155,6 +155,7 @@
   AddKeysToAgent yes
   UseKeychain yes
   IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+  XAuthLocation /opt/X11/bin/xauth
     '';
     matchBlocks = {
       # ~/.ssh/config
@@ -165,7 +166,6 @@
         identityFile = "~/.ssh/sinistersoundworks-GitHub";
       };
       "*" = {
-        xauthLocation = "/opt/X11/bin/xauth";
       };
       # wd
       "fw" = {
