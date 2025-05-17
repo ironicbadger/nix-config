@@ -86,6 +86,7 @@ in
     ];
     casks = [
       "discord"
+      "elgato-stream-deck"
       "font-fira-code"
       "font-fira-code-nerd-font"
       "font-fira-mono-for-powerline"
@@ -95,6 +96,7 @@ in
       "iina"
       "iterm2"
       "jordanbaird-ice"
+      "keka"
       "logitech-options"
       "macvim"
       "macwhisper"
@@ -122,8 +124,6 @@ in
       "Tab Space" = 1473726602;
       
       # Other apps from previous config
-      "AutoMounter" = 1160435653;
-      "Creator's Best Friend" = 1524172135;
       "Perplexity" = 6714467650;
       "Telegram" = 747648890;
       "The Unarchiver" = 425424353;
