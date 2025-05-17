@@ -110,6 +110,7 @@ in
       "betterdisplay"
       "devtoys"
       "discord"
+      "docker"
       "elgato-stream-deck"
       "forklift"
       "font-fira-code"
