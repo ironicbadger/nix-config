@@ -144,7 +144,6 @@ in
       "Disk Speed Test" = 425264550;
       "GarageBand" = 682658836;
       "Hush" = 1544743900;
-      "Transmit" = 1436522307;
       "Tab Space" = 1473726602;
       "Perplexity" = 6714467650;
       "Telegram" = 747648890;
