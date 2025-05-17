@@ -104,7 +104,7 @@ in
       "raycast"
       "stats"
       "vscodium"
-      "whisper" # https://github.com/whisper/whisper  
+      # "whisper" # https://github.com/whisper/whisper  
     ];
     masApps = {
       # Currently installed apps on darkstar
@@ -132,7 +132,7 @@ in
       # "Bitwarden" = 1352778147;
       # "DaVinci Resolve" = 571213070;
       # "Fantastical" = 975937182;
-      "Ivory for Mastodon by Tapbots" = 6444602274;
+      # "Ivory for Mastodon by Tapbots" = 6444602274;
       # "Home Assistant Companion" = 1099568401;
       # "Microsoft Remote Desktop" = 1295203466;
       # "Resize Master" = 102530679;
