@@ -85,8 +85,17 @@ in
       #"FelixKratz/formulae" #sketchybar
     ];
     casks = [
+      "appcleaner"
+      "arc"
+      "betterdisplay"
+      "devtoys"
       "discord"
       "elgato-stream-deck"
+      "ffmpeg"
+      "flac"
+      "forklift"
+      "imagemagick"
+
       "font-fira-code"
       "font-fira-code-nerd-font"
       "font-fira-mono-for-powerline"
@@ -98,13 +107,31 @@ in
       "jordanbaird-ice"
       "keka"
       "logitech-options"
+      "lua"
       "macvim"
       "macwhisper"
+      "ncdu"
+      "ncurses"
+      "neofetch"
+      "neovim"
+      "nmap"
+      "openjdk"
+      "protobuf"
+      "pyenv"
+      "pkgconf"
       "omnidisksweeper"
       "raycast"
+      "ruby"
+      "ruby-build"
+      "rustup"
+      "sox"
       "stats"
+      "thefuck"
+      "tldr"
+      "tree"
       "vscodium"
-      # "whisper" # https://github.com/whisper/whisper  
+      "xquartz"
+      "yq"
     ];
     masApps = {
       # Currently installed apps on darkstar
