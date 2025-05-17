@@ -36,12 +36,12 @@
 
       darwinConfigurations = {
         # personal
-        studio = libx.mkDarwin { hostname = "studio"; };
+        studio = libx.mkDarwin { hostname = "studio"; system = "aarch64-darwin";};
         darkstar = libx.mkDarwin { hostname = "darkstar"; username = "gz"; system = "x86_64-darwin"; };
 
         # work
-        baldrick = libx.mkDarwin { hostname = "baldrick"; };
-        magrathea = libx.mkDarwin { hostname = "magrathea"; };
+        baldrick = libx.mkDarwin { hostname = "baldrick"; system = "aarch64-darwin"; };
+        magrathea = libx.mkDarwin { hostname = "magrathea"; system = "aarch64-darwin"; };
       };
 
       colmena = {
