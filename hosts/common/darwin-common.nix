@@ -102,6 +102,7 @@ in
       "macwhisper"
       "omnidisksweeper"
       "raycast"
+      "stats"
     ];
     masApps = {
       # Currently installed apps on darkstar
