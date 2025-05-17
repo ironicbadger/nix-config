@@ -156,22 +156,18 @@
   UseKeychain yes
   IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
   XAuthLocation /opt/X11/bin/xauth
+  
+  Host github.com
+    HostName github.com
+    User sinistersoundworks
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/sinistersoundworks-GitHub
+    
+  Host fw
+    HostName 10.30.10.1
+    User gz
     '';
-    matchBlocks = {
-      # ~/.ssh/config
-      "github.com" = {
-        hostname = "github.com";
-        user = "sinistersoundworks";
-        preferredauthentications = "publickey";
-        identityFile = "~/.ssh/sinistersoundworks-GitHub";
-      };
-      "*" = {
-      };
-      # wd
-      "fw" = {
-        hostname = "10.30.10.1";
-        user = "gz";
-      };
+    matchBlocks = {}; # Empty matchBlocks to avoid compatibility issues
       # lancs
       # "e elrond" = {
       #   hostname = "100.117.223.78";
