@@ -37,7 +37,7 @@
       darwinConfigurations = {
         # personal
         studio = libx.mkDarwin { hostname = "studio"; };
-        darkstar = libx.mkDarwin { hostname = "darkstar"; };
+        darkstar = libx.mkDarwin { hostname = "darkstar"; username = "gz"; };
 
         # work
         baldrick = libx.mkDarwin { hostname = "baldrick"; };
