@@ -223,8 +223,11 @@
 
     ];
     extraLuaConfig = ''
-      ${builtins.readFile ./nvim/options.lua}
-      ${builtins.readFile ./nvim/keymap.lua}
+      -- Load options
+      ${lib.strings.fileContents ./nvim/options.lua}
+      
+      -- Load keymaps
+      ${lib.strings.fileContents ./nvim/keymap.lua}
     '';
   };
 
