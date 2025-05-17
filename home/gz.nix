@@ -102,7 +102,7 @@
   programs.home-manager.enable = true;
   programs.nix-index.enable = true;
 
-  programs.alacritty.enable = true;
+  programs.alacritty.enable = false;
 
   programs.bat.enable = true;
   programs.bat.config.theme = "Nord";
@@ -156,16 +156,23 @@
     matchBlocks = {
       # ~/.ssh/config
       "github.com" = {
-        hostname = "ssh.github.com";
-        port = 443;
+        hostname = "github.com";
+        user = "sinistersoundworks";
+        preferredauthentications = "publickey";
+        useKeychain = true;
+        addKeysToAgent = true;
+        identityfile = "~/.ssh/sinistersoundworks-GitHub";
       };
       "*" = {
-        user = "root";
+        useKeychain = true;
+        addKeysToAgent = true;
+        identityAgent = "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
+        xauthLocation = "/opt/X11/bin/xauth";
       };
       # wd
-      "dev" = {
-        hostname = "100.68.216.79";
-        user = "alex";
+      "fw" = {
+        hostname = "10.30.10.1";
+        user = "gz";
       };
       # lancs
       # "e elrond" = {

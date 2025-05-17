@@ -3,7 +3,7 @@ let
   inherit (inputs) nixpkgs nixpkgs-unstable;
 in
 {
-  users.users.alex.home = "/Users/alex";
+  users.users.alex.home = "/Users/gz";
 
   nix = {
     settings = {
@@ -23,8 +23,8 @@ in
   environment.systemPackages = with pkgs; [
     ## unstable
     unstablePkgs.yt-dlp
-    unstablePkgs.get_iplayer
-    unstablePkgs.colmena
+    # unstablePkgs.get_iplayer
+    # unstablePkgs.colmena
 
     ## stable CLI
     pkgs.comma
@@ -62,7 +62,7 @@ in
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    promptInit = builtins.readFile ./../../data/mac-dot-zshrc;
+    # promptInit = builtins.readFile ./../../data/mac-dot-zshrc;
   };
 
   homebrew = {
@@ -75,105 +75,57 @@ in
     global.autoUpdate = true;
 
     brews = [
-      "bitwarden-cli"
-      #"borders"
+      "btop"
+      "bat"
+      "fd"
+      "ripgrep"
+      "watch"
     ];
     taps = [
       #"FelixKratz/formulae" #sketchybar
     ];
     casks = [
-      "screenflow"
-      "cleanshot"
-      "adobe-creative-cloud"
-      #"nikitabobko/tap/aerospace"
-      "alacritty"
-      "alcove"
-      "audacity"
-      #"balenaetcher"
-      "bambu-studio"
-      "bentobox"
-      #"clop"
       "discord"
-      "displaylink"
-      #"docker"
-      "element"
-      "elgato-camera-hub"
-      "elgato-control-center"
-      "elgato-stream-deck"
-      "firefox"
-      "flameshot"
       "font-fira-code"
       "font-fira-code-nerd-font"
       "font-fira-mono-for-powerline"
       "font-hack-nerd-font"
       "font-jetbrains-mono-nerd-font"
       "font-meslo-lg-nerd-font"
-      "ghostty"
-      "google-chrome"
       "iina"
-      "istat-menus"
       "iterm2"
       "jordanbaird-ice"
-      "lm-studio"
       "logitech-options"
+      "macvim"
       "macwhisper"
-      "marta"
-      "mqtt-explorer"
-      "music-decoy" # github/FuzzyIdeas/MusicDecoy
-      "nextcloud"
-      "notion"
-      "obs"
-      "obsidian"
-      "ollama"
       "omnidisksweeper"
-      "orbstack"
-      "openscad"
-      "openttd"
-      "plexamp"
-      "popclip"
-      "prusaslicer"
       "raycast"
-      "signal"
-      "shortcat"
-      "slack"
-      "spotify"
-      "steam"
       "tailscale"
-      #"wireshark"
       "viscosity"
-      "visual-studio-code"
-      "vlc"
-      # "lm-studio"
-
-      # # rogue amoeba
-      "audio-hijack"
-      "farrago"
-      "loopback"
-      "soundsource"
     ];
     masApps = {
-      "Amphetamine" = 937984704;
+      # "Amphetamine" = 937984704;
       "AutoMounter" = 1160435653;
-      "Bitwarden" = 1352778147;
+      # "Bitwarden" = 1352778147;
       "Creator's Best Friend" = 1524172135;
-      "DaVinci Resolve" = 571213070;
+      # "DaVinci Resolve" = 571213070;
       "Disk Speed Test" = 425264550;
-      "Fantastical" = 975937182;
-      "Ivory for Mastodon by Tapbots" = 6444602274;
-      "Home Assistant Companion" = 1099568401;
-      "Microsoft Remote Desktop" = 1295203466;
+      # "Fantastical" = 975937182;
+      # "Ivory for Mastodon by Tapbots" = 6444602274;
+      # "Home Assistant Companion" = 1099568401;
+      # "Microsoft Remote Desktop" = 1295203466;
       "Perplexity" = 6714467650;
-      "Resize Master" = 102530679;
-      "rCmd" = 1596283165;
-      "Snippety" = 1530751461;
+      # "Resize Master" = 102530679;
+      # "rCmd" = 1596283165;
+      # "Snippety" = 1530751461;
       #"Tailscale" = 1475387142;
       "Telegram" = 747648890;
       "The Unarchiver" = 425424353;
-      "Todoist" = 585829637;
-      "UTM" = 1538878817;
-      "Wireguard" = 1451685025;
+      # "Todoist" = 585829637;
+      # "UTM" = 1538878817;
+      # "Wireguard" = 1451685025;
 
-      "Final Cut Pro" = 424389933;
+      # "Final Cut Pro" = 424389933;
 
       # these apps only available via uk apple id
       #"Logic Pro" = 634148309;
@@ -212,7 +164,7 @@ in
     NSGlobalDomain.ApplePressAndHoldEnabled = false;
     NSGlobalDomain.InitialKeyRepeat = 25;
     NSGlobalDomain.KeyRepeat = 2;
-    NSGlobalDomain."com.apple.mouse.tapBehavior" = 1;
+    # NSGlobalDomain."com.apple.mouse.tapBehavior" = 1;
     NSGlobalDomain.NSWindowShouldDragOnGesture = true;
     NSGlobalDomain.NSAutomaticSpellingCorrectionEnabled = false;
     LaunchServices.LSQuarantine = false; # disables "Are you sure?" for new apps
@@ -249,10 +201,10 @@ in
         static-only = false;
         show-recents = false;
         show-process-indicators = true;
-        orientation = "left";
+        orientation = "bottom";
         tilesize = 36;
-        minimize-to-application = true;
-        mineffect = "scale";
+        minimize-to-application = false;
+        mineffect = "genie";
         enable-window-tool = false;
       };
       "com.apple.ActivityMonitor" = {

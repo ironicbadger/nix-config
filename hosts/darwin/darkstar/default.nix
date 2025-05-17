@@ -1,0 +1,6 @@
+{ ... }:
+{
+  imports = [
+    ./custom-dock.nix
+  ];
+}
