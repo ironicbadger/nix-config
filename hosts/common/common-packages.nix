@@ -30,6 +30,7 @@ in
     # fira-code
     # fira-code-nerdfont
     # fira-mono
+    fish
     # gh
     # git-crypt
     # gnused
@@ -41,7 +42,7 @@ in
     jq
     just
     # kubectl
-    # mc
+    mc
     mosh
     # nerdfonts
     nmap
@@ -52,7 +53,7 @@ in
     # skopeo
     smartmontools
     # television
-    # terraform
+    terraform
     tree
     unzip
     watch

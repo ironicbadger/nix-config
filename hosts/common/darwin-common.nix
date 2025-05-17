@@ -102,8 +102,6 @@ in
       "macwhisper"
       "omnidisksweeper"
       "raycast"
-      "tailscale"
-      "viscosity"
     ];
     masApps = {
       # Currently installed apps on darkstar
@@ -113,19 +111,17 @@ in
       "Tempomate" = 1157672888;
       "SnippetsLab" = 1006087419;
       "PlugInfo" = 1626412949;
-      "Internet Access Policy Viewer" = 1482630322;
+      # "Internet Access Policy Viewer" = 1482630322;
       "Disk Speed Test" = 425264550;
-      "Pages" = 409201541;
       "GarageBand" = 682658836;
       "Hush" = 1544743900;
       "Transmit" = 1436522307;
-      "Numbers" = 409203825;
       "Tab Space" = 1473726602;
-      
-      # Other apps from previous config
       "Perplexity" = 6714467650;
       "Telegram" = 747648890;
-      "The Unarchiver" = 425424353;
+      # "The Unarchiver" = 425424353;
+      "Numbers" = 409203825;
+      "Pages" = 409201541;
       "Keynote" = 409183694;
       
       # Commented out apps from previous config
@@ -133,7 +129,7 @@ in
       # "Bitwarden" = 1352778147;
       # "DaVinci Resolve" = 571213070;
       # "Fantastical" = 975937182;
-      # "Ivory for Mastodon by Tapbots" = 6444602274;
+      "Ivory for Mastodon by Tapbots" = 6444602274;
       # "Home Assistant Companion" = 1099568401;
       # "Microsoft Remote Desktop" = 1295203466;
       # "Resize Master" = 102530679;
