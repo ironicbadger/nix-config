@@ -222,13 +222,20 @@
       telescope-fzf-native-nvim
 
     ];
-    extraLuaConfig = ''
-      -- Load options
-      ${lib.strings.fileContents ./nvim/options.lua}
-      
-      -- Load keymaps
-      ${lib.strings.fileContents ./nvim/keymap.lua}
-    '';
+    extraConfig = ''" Neovim configuration"''; # Empty extraConfig to avoid syntax errors
+    
+    # Instead of using string interpolation, we'll copy the Lua files to the Neovim config directory
+    xdg.configFile = {
+      "nvim/lua/options.lua".source = ./nvim/options.lua;
+      "nvim/lua/keymap.lua".source = ./nvim/keymap.lua;
+      "nvim/init.lua".text = ''
+        -- Load options
+        require("options")
+        
+        -- Load keymaps
+        require("keymap")
+      '';
+    };
   };
 
   programs.zoxide.enable = true;
