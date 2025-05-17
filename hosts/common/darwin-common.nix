@@ -95,7 +95,7 @@ in
       "rustup"
       "sox"
       "thefuck"
-      "tldr"
+      # "tldr"
       "tree"
       "watch"
       "wget"
