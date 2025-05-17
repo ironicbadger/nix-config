@@ -35,13 +35,11 @@
   # Configure default shell
   programs.zsh.enable = true;
   environment.shells = with pkgs; [ bash zsh fish ];
-  users.users.gz.shell = pkgs.zsh;
   
   # Add shell integration for utilities
   programs.bash.enableCompletion = true;
   programs.zsh.enableCompletion = true;
   
   # Configure system-wide shell init scripts
-  environment.loginShell = pkgs.zsh;
   environment.pathsToLink = [ "/share/zsh" ];
 }

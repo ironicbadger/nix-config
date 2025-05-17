@@ -3,22 +3,9 @@
 {
   # System services configuration
   
-  # Enable automatic system updates
-  system.autoUpgrade = {
-    enable = true;
-    allowReboot = false;  # Don't automatically reboot after updates
-  };
-  
-  # Configure Time Machine
+  # Configure nix-daemon service
   services.nix-daemon.enable = true;
   services.activate-system.enable = true;
-  
-  # Configure power management
-  powerManagement = {
-    enable = true;
-    # Prevent the system from automatically sleeping when the lid is closed
-    # powerDownTime = 0;
-  };
   
   # Configure automatic garbage collection for Nix store
   nix.gc = {
