@@ -34,7 +34,7 @@
         inputs.nix-homebrew.darwinModules.nix-homebrew {
           nix-homebrew = {
             enable = true;
-            enableRosetta = true;
+            enableRosetta = false;
             autoMigrate = true;
             mutableTaps = true;
             user = "${username}";
