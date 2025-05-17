@@ -111,17 +111,17 @@
       vi = "vim $argv";
       
       # Bang-bang function (does not work in Vi mode)
-      __history_previous_command = '''
+      __history_previous_command = ''
         switch (commandline -t)
           case "!"
             commandline -t $history[1]; commandline -f repaint
           case "*"
             commandline -i !
         end
-      ''';
+      '';
       
       # !$ Function
-      __history_previous_command_arguments = '''
+      __history_previous_command_arguments = ''
         switch (commandline -t)
           case "!"
             commandline -t ""
@@ -129,10 +129,10 @@
           case "*"
             commandline -i '$'
         end
-      ''';
+      '';
       
       # Directory renaming function
-      rename_directories = '''
+      rename_directories = ''
         for dir in (find . -maxdepth 1 -type d -not -name '.*' -not -name '#*' -not -name '@*' -print | sed 's|^\./||')
           # Skip the current directory
           if test "$dir" = "."; continue; end
@@ -146,7 +146,7 @@
               mv "$dir" "$new_dir"
           end
         end
-      ''';
+      '';
     };
     
     # Fish shell plugins
