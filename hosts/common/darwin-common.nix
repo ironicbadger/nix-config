@@ -103,6 +103,8 @@ in
       "omnidisksweeper"
       "raycast"
       "stats"
+      "vscodium"
+      "whisper" # https://github.com/whisper/whisper  
     ];
     masApps = {
       # Currently installed apps on darkstar
