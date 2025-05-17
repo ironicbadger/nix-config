@@ -24,10 +24,10 @@ end
 # <<< conda initialize <<<
 
 # pnpm
-set PNPM_HOME /Users/gz/Library/pnpm
-set PATH "$PNPM_HOME:$PATH"
-set PATH "$HOME/.cargo/bin:$HOME/.local/bin:$PATH"
-set PATH "/Applications/PyCharm\ CE.app/Contents/MacOS:$PATH"
+# set PNPM_HOME /Users/gz/Library/pnpm
+# set PATH "$PNPM_HOME:$PATH"
+# set PATH "$HOME/.cargo/bin:$HOME/.local/bin:$PATH"
+# set PATH "/Applications/PyCharm\ CE.app/Contents/MacOS:$PATH"
 # pnpm end
 
 #eval "$(ssh-agent)"

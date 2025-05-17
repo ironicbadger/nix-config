@@ -12,19 +12,6 @@
   #   })
   # ];
 
-  # Neovim configuration files
-  xdg.configFile = {
-    "nvim/lua/options.lua".source = ./nvim/options.lua;
-    "nvim/lua/keymap.lua".source = ./nvim/keymap.lua;
-    "nvim/init.lua".text = ''
-      -- Load options
-      require("options")
-      
-      -- Load keymaps
-      require("keymap")
-    '';
-  };
-
   programs.gpg.enable = true;
 
   programs.vim = {
@@ -74,11 +61,22 @@
       init = {
         defaultBranch = "main";
       };
+      merge = {
+        conflictStyle = "diff3";
+        tool = "meld";
+      };
       pull = {
         rebase = true;
       };
     };
   };
+
+  programs.htop = {
+    enable = true;
+    settings.show_program_path = true;
+  };
+
+  programs.lf.enable = true;
 
   programs.starship = {
     enable = true;
@@ -208,27 +206,35 @@
       #   plugin = gruvbox-nvim;
       #   config = "colorscheme gruvbox";
       # }
-      # {
-      #   plugin = nvim-tree-lua;
-      #   config = "lua require('nvim-tree').setup()";
-      # }
-      # {
-      #   plugin = telescope-nvim;
-      #   config = "lua require('telescope').setup()";
-      # }
-      # {
-      #   plugin = nvim-treesitter.withAllGrammars;
-      #   config = "lua require('nvim-treesitter.configs').setup { highlight = { enable = true } }";
-      # }
-      # {
-      #   plugin = nvim-lspconfig;
-      #   config = "lua require('lspconfig').pyright.setup{}";
-      # }
-      telescope-nvim
+
+      {
+        plugin = catppuccin-nvim;
+        config = "colorscheme catppuccin";
+      }
+
+      ## telescope
+      {
+        plugin = telescope-nvim;
+        type = "lua";
+        config = builtins.readFile ./nvim/plugins/telescope.lua;
+      }
       telescope-fzf-native-nvim
 
     ];
     extraConfig = ''" Neovim configuration"''; # Empty extraConfig to avoid syntax errors
+    
+    # Instead of using string interpolation, we'll copy the Lua files to the Neovim config directory
+    xdg.configFile = {
+      "nvim/lua/options.lua".source = ./nvim/options.lua;
+      "nvim/lua/keymap.lua".source = ./nvim/keymap.lua;
+      "nvim/init.lua".text = ''
+        -- Load options
+        require("options")
+        
+        -- Load keymaps
+        require("keymap")
+      '';
+    };
   };
 
   programs.zoxide.enable = true;
@@ -269,5 +275,6 @@
     #   #   user = "ironicbadger";
     #   #   port = 53142;
     #   # };
+    # };
   };
 }
