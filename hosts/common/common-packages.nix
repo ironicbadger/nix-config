@@ -45,6 +45,8 @@ in
     mosh
     # nerdfonts
     nmap
+    pyenv
+    fnm
     # qemu
     # ripgrep
     # skopeo

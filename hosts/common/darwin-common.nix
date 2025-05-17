@@ -109,7 +109,6 @@ in
       # Currently installed apps on darkstar
       "Eagle for Safari" = 1526651672;
       "1Password for Safari" = 1569813296;
-      "Tailscale" = 1475387142;
       "Exporter" = 1099120373;
       "Tempomate" = 1157672888;
       "SnippetsLab" = 1006087419;
