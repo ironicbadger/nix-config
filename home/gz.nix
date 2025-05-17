@@ -152,6 +152,9 @@
     enable = true;
     extraConfig = ''
   StrictHostKeyChecking no
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
     '';
     matchBlocks = {
       # ~/.ssh/config
@@ -159,14 +162,9 @@
         hostname = "github.com";
         user = "sinistersoundworks";
         preferredauthentications = "publickey";
-        useKeychain = true;
-        addKeysToAgent = true;
-        identityfile = "~/.ssh/sinistersoundworks-GitHub";
+        identityFile = "~/.ssh/sinistersoundworks-GitHub";
       };
       "*" = {
-        useKeychain = true;
-        addKeysToAgent = true;
-        identityAgent = "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
         xauthLocation = "/opt/X11/bin/xauth";
       };
       # wd
