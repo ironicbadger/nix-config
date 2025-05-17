@@ -167,23 +167,23 @@
     HostName 10.30.10.1
     User gz
     '';
-    matchBlocks = {}; # Empty matchBlocks to avoid compatibility issues
-      # lancs
-      # "e elrond" = {
-      #   hostname = "100.117.223.78";
-      #   user = "alexktz";
-      # };
-      # # jb
-      # "core" = {
-      #   hostname = "demo.selfhosted.show";
-      #   user = "ironicbadger";
-      #   port = 53142;
-      # };
-      # "status" = {
-      #   hostname = "hc.ktz.cloud";
-      #   user = "ironicbadger";
-      #   port = 53142;
-      # };
-    };
+    # matchBlocks = {}; # Empty matchBlocks to avoid compatibility issues
+    #   # lancs
+    #   # "e elrond" = {
+    #   #   hostname = "100.117.223.78";
+    #   #   user = "alexktz";
+    #   # };
+    #   # # jb
+    #   # "core" = {
+    #   #   hostname = "demo.selfhosted.show";
+    #   #   user = "ironicbadger";
+    #   #   port = 53142;
+    #   # };
+    #   # "status" = {
+    #   #   hostname = "hc.ktz.cloud";
+    #   #   user = "ironicbadger";
+    #   #   port = 53142;
+    #   # };
+    # };
   };
 }
