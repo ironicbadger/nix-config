@@ -78,8 +78,28 @@ in
       "btop"
       "bat"
       "fd"
+      "ffmpeg"
+      "flac"
+      "imagemagick" 
+      "lua"
+      "ncurses"
+      "neovim"
+      "nmap"
+      "openjdk"
+      "protobuf"
+      "pyenv"
+      "pkgconf"
       "ripgrep"
+      "ruby"
+      "ruby-build"
+      "rustup"
+      "sox"
+      "thefuck"
+      "tldr"
+      "tree"
       "watch"
+      "wget"
+      "yq"
     ];
     taps = [
       #"FelixKratz/formulae" #sketchybar
@@ -91,11 +111,7 @@ in
       "devtoys"
       "discord"
       "elgato-stream-deck"
-      "ffmpeg"
-      "flac"
       "forklift"
-      "imagemagick"
-
       "font-fira-code"
       "font-fira-code-nerd-font"
       "font-fira-mono-for-powerline"
@@ -107,31 +123,13 @@ in
       "jordanbaird-ice"
       "keka"
       "logitech-options"
-      "lua"
       "macvim"
       "macwhisper"
-      "ncdu"
-      "ncurses"
-      "neofetch"
-      "neovim"
-      "nmap"
-      "openjdk"
-      "protobuf"
-      "pyenv"
-      "pkgconf"
       "omnidisksweeper"
       "raycast"
-      "ruby"
-      "ruby-build"
-      "rustup"
-      "sox"
       "stats"
-      "thefuck"
-      "tldr"
-      "tree"
       "vscodium"
       "xquartz"
-      "yq"
     ];
     masApps = {
       # Currently installed apps on darkstar
@@ -249,11 +247,11 @@ in
         SortColumn = "CPUUsage";
         SortDirection = 0;
       };
-      # "com.apple.Safari" = {
-      #   # Privacy: don't send search queries to Apple
-      #   UniversalSearchEnabled = false;
-      #   SuppressSearchSuggestions = true;
-      # } // { forceValueMerge = true; };
+      "com.apple.Safari" = {
+        # Privacy: don't send search queries to Apple
+        UniversalSearchEnabled = false;
+        SuppressSearchSuggestions = true;
+      } // { forceValueMerge = true; };
       "com.apple.AdLib" = {
         allowApplePersonalizedAdvertising = false;
       };
