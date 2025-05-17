@@ -5,7 +5,7 @@
   
   # Configure nix-daemon service
   services.nix-daemon.enable = true;
-  services.activate-system.enable = true;
+  # services.activate-system.enable = true;
   
   # Configure automatic garbage collection for Nix store
   nix.gc = {
