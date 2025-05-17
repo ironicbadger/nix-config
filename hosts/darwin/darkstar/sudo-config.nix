@@ -2,15 +2,8 @@
 
 {
   # Add passwordless sudo for user 'gz'
-  security.sudo.extraRules = [
-    {
-      users = [ "gz" ];
-      commands = [
-        {
-          command = "ALL";
-          options = [ "NOPASSWD" ];
-        }
-      ];
-    }
-  ];
+  environment.etc."sudoers.d/10-gz-nopasswd" = {
+    text = "gz ALL=(ALL) NOPASSWD: ALL";
+    mode = "0440";
+  };
 }
