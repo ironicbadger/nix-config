@@ -37,7 +37,7 @@
   environment.shells = with pkgs; [ bash zsh fish ];
   
   # Add shell integration for utilities
-  programs.bash.enableCompletion = true;
+  programs.bash.completion.enable = true;
   programs.zsh.enableCompletion = true;
   
   # Configure system-wide shell init scripts
