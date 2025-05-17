@@ -168,7 +168,6 @@
 
   programs.tmux = {
     enable = true;
-    #keyMode = "vi";
     clock24 = true;
     historyLimit = 10000;
     plugins = with pkgs.tmuxPlugins; [
@@ -246,14 +245,14 @@
   StrictHostKeyChecking no
   AddKeysToAgent yes
   UseKeychain yes
-  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+  IdentityAgent "/Users/${config.home.username}/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
   XAuthLocation /opt/X11/bin/xauth
   
   Host github.com
     HostName github.com
     User sinistersoundworks
     PreferredAuthentications publickey
-    IdentityFile ~/.ssh/sinistersoundworks-GitHub
+    IdentityFile "/Users/${config.home.username}/.ssh/sinistersoundworks-GitHub"
     
   Host fw
     HostName 10.30.10.1
