@@ -1,0 +1,49 @@
+" --- Modern MacVim Defaults ---
+
+" Use system monospace font (SF Mono) at size 14
+set guifont=-monospace-:h14
+
+" Enable smooth window resizing (default in recent MacVim)
+set guioptions+=k
+
+" Use a modern color scheme (pick one you like, e.g. 'desert', 'molokai', or 'gruvbox')
+colorscheme desert
+
+" Enable true color support
+set termguicolors
+
+" Show line numbers and relative numbers
+set number
+set relativenumber
+
+" Highlight current line
+set cursorline
+
+" Enable mouse support
+set mouse=a
+
+" Set tabs and indentation
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+
+" Show matching brackets
+set showmatch
+
+" Enable syntax highlighting
+syntax on
+
+" Enable clipboard integration
+set clipboard=unnamedplus
+
+" Display status line always
+set laststatus=2
+
+" Use airline or lightline for a modern status bar (requires plugin)
+" Plug 'vim-airline/vim-airline'
+" Or: Plug 'itchyny/lightline.vim'
+
+set rtp+=/opt/homebrew/opt/fzf
+set mouse=
+" --- End of Config ---

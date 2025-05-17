@@ -14,6 +14,16 @@
 
   programs.gpg.enable = true;
 
+  programs.vim = {
+    enable = true;
+    extraConfig = builtins.readFile ./config/vim/vimrc;
+    plugins = with pkgs.vimPlugins; [
+      vim-airline
+      vim-airline-themes
+      fzf-vim
+    ];
+  };
+
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
@@ -76,6 +86,78 @@
   };
 
   programs.bash.enable = true;
+
+  programs.fish = {
+    enable = true;
+    
+    # Load the main config.fish file
+    interactiveShellInit = builtins.readFile ./config/fish/config.fish;
+    
+    # Define Fish shell functions
+    functions = {
+      # Custom functions from your configuration
+      e = "$EDITOR $argv";
+      la = "ls -la";
+      ll = "ls -l";
+      o = "open $argv";
+      gaa = "git add -A";
+      gs = "git status";
+      gf = "git fetch";
+      myip = "curl -s https://api.ipify.org";
+      rmssh = "rm ~/.ssh/known_hosts";
+      sshrm = "rm ~/.ssh/known_hosts";
+      vi = "vim $argv";
+      
+      # Bang-bang function (does not work in Vi mode)
+      __history_previous_command = '''
+        switch (commandline -t)
+          case "!"
+            commandline -t $history[1]; commandline -f repaint
+          case "*"
+            commandline -i !
+        end
+      ''';
+      
+      # !$ Function
+      __history_previous_command_arguments = '''
+        switch (commandline -t)
+          case "!"
+            commandline -t ""
+            commandline -f history-token-search-backward
+          case "*"
+            commandline -i '$'
+        end
+      ''';
+      
+      # Directory renaming function
+      rename_directories = '''
+        for dir in (find . -maxdepth 1 -type d -not -name '.*' -not -name '#*' -not -name '@*' -print | sed 's|^\./||')
+          # Skip the current directory
+          if test "$dir" = "."; continue; end
+
+          # Replace hyphens with spaces and capitalize each word
+          set new_dir (echo $dir | string replace -a '-' ' ' | string titlecase)
+
+          # Rename directory if the new name is different from the current name
+          if test "$dir" != "$new_dir"
+              echo "Renaming '$dir' to '$new_dir'"
+              mv "$dir" "$new_dir"
+          end
+        end
+      ''';
+    };
+    
+    # Fish shell plugins
+    plugins = [
+      # You can add Fish plugins here from pkgs.fishPlugins
+      # Example: { name = "done"; src = pkgs.fishPlugins.done.src; }
+    ];
+    
+    # Fish shell aliases
+    shellAliases = {
+      # Add your aliases here
+    };
+  };
 
   programs.zsh = {
     enable = true;

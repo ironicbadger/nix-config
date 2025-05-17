@@ -5,6 +5,8 @@ in
 {
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
+    # Custom applications from shared drive
+    (pkgs.customPkgs.custom-apps.pro-tools-installer or null)
     # nixpkgs-unstable.legacyPackages.${pkgs.system}.beszel
     # nixpkgs-unstable.legacyPackages.${pkgs.system}.talosctl
 
