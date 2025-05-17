@@ -222,11 +222,11 @@ in
         SortColumn = "CPUUsage";
         SortDirection = 0;
       };
-      "com.apple.Safari" = {
-        # Privacy: don't send search queries to Apple
-        UniversalSearchEnabled = false;
-        SuppressSearchSuggestions = true;
-      } // { forceValueMerge = true; };
+      # "com.apple.Safari" = {
+      #   # Privacy: don't send search queries to Apple
+      #   UniversalSearchEnabled = false;
+      #   SuppressSearchSuggestions = true;
+      # } // { forceValueMerge = true; };
       "com.apple.AdLib" = {
         allowApplePersonalizedAdvertising = false;
       };
