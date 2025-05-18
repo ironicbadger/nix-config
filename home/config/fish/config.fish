@@ -83,6 +83,17 @@ function __history_previous_command_arguments
     end
 end
 
+# Edit command in external editor (for Ctrl+E binding)
+function edit_command_buffer
+    set -l f (mktemp)
+    if set -q f[1]
+        commandline -b > $f
+        $EDITOR $f
+        commandline -r (cat $f)
+        rm $f
+    end
+end
+
 # Rename directories (capitalize and convert dashes to spaces)
 function rename_directories
     for dir in (find . -maxdepth 1 -type d -not -name '.*' -not -name '#*' -not -name '@*' -print | sed 's|^\./||')
@@ -101,9 +112,28 @@ function rename_directories
 end
 
 # ---- Key Bindings ----
-# Keybindings for !! and !$
+# History navigation with !! and !$
 bind ! __history_previous_command
 bind '$' __history_previous_command_arguments
+
+# Navigation shortcuts
+bind \e\[1\;5A history-token-search-backward # Ctrl+Up - Search history backward matching current token
+bind \e\[1\;5B history-token-search-forward  # Ctrl+Down - Search history forward matching current token
+bind \e\[1\;5C forward-word                   # Ctrl+Right - Move cursor forward one word
+bind \e\[1\;5D backward-word                  # Ctrl+Left - Move cursor backward one word
+
+# Editing shortcuts
+bind \cz 'fg 2>/dev/null; or echo "No background jobs"' # Ctrl+Z - Bring background process to foreground
+bind \ce 'edit_command_buffer'                          # Ctrl+E - Edit command in external editor
+bind \ch backward-kill-word                             # Ctrl+H - Delete word backward
+bind \ck kill-line                                      # Ctrl+K - Delete from cursor to end of line
+bind \cu backward-kill-line                             # Ctrl+U - Delete from cursor to beginning of line
+bind \ct '__fish_paginate'                              # Ctrl+T - Paginate current command output
+
+# Directory navigation
+bind \ep 'prevd; commandline -f repaint'                # Alt+P - Go to previous directory
+bind \en 'nextd; commandline -f repaint'                # Alt+N - Go to next directory
+bind \e. 'commandline -i $history[1]; commandline -f repaint' # Alt+. - Insert last argument of previous command
 
 # ---- Commented Out Configurations (Preserved) ----
 # >>> conda initialize >>>
