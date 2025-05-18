@@ -17,18 +17,14 @@
       brewfile = true;
       noLock = true;  # Don't create Brewfile.lock.json
     };
-    
-    # Set environment variables for Homebrew
-    extraEnv = {
-      HOMEBREW_NO_ANALYTICS = "1";
-      HOMEBREW_NO_AUTO_UPDATE = "1";
-      HOMEBREW_NO_INSTALL_CLEANUP = "1";
-    };
   };
   
-  # Add Homebrew to PATH before Nix to prioritize Homebrew packages when both exist
+  # Add Homebrew environment variables to improve Nix compatibility
   environment.variables = {
     HOMEBREW_PREFIX = "/opt/homebrew";
+    HOMEBREW_NO_ANALYTICS = "1";
+    HOMEBREW_NO_AUTO_UPDATE = "1";
+    HOMEBREW_NO_INSTALL_CLEANUP = "1";
   };
   
   # Add a shell script to help manage Homebrew and Nix conflicts
