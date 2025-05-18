@@ -15,7 +15,7 @@
     # Global environment variables to improve Homebrew/Nix coexistence
     global = {
       brewfile = true;
-      noLock = true;  # Don't create Brewfile.lock.json
+      lockfiles = false;  # Don't create Brewfile.lock.json
     };
   };
   
