@@ -10,5 +10,6 @@
     ./system-services.nix
     ./shell-environment.nix
     ./uninstall-transmit.nix
+    ./user-shell.nix
   ];
 }
