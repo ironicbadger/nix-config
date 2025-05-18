@@ -46,7 +46,8 @@ alias serve='python3 -m http.server'
 alias ports='lsof -i -P -n | grep LISTEN'
 
 # --- Homebrew ---
-alias brewup='brew update && brew upgrade && brew cleanup'
+# Modified brewup to avoid Git permission errors with Nix
+alias brewup='HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade && brew cleanup'
 alias brews='brew list'
 alias brewc='brew cleanup'
 
