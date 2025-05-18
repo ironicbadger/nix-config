@@ -1,6 +1,9 @@
 { config, pkgs, lib, ... }:
 
 {
+  # Enable Fish shell at the system level
+  programs.fish.enable = true;
+  
   # Set Fish as the default shell for the gz user
   users.users.gz.shell = pkgs.fish;
   
