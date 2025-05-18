@@ -23,6 +23,9 @@
       -- Load keymaps
       require("keymap")
     '';
+    
+    # Fish shell configuration
+    "fish/functions/aliases.fish".source = ./config/fish/functions/aliases.fish;
   };
 
   programs.gpg.enable = true;
