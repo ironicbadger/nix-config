@@ -1,87 +1,89 @@
+# ==============================
+# Fish Shell Configuration
+# ==============================
+
+# ---- Basic Settings ----
 # Mute greeting
 set fish_greeting
 
-# Silence Homebrew
-set -g HOMEBREW_NO_ENV_HINTS 1
+# Set locale
+set -gx LC_ALL en_US.UTF-8
+set -gx LANG en_US.UTF-8
 
-# Set common defaults
-set LC_ALL en_US.UTF-8
-set LANG en_US.UTF-8
-#set LANG C
-
+# ---- Interactive Session Settings ----
 if status is-interactive
-    # Commands to run in interactive sessions can go here
-    # set EDITOR /opt/homebrew/bin/nvim
-    # set VISUAL /opt/homebrew/bin/nvim
-    set EDITOR /usr/bin/vim
-    set VISUAL /usr/bin/vim
-    set TERM xterm
+    # Editor settings
+    set -gx EDITOR /usr/bin/vim
+    set -gx VISUAL /usr/bin/vim
+    set -gx TERM xterm
+    
+    # Silence Homebrew
+    set -g HOMEBREW_NO_ENV_HINTS 1
+    
+    # Load aliases if they exist
+    test -e {$HOME}/.config/fish/functions/aliases.fish ; and source {$HOME}/.config/fish/functions/aliases.fish
+    
+    # iTerm2 shell integration
+    test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
+    
+    # Initialize command helpers
+    command -q thefuck; and thefuck --alias | source
+    command -q fzf; and fzf --fish | source
+    
+    # Initialize rbenv if interactive
+    command -q rbenv; and rbenv init - fish | source
 end
 
-# >>> conda initialize >>>
-#eval "$(/Volumes/Storage/miniforge3/bin/conda shell.fish hook)"
-# eval "$(~/miniforge3/bin/conda shell.fish hook)"
-# <<< conda initialize <<<
+# ---- Path Configuration ----
+# Development tools
+fish_add_path $HOME/scripts
+fish_add_path $HOME/.docker/bin
 
-# pnpm
-# set PNPM_HOME /Users/gz/Library/pnpm
-# set PATH "$PNPM_HOME:$PATH"
-# set PATH "$HOME/.cargo/bin:$HOME/.local/bin:$PATH"
-# set PATH "/Applications/PyCharm\ CE.app/Contents/MacOS:$PATH"
-# pnpm end
-
-#eval "$(ssh-agent)"
-#if test -z (pgrep ssh-agent)
-#    eval (ssh-agent -c)
-#    set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
-#    set -Ux SSH_AGENT_PID $SSH_AGENT_PID
-#    set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
-#end
-
-test -e {$HOME}/.config/fish/functions/aliases.fish ; and source {$HOME}/.config/fish/functions/aliases.fish
-
-# thefuck
-thefuck --alias | source
-
-# fzf
-fzf --fish | source
-
-# Pyenv init
+# Programming languages
+# Python - pyenv
 set -Ux PYENV_ROOT $HOME/.pyenv
 set -Ux fish_user_paths $PYENV_ROOT/bin $fish_user_paths
-pyenv init - | source
+command -q pyenv; and pyenv init - | source
 
 # Ruby
-  set -gx LDFLAGS "-L/opt/homebrew/opt/ruby/lib"
-  set -gx CPPFLAGS "-I/opt/homebrew/opt/ruby/include"
+fish_add_path /opt/homebrew/opt/ruby/bin
+set -gx LDFLAGS "-L/opt/homebrew/opt/ruby/lib"
+set -gx CPPFLAGS "-I/opt/homebrew/opt/ruby/include"
 
-set PATH "$HOME/scripts:/opt/homebrew/opt/ruby/bin:$PATH"
+# Bun
+set --export BUN_INSTALL "$HOME/Library/Application Support/reflex/bun"
+fish_add_path $BUN_INSTALL/bin
 
-### Functions
-# Bang-bang function (does not work in Vi mode)
+# LM Studio CLI
+fish_add_path /Users/gz/.lmstudio/bin
+
+# ---- External Tools ----
+# Sourcetree
+set FLAGS_GETOPT_CMD /Applications/Sourcetree.app/Contents/Resources/bin/getopt
+
+# ---- Custom Functions ----
+# Bang-bang (!!) function for history
 function __history_previous_command
-  switch (commandline -t)
-	case "!"
-		commandline -t $history[1]; commandline -f repaint
-	case "*"
-		commandline -i !
-	end
+    switch (commandline -t)
+        case "!"
+            commandline -t $history[1]; commandline -f repaint
+        case "*"
+            commandline -i !
+    end
 end
-## !$ Function
-function __history_previous_command_arguments
-  switch (commandline -t)
-	case "!"
-		commandline -t ""
-		commandline -f history-token-search-backward
-	case "*"
-		commandline -i '$'
-	end
-end
-# Keybindings for !! and !$
-bind ! __history_previous_command
-bind '$' __history_previous_command_arguments
 
-# Rename dirs (capitalize and convert dashes to spaces)
+# !$ Function for last argument
+function __history_previous_command_arguments
+    switch (commandline -t)
+        case "!"
+            commandline -t ""
+            commandline -f history-token-search-backward
+        case "*"
+            commandline -i '$'
+    end
+end
+
+# Rename directories (capitalize and convert dashes to spaces)
 function rename_directories
     for dir in (find . -maxdepth 1 -type d -not -name '.*' -not -name '#*' -not -name '@*' -print | sed 's|^\./||')
         # Skip the current directory
@@ -98,20 +100,28 @@ function rename_directories
     end
 end
 
-# iterm2 shell integration
-test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
+# ---- Key Bindings ----
+# Keybindings for !! and !$
+bind ! __history_previous_command
+bind '$' __history_previous_command_arguments
 
-set FLAGS_GETOPT_CMD /Applications/Sourcetree.app/Contents/Resources/bin/getopt
+# ---- Commented Out Configurations (Preserved) ----
+# >>> conda initialize >>>
+#eval "$(/Volumes/Storage/miniforge3/bin/conda shell.fish hook)"
+# eval "$(~/miniforge3/bin/conda shell.fish hook)"
+# <<< conda initialize <<<
 
-# bun
-set --export BUN_INSTALL "$HOME/Library/Application Support/reflex/bun"
-set --export PATH $BUN_INSTALL/bin $PATH
-status --is-interactive; and rbenv init - fish | source
+# pnpm
+# set PNPM_HOME /Users/gz/Library/pnpm
+# set PATH "$PNPM_HOME:$PATH"
+# set PATH "$HOME/.cargo/bin:$HOME/.local/bin:$PATH"
+# set PATH "/Applications/PyCharm\ CE.app/Contents/MacOS:$PATH"
 
-# Added by LM Studio CLI (lms)
-set -gx PATH $PATH /Users/gz/.lmstudio/bin
-
-# Add Docker bin directory to PATH
-if test -d $HOME/.docker/bin
-    fish_add_path $HOME/.docker/bin
-end
+# SSH Agent
+#eval "$(ssh-agent)"
+#if test -z (pgrep ssh-agent)
+#    eval (ssh-agent -c)
+#    set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
+#    set -Ux SSH_AGENT_PID $SSH_AGENT_PID
+#    set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
+#end
