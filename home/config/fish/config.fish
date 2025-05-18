@@ -38,6 +38,8 @@ end
 #    set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
 #end
 
+test -e {$HOME}/.config/fish/functions/aliases.fish ; and source {$HOME}/.config/fish/functions/aliases.fish
+
 # thefuck
 thefuck --alias | source
 
