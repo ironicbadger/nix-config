@@ -112,6 +112,17 @@ function rename_directories
     end
 end
 
+# ---- Python Virtual Environment ----
+# Auto-activate Python virtual environments when entering directories
+function python_venv --on-variable PWD
+    set myvenv .venv
+    if test -d $myvenv
+        source $myvenv/bin/activate.fish
+    else if type -q deactivate
+        deactivate
+    end
+end
+
 # ---- Key Bindings ----
 # History navigation with !! and !$
 bind ! __history_previous_command

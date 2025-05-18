@@ -172,6 +172,10 @@ This Fish shell configuration is designed to enhance productivity with sensible 
 
 - `rename_directories`: Rename directories by replacing hyphens with spaces and capitalizing words
 
+### Python Development
+
+- `python_venv`: Automatically activates Python virtual environments when entering directories with a `.venv` folder and deactivates them when leaving
+
 ## Homebrew-Nix Integration
 
 This configuration includes special tools to help Homebrew and Nix work together harmoniously.
