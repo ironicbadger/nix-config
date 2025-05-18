@@ -45,6 +45,5 @@
         HOMEBREW_NO_AUTO_UPDATE=1 brew doctor --verbose | grep -v "nix\|Nix"
       }
     '';
-    mode = "0755";
   };
 }
