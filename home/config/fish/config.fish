@@ -20,8 +20,9 @@ if status is-interactive
     # Silence Homebrew
     set -g HOMEBREW_NO_ENV_HINTS 1
     
-    # Load aliases if they exist
+    # Load aliases and custom functions if they exist
     test -e {$HOME}/.config/fish/functions/aliases.fish ; and source {$HOME}/.config/fish/functions/aliases.fish
+    test -e {$HOME}/.config/fish/functions/brew-nix.fish ; and source {$HOME}/.config/fish/functions/brew-nix.fish
     
     # iTerm2 shell integration
     test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish

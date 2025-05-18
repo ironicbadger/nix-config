@@ -9,6 +9,7 @@ This document provides an overview of the Fish shell configuration, including ke
 - [Keybindings Cheatsheet](#keybindings-cheatsheet)
 - [Aliases Cheatsheet](#aliases-cheatsheet)
 - [Custom Functions](#custom-functions)
+- [Homebrew-Nix Integration](#homebrew-nix-integration)
 - [Environment Variables](#environment-variables)
 
 ## Overview
@@ -170,6 +171,53 @@ This Fish shell configuration is designed to enhance productivity with sensible 
 ### File Management
 
 - `rename_directories`: Rename directories by replacing hyphens with spaces and capitalizing words
+
+## Homebrew-Nix Integration
+
+This configuration includes special tools to help Homebrew and Nix work together harmoniously.
+
+### Homebrew-Nix Helper Functions
+
+| Function | Description |
+|----------|-------------|
+| `brew-update-safe` | Safely update Homebrew without Git permission issues |
+| `brew-doctor-nix` | Run brew doctor while ignoring Nix-related warnings |
+| `brew-nix-info` | Display information about Homebrew and Nix installations |
+| `brew-nix-fix` | Fix common Homebrew/Nix integration issues |
+
+### Using the Homebrew-Nix Integration
+
+1. **Safe Updates**: Instead of using the standard `brew update`, use `brew-update-safe` to avoid Git permission issues with Nix
+
+   ```fish
+   brew-update-safe
+   ```
+
+2. **System Information**: Get detailed information about your Homebrew and Nix setup
+
+   ```fish
+   brew-nix-info
+   ```
+
+3. **Fix Integration Issues**: If you encounter problems with Homebrew and Nix
+
+   ```fish
+   brew-nix-fix
+   ```
+
+4. **Clean Diagnostics**: Run Homebrew diagnostics without Nix-related warnings
+
+   ```fish
+   brew-doctor-nix
+   ```
+
+### Nix Configuration
+
+The system's Nix configuration includes special settings in `homebrew-fix.nix` to improve Homebrew compatibility:
+
+- Prevents automatic updates during builds
+- Sets recommended environment variables
+- Provides helper scripts for common operations
 
 ## Environment Variables
 
