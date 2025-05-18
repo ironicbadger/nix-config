@@ -176,6 +176,34 @@ This Fish shell configuration is designed to enhance productivity with sensible 
 
 - `python_venv`: Automatically activates Python virtual environments when entering directories with a `.venv` folder and deactivates them when leaving
 - `setup-python-direnv`: Sets up direnv for Python projects with automatic virtual environment activation (recommended approach)
+- `create-venv`: Creates and activates a Python virtual environment with additional options
+
+## Python Virtual Environment Tools
+
+### Using create-venv
+
+The `create-venv` function provides a simple way to create and activate Python virtual environments directly from Fish shell:
+
+```fish
+# Basic usage (creates .venv in current directory)
+create-venv
+
+# Create a virtual environment with a custom name
+create-venv --name my_env
+
+# Create a virtual environment and install from requirements.txt
+create-venv --requirements
+
+# Show help
+create-venv --help
+```
+
+Features:
+- Creates a Python virtual environment in the current directory
+- Automatically activates the environment
+- Can install packages from requirements.txt
+- Adds the virtual environment directory to .gitignore
+- Provides helpful feedback and instructions
 
 ## Python Development with direnv
 

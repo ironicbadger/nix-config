@@ -27,6 +27,7 @@
     # Fish shell configuration
     "fish/functions/aliases.fish".source = ./config/fish/functions/aliases.fish;
     "fish/functions/setup-python-direnv.fish".source = ./config/fish/functions/setup-python-direnv.fish;
+    "fish/functions/create-venv.fish".source = ./config/fish/functions/create-venv.fish;
     
     # Direnv templates
     "direnv/python_venv_template.envrc".source = ./config/direnv/python_venv_template.envrc;
