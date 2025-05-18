@@ -90,6 +90,7 @@ in
       "pyenv"
       "pkgconf"
       "ripgrep"
+      "rbenv"
       "ruby"
       "ruby-build"
       "rustup"
