@@ -81,7 +81,7 @@
   };
 
   programs.starship = {
-    enable = false;
+    enable = true;
     enableZshIntegration = true;
     enableBashIntegration = true;
     settings = pkgs.lib.importTOML ./starship/starship.toml;
