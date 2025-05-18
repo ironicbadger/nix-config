@@ -175,6 +175,64 @@ This Fish shell configuration is designed to enhance productivity with sensible 
 ### Python Development
 
 - `python_venv`: Automatically activates Python virtual environments when entering directories with a `.venv` folder and deactivates them when leaving
+- `setup-python-direnv`: Sets up direnv for Python projects with automatic virtual environment activation (recommended approach)
+
+## Python Development with direnv
+
+This configuration includes support for automatically activating Python virtual environments using direnv, which is more robust than the Fish-specific `python_venv` function.
+
+### Using direnv for Python Projects
+
+To set up a Python project with automatic virtual environment activation:
+
+1. Navigate to your Python project directory
+2. Run the `setup-python-direnv` function
+3. Choose the template that best fits your needs:
+   - **Basic Python venv template**: Simple virtual environment activation
+   - **Advanced Python+Nix template**: Supports both Python venvs and Nix development environments
+
+### Available Templates
+
+#### Basic Python venv Template
+
+This template automatically creates and activates a Python virtual environment in the `.venv` directory:
+
+```bash
+# Check if .venv directory exists, if not create it
+if [ ! -d ".venv" ]; then
+    echo "Creating virtual environment in .venv directory..."
+    python -m venv .venv
+fi
+
+# Activate the virtual environment
+source .venv/bin/activate
+
+# Export PATH to include the virtual environment's bin directory
+PATH_add .venv/bin
+```
+
+#### Advanced Python+Nix Template
+
+This template detects whether to use a Nix environment or a Python virtual environment:
+
+```bash
+# Check if we're using a Nix environment (shell.nix or flake.nix exists)
+if [ -f "shell.nix" ] || [ -f "flake.nix" ]; then
+    echo "Nix environment detected, using use_nix"
+    use_nix
+else
+    # If no Nix environment, use Python venv
+    # ... virtual environment setup ...
+fi
+```
+
+### Benefits of Using direnv
+
+- **Shell-agnostic**: Works with any shell, not just Fish
+- **Project-specific**: Environment variables are scoped to the project directory
+- **Automatic activation/deactivation**: Environments are loaded when entering the directory and unloaded when leaving
+- **Security**: Each `.envrc` file must be explicitly allowed for security
+- **Nix integration**: Seamlessly works with Nix development environments
 
 ## Homebrew-Nix Integration
 

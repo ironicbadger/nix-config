@@ -26,6 +26,11 @@
     
     # Fish shell configuration
     "fish/functions/aliases.fish".source = ./config/fish/functions/aliases.fish;
+    "fish/functions/setup-python-direnv.fish".source = ./config/fish/functions/setup-python-direnv.fish;
+    
+    # Direnv templates
+    "direnv/python_venv_template.envrc".source = ./config/direnv/python_venv_template.envrc;
+    "direnv/python_nix_template.envrc".source = ./config/direnv/python_nix_template.envrc;
   };
 
   programs.gpg.enable = true;
