@@ -259,7 +259,6 @@
       "Keepforest File Manager" = 1491186567;
       "Keynote" = 409183694;
       "Noir" = 1592917505;
-      "NotePlan" = 1505432629;
       "Numbers" = 409203825;
       "Pages" = 409201541;
       "Patterns" = 429449079;
@@ -270,7 +269,7 @@
       "Tab Space" = 1473726602;
       "Tempomate" = 1157672888;
       "Trello" = 1278508951;
-      "Xcode" = 497799835;
+      "Xcode" = 497799835; # Can we have Xcode on a external drive?
       "Yubico Authenticator" = 1497506650;
     };
   };

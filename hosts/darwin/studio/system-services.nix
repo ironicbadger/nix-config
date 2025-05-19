@@ -32,7 +32,7 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   
   # Configure Nix build users
-  nix.settings.trusted-users = [ "root" "gz" ];
+  nix.settings.trusted-users = [ "root" "gz" "test"];
   
   # Optimize builders for M2 Mac Studio
   nix.settings.max-jobs = lib.mkDefault 10;  # M2 has more cores
