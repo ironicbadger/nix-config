@@ -12,7 +12,7 @@ in
     };
     channel.enable = false;
   };
-  system.stateVersion = 4;
+  system.stateVersion = 5;
 
   # Set primary user for system-wide activation
   system.primaryUser = "alex";
