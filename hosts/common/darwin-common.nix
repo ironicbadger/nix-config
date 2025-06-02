@@ -12,8 +12,10 @@ in
     };
     channel.enable = false;
   };
-  services.nix-daemon.enable = true;
-  system.stateVersion = 5;
+  system.stateVersion = 4;
+
+  # Set primary user for system-wide activation
+  system.primaryUser = "alex";
 
   nixpkgs = {
     config.allowUnfree = true;
@@ -35,14 +37,10 @@ in
   ];
 
   fonts.packages = [
-    (pkgs.nerdfonts.override {
-      fonts = [
-        "FiraCode"
-        "FiraMono"
-        "Hack"
-        "JetBrainsMono"
-      ];
-    })
+    pkgs.nerd-fonts.fira-code
+    pkgs.nerd-fonts.fira-mono
+    pkgs.nerd-fonts.hack
+    pkgs.nerd-fonts.jetbrains-mono
   ];
 
   # pins to stable as unstable updates very often
@@ -193,13 +191,9 @@ in
   system.keyboard.remapCapsLockToEscape = false;
 
   # Add ability to used TouchID for sudo authentication
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   # macOS configuration
-  system.activationScripts.postUserActivation.text = ''
-    # Following line should allow us to avoid a logout/login cycle
-    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-  '';
   system.defaults = {
     NSGlobalDomain.AppleShowAllExtensions = true;
     NSGlobalDomain.AppleShowScrollBars = "Always";

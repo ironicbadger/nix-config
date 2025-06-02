@@ -25,9 +25,6 @@ in
     fd
     ffmpeg
     figurine
-    fira-code
-    fira-code-nerdfont
-    fira-mono
     gh
     git-crypt
     gnused
@@ -41,7 +38,6 @@ in
     kubectl
     mc
     mosh
-    nerdfonts
     nmap
     qemu
     ripgrep

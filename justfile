@@ -18,7 +18,7 @@ trace target_host=hostname: (build target_host "--show-trace")
 [macos]
 switch target_host=hostname: (build target_host)
   @echo "switching to new config for {{target_host}}"
-  ./result/sw/bin/darwin-rebuild switch --flake ".#{{target_host}}"
+  sudo ./result/sw/bin/darwin-rebuild switch --flake ".#{{target_host}}"
 
 ### linux
 # Build the NixOS configuration without switching to it
