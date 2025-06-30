@@ -59,6 +59,7 @@ install IP:
 
 
 # Garbage collect old OS generations and remove stale packages from the nix store
-gc generations="5":
-  nix-env --delete-generations {{generations}}
+gc:
+  nix-collect-garbage -d
+  nix-collect-garbage --delete-older-than 7d
   nix-store --gc
