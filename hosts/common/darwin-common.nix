@@ -136,7 +136,7 @@ in
       "slack"
       "spotify"
       "steam"
-      "tailscale"
+      "tailscale-app"
       #"wireshark"
       "viscosity"
       "visual-studio-code"
