@@ -74,6 +74,7 @@ in
 
     brews = [
       "bitwarden-cli"
+      "ollama"
       #"borders"
     ];
     taps = [
@@ -122,7 +123,7 @@ in
       "notion"
       "obs"
       "obsidian"
-      "ollama"
+      "ollama-app"
       "omnidisksweeper"
       "orbstack"
       "openscad"
