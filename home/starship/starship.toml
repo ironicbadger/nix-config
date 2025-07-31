@@ -82,16 +82,14 @@ disabled = false
 [directory]
 style = "fg:color_fg0 bg:color_yellow"
 format = "[ $path ]($style)"
-truncation_length = 3
-truncate_to_repo = true
+truncation_length = 2
+truncate_to_repo = false
 truncation_symbol = "…/"
+#repo_root_style = "fg:color_fg0 bg:color_yellow"
 
 [directory.substitutions]
-"Documents" = "󰈙 "
 "Downloads" = " "
-"Music" = "󰝚 "
 "Pictures" = " "
-"Developer" = "󰲋 "
 
 [git_branch]
 symbol = ""
