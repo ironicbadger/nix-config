@@ -91,6 +91,8 @@ in
       #"balenaetcher"
       "bambu-studio"
       "bentobox"
+      "claude"
+      "claude-code"
       #"clop"
       "discord"
       "displaylink"
