@@ -177,43 +177,43 @@
   programs.bat.config.theme = "Nord";
   #programs.zsh.shellAliases.cat = "${pkgs.bat}/bin/bat";
 
-  programs.neovim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
-    plugins = with pkgs.vimPlugins; [
-      ## regular
-      comment-nvim
-      lualine-nvim
-      nvim-web-devicons
-      vim-tmux-navigator
+  # programs.neovim = {
+  #   enable = true;
+  #   viAlias = true;
+  #   vimAlias = true;
+  #   vimdiffAlias = true;
+  #   plugins = with pkgs.vimPlugins; [
+  #     ## regular
+  #     comment-nvim
+  #     lualine-nvim
+  #     nvim-web-devicons
+  #     vim-tmux-navigator
 
-      ## with config
-      # {
-      #   plugin = gruvbox-nvim;
-      #   config = "colorscheme gruvbox";
-      # }
+  #     ## with config
+  #     # {
+  #     #   plugin = gruvbox-nvim;
+  #     #   config = "colorscheme gruvbox";
+  #     # }
 
-      {
-        plugin = catppuccin-nvim;
-        config = "colorscheme catppuccin";
-      }
+  #     {
+  #       plugin = catppuccin-nvim;
+  #       config = "colorscheme catppuccin";
+  #     }
 
-      ## telescope
-      {
-        plugin = telescope-nvim;
-        type = "lua";
-        config = builtins.readFile ./nvim/plugins/telescope.lua;
-      }
-      telescope-fzf-native-nvim
+  #     ## telescope
+  #     {
+  #       plugin = telescope-nvim;
+  #       type = "lua";
+  #       config = builtins.readFile ./nvim/plugins/telescope.lua;
+  #     }
+  #     telescope-fzf-native-nvim
 
-    ];
-    extraLuaConfig = ''
-      ${builtins.readFile ./nvim/options.lua}
-      ${builtins.readFile ./nvim/keymap.lua}
-    '';
-  };
+  #   ];
+  #   extraLuaConfig = ''
+  #     ${builtins.readFile ./nvim/options.lua}
+  #     ${builtins.readFile ./nvim/keymap.lua}
+  #   '';
+  # };
 
   programs.zoxide.enable = true;
 
@@ -233,7 +233,7 @@
       };
       # wd
       "dev" = {
-        hostname = "100.68.216.79";
+        hostname = "100.99.184.94";
         user = "alex";
       };
       # lancs

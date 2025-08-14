@@ -74,6 +74,7 @@ in
 
     brews = [
       "bitwarden-cli"
+      "neovim"
       "ollama"
       #"borders"
     ];
