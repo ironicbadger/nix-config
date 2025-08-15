@@ -122,7 +122,7 @@ in
       "marta"
       "mqtt-explorer"
       "music-decoy" # github/FuzzyIdeas/MusicDecoy
-      "nextcloud"
+      #"nextcloud"
       "notion"
       "obs"
       "obsidian"
