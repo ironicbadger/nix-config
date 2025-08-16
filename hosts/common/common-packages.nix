@@ -43,6 +43,7 @@ in
     ripgrep
     skopeo
     smartmontools
+    stow
     television
     terraform
     tree
