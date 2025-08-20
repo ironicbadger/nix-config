@@ -36,10 +36,8 @@
 
       darwinConfigurations = {
         # personal
-        slartibartfast = libx.mkDarwin { hostname = "slartibartfast"; };
         nauvis = libx.mkDarwin { hostname = "nauvis"; };
         mac-studio = libx.mkDarwin { hostname = "mac-studio"; };
-        mac-mini = libx.mkDarwin { hostname = "mac-mini"; };
         mooncake = libx.mkDarwin { hostname = "mooncake"; };
 
         # work
