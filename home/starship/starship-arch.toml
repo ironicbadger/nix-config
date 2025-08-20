@@ -1,0 +1,118 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$os\
+$username$hostname\
+[](bg:blue_mid fg:arch_blue)\
+$directory\
+[](fg:blue_mid bg:blue_dark)\
+$git_branch\
+$git_status\
+[](fg:blue_dark bg:midnight_mid)\
+$nodejs\
+$rust\
+$golang\
+$php\
+[](fg:midnight_mid bg:midnight)\
+$time\
+[ ](fg:midnight)\
+\n$character"""
+
+palette = 'arch_gradient'
+
+[palettes.arch_gradient]
+arch_blue = '#1793d1'
+blue_mid = '#0074ae'
+blue_dark = '#394260'
+midnight_mid = '#212736'
+midnight = '#1d2230'
+text_dark = '#090c0c'
+text_light = '#e3e5e5'
+text_accent = '#769ff0'
+text_muted = '#a0a9cb'
+separator = '#a3aed2'
+
+[os]
+format = "[ $symbol ]($style)"
+style = "bg:arch_blue fg:text_dark"
+disabled = false
+
+[os.symbols]
+Windows = "󰍲"
+Ubuntu = "󰕈"
+SUSE = ""
+Raspbian = "󰐿"
+Mint = "󰣭"
+Macos = "󰀵"
+Manjaro = ""
+Linux = "󰌽"
+Gentoo = "󰣨"
+Fedora = "󰣛"
+Alpine = ""
+Amazon = ""
+Android = ""
+Arch = "󰣇"
+EndeavourOS = ""
+CentOS = ""
+Debian = "󰣚"
+Redhat = "󱄛"
+RedHatEnterprise = "󱄛"
+
+[username]
+show_always = true
+style_user = "bg:arch_blue fg:text_dark"
+style_root = "bg:arch_blue fg:text_dark"
+format = '[$user]($style)'
+
+[hostname]
+ssh_only = false
+format = "[@$hostname ]($style)"
+style = "bg:arch_blue fg:text_dark"
+disabled = false
+
+[directory]
+style = "fg:text_light bg:blue_mid"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+
+[git_branch]
+symbol = ""
+style = "bg:blue_dark"
+format = '[[ $symbol $branch ](fg:text_accent bg:blue_dark)]($style)'
+
+[git_status]
+style = "bg:blue_dark"
+format = '[[($all_status$ahead_behind )](fg:text_accent bg:blue_dark)]($style)'
+
+[nodejs]
+symbol = ""
+style = "bg:midnight_mid"
+format = '[[ $symbol ($version) ](fg:text_accent bg:midnight_mid)]($style)'
+
+[rust]
+symbol = ""
+style = "bg:midnight_mid"
+format = '[[ $symbol ($version) ](fg:text_accent bg:midnight_mid)]($style)'
+
+[golang]
+symbol = ""
+style = "bg:midnight_mid"
+format = '[[ $symbol ($version) ](fg:text_accent bg:midnight_mid)]($style)'
+
+[php]
+symbol = ""
+style = "bg:midnight_mid"
+format = '[[ $symbol ($version) ](fg:text_accent bg:midnight_mid)]($style)'
+
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:midnight"
+format = '[[ $time ](fg:text_muted bg:midnight)]($style)'
