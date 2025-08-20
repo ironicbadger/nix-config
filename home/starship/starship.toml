@@ -34,7 +34,7 @@ separator = '#a3aed2'
 
 [os]
 format = "[ $symbol ]($style)"
-style = "bg:arch_blue fg:text_dark"
+style = "bg:arch_blue fg:text_light"
 disabled = false
 
 [os.symbols]
@@ -60,14 +60,14 @@ RedHatEnterprise = "󱄛"
 
 [username]
 show_always = true
-style_user = "bg:arch_blue fg:text_dark"
-style_root = "bg:arch_blue fg:text_dark"
+style_user = "bg:arch_blue fg:text_light"
+style_root = "bg:arch_blue fg:text_light"
 format = '[$user]($style)'
 
 [hostname]
 ssh_only = false
 format = "[@$hostname ]($style)"
-style = "bg:arch_blue fg:text_dark"
+style = "bg:arch_blue fg:text_light"
 disabled = false
 
 [directory]
