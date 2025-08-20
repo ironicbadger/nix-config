@@ -73,7 +73,8 @@ disabled = false
 [directory]
 style = "fg:text_light bg:blue_mid"
 format = "[ $path ]($style)"
-truncation_length = 3
+truncation_length = 2
+truncate_to_repo = false
 truncation_symbol = "…/"
 
 [directory.substitutions]
@@ -83,7 +84,7 @@ truncation_symbol = "…/"
 "Pictures" = " "
 
 [git_branch]
-symbol = ""
+symbol = ""
 style = "bg:blue_dark"
 format = '[[ $symbol $branch ](fg:text_accent bg:blue_dark)]($style)'
 
@@ -116,3 +117,7 @@ disabled = false
 time_format = "%R"
 style = "bg:midnight"
 format = '[[ $time ](fg:text_muted bg:midnight)]($style)'
+
+[character]
+success_symbol = '[>](arch_blue)'
+error_symbol = '[>](arch_blue)'
