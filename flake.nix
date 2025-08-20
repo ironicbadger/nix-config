@@ -38,7 +38,7 @@
         # personal
         nauvis = libx.mkDarwin { hostname = "nauvis"; };
         mac-studio = libx.mkDarwin { hostname = "mac-studio"; };
-        mooncake = libx.mkDarwin { hostname = "mooncake"; };
+        mba15 = libx.mkDarwin { hostname = "mba15"; };
 
         # work
         baldrick = libx.mkDarwin { hostname = "baldrick"; };
