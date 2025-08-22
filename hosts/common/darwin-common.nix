@@ -76,6 +76,7 @@ in
       "bitwarden-cli"
       "neovim"
       "ollama"
+      #"tailscale"
       #"borders"
     ];
     taps = [
@@ -140,7 +141,6 @@ in
       "slack"
       "spotify"
       "steam"
-      "tailscale-app"
       #"wireshark"
       "viscosity"
       "visual-studio-code"
