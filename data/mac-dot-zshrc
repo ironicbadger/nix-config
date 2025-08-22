@@ -35,14 +35,6 @@ compinit
 source <(kubectl completion zsh)
 export KUBE_EDITOR="nvim"
 
-#alias tssh='sh function tssh () { test -x "/Applications/Tailscale.app/Contents/MacOS/Tailscale" && alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale" h="$( \ (echo -e 'DNS\tHostName\tOnline\tTags\tUser'; \ tailscale status --json | \ jq -r '. as $root | .Peer[] | . as $peer | $root.User[] | select(.ID == $peer.UserID) | [ $peer.DNSName, $peer.HostName, $peer.Online, ($peer.Tags // [] | join(",")), .DisplayName] | @tsv' | \ sort -t $'\t' -k3,3r -k5,5 -k4,4) | \ gum table -s $'\t' \ --height=$(tailscale status --json | jq '.Peer | length +1') \ --widths=30,10,6,25,14 | \ awk '{print $1}')" [ -n "$h" ] && ssh "$h" }'
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-alias ......='cd ../../../../..'
-alias .......='cd ../../../../../..'
-alias ........='cd ../../../../../../..'
 alias kc='kubectl'
 alias kcg='kubectl get'
 alias kcgpo='kubectl get pod'
