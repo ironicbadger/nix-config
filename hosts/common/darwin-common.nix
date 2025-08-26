@@ -99,6 +99,7 @@ in
       "discord"
       "displaylink"
       #"docker"
+      "easy-move-plus-resize"
       "element"
       "elgato-camera-hub"
       "elgato-control-center"
@@ -190,10 +191,6 @@ in
     };
   };
 
-  # Keyboard
-  system.keyboard.enableKeyMapping = true;
-  system.keyboard.remapCapsLockToEscape = false;
-
   # Add ability to used TouchID for sudo authentication
   security.pam.services.sudo_local.touchIdAuth = true;
 
@@ -240,6 +237,25 @@ in
         # Avoid creating .DS_Store files on network or USB volumes
         DSDontWriteNetworkStores = true;
         DSDontWriteUSBStores = true;
+      };
+      "com.apple.HIToolbox" = {
+        # Completely disable Caps Lock functionality
+        AppleFnUsageType = 1; # Enable Fn key functionality
+        AppleKeyboardUIMode = 3;
+        # Disable Caps Lock toggle entirely
+        AppleSymbolicHotKeys = {
+          "60" = {
+            enabled = false; # Disable Caps Lock toggle hotkey
+          };
+        };
+        # Override modifier key behavior to prevent Caps Lock from functioning
+        AppleModifierKeyRemapping = {
+          "1452-630-0" = {
+            # Map Caps Lock (key code 57/0x39) to nothing (disable it)
+            HIDKeyboardModifierMappingSrc = 30064771129; # Caps Lock
+            HIDKeyboardModifierMappingDst = 30064771299; # No Action
+          };
+        };
       };
       "com.apple.dock" = {
         autohide = false;
