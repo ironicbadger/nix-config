@@ -73,7 +73,7 @@ in
     global.autoUpdate = true;
 
     brews = [
-      "bitwarden-cli"
+      #"bitwarden-cli"
       "neovim"
       "ollama"
       #"tailscale"
@@ -94,7 +94,7 @@ in
       #"bambu-studio"
       "bentobox"
       "claude"
-      "claude-code"
+      #"claude-code"
       #"clop"
       "discord"
       "displaylink"
@@ -130,7 +130,7 @@ in
       "notion"
       "obs"
       "obsidian"
-      "ollama-app"
+      #"ollama-app"
       "omnidisksweeper"
       "orbstack"
       "openscad"
