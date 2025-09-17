@@ -145,7 +145,6 @@ in
       "spotify"
       "steam"
       #"wireshark"
-      "uv"
       #"viscosity"
       "visual-studio-code"
       "vlc"

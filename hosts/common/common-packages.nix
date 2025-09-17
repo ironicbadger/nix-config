@@ -51,6 +51,7 @@ in
     watch
     wget
     wireguard-tools
+    uv
     zoxide
 
     # requires nixpkgs.config.allowUnfree = true;
