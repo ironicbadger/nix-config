@@ -63,3 +63,8 @@ gc:
   nix-collect-garbage -d
   nix-collect-garbage --delete-older-than 7d
   nix-store --gc
+
+## manual command for initial bootstrapping
+## sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install)
+## nix --extra-experimental-features 'nix-command flakes' run nixpkgs#just
+
