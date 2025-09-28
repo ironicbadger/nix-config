@@ -221,38 +221,20 @@
     enable = true;
     enableDefaultConfig = false;
     extraConfig = ''
-  StrictHostKeyChecking no
+      StrictHostKeyChecking no
     '';
     matchBlocks = {
       # ~/.ssh/config
+      "*" = {
+        user = "root";
+        extraOptions = {
+          UserKnownHostsFile = "/dev/null";
+        };
+      };
       "github.com" = {
         hostname = "ssh.github.com";
         port = 443;
       };
-      "*" = {
-        user = "root";
-      };
-      # wd
-      "dev" = {
-        hostname = "100.99.184.94";
-        user = "alex";
-      };
-      # lancs
-      # "e elrond" = {
-      #   hostname = "100.117.223.78";
-      #   user = "alexktz";
-      # };
-      # # jb
-      # "core" = {
-      #   hostname = "demo.selfhosted.show";
-      #   user = "ironicbadger";
-      #   port = 53142;
-      # };
-      # "status" = {
-      #   hostname = "hc.ktz.cloud";
-      #   user = "ironicbadger";
-      #   port = 53142;
-      # };
     };
   };
 }
