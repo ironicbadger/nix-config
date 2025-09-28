@@ -94,7 +94,7 @@ in
       #"bambu-studio"
       "bentobox"
       "claude"
-      #"claude-code"
+      "claude-code"
       #"clop"
       "discord"
       "displaylink"
