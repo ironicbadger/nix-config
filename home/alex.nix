@@ -229,6 +229,7 @@
         user = "root";
         extraOptions = {
           UserKnownHostsFile = "/dev/null";
+          LogLevel = "ERROR";
         };
       };
       "github.com" = {
