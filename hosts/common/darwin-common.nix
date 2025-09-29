@@ -34,6 +34,7 @@ in
     pkgs.just
     pkgs.lima
     pkgs.nix
+    pkgs.nodejs
   ];
 
   fonts.packages = [
@@ -94,7 +95,7 @@ in
       #"bambu-studio"
       "bentobox"
       "claude"
-      "claude-code"
+      #"claude-code"
       #"clop"
       "discord"
       "displaylink"
