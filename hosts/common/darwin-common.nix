@@ -35,6 +35,7 @@ in
     pkgs.lima
     pkgs.nix
     pkgs.nodejs
+    pkgs.pass
   ];
 
   fonts.packages = [
