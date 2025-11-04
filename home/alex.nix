@@ -43,11 +43,12 @@
 
   programs.git = {
     enable = true;
-    userEmail = "alexktz@gmail.com";
-    userName = "Alex Kretzschmar";
-    diff-so-fancy.enable = true;
     lfs.enable = true;
-    extraConfig = {
+    settings = {
+      user = {
+        email = "alexktz@gmail.com";
+        name = "Alex Kretzschmar";
+      };
       init = {
         defaultBranch = "main";
       };
@@ -59,6 +60,11 @@
         rebase = true;
       };
     };
+  };
+
+  programs.diff-so-fancy = {
+    enable = true;
+    enableGitIntegration = true;
   };
 
   programs.htop = {
