@@ -5,8 +5,8 @@ in
 {
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
-    nixpkgs-unstable.legacyPackages.${pkgs.system}.beszel
-    nixpkgs-unstable.legacyPackages.${pkgs.system}.talosctl
+    nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.beszel
+    nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.talosctl
 
     ## stable
     act
@@ -16,7 +16,7 @@ in
     diffr # Modern Unix `diff`
     difftastic # Modern Unix `diff`
     drill
-    du-dust # Modern Unix `du`
+    dust # Modern Unix `du`
     dua # Modern Unix `du`
     duf # Modern Unix `df`
     entr # Modern Unix `watch`
