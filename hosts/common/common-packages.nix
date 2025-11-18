@@ -35,7 +35,10 @@ in
     jetbrains-mono # font
     jq
     just
+    fluxcd
     kubectl
+    kubernetes-helm
+    k9s
     mc
     mosh
     nmap
