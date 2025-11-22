@@ -89,7 +89,6 @@ in
       #"cleanshot"
       "adobe-creative-cloud"
       #"nikitabobko/tap/aerospace"
-      "alacritty"
       #"alcove"
       "audacity"
       #"balenaetcher"
