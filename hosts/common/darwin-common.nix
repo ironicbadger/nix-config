@@ -27,6 +27,7 @@ in
     unstablePkgs.yt-dlp
     unstablePkgs.get_iplayer
     unstablePkgs.colmena
+    unstablePkgs.talhelper
 
     ## stable CLI
     pkgs.comma
