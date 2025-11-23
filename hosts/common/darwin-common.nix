@@ -36,6 +36,7 @@ in
     pkgs.lima
     pkgs.nix
     pkgs.nodejs
+    pkgs.opentofu
     pkgs.pass
   ];
 
