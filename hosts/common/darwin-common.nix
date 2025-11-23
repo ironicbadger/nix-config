@@ -30,6 +30,7 @@ in
     unstablePkgs.talhelper
 
     ## stable CLI
+    pkgs.age
     pkgs.comma
     pkgs.hcloud
     pkgs.just
