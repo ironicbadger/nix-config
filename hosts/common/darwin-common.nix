@@ -38,6 +38,7 @@ in
     pkgs.nodejs
     pkgs.opentofu
     pkgs.pass
+    pkgs.yq
   ];
 
   fonts.packages = [
@@ -169,7 +170,7 @@ in
       "Fantastical" = 975937182;
       "Ivory for Mastodon by Tapbots" = 6444602274;
       "Home Assistant Companion" = 1099568401;
-      "Microsoft Remote Desktop" = 1295203466;
+      #"Microsoft Remote Desktop" = 1295203466;
       "Perplexity" = 6714467650;
       "Resize Master" = 1025306797;
       "rCmd" = 1596283165;
