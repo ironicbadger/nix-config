@@ -34,6 +34,7 @@ fi
 autoload -Uz compinit
 compinit
 source <(kubectl completion zsh)
+eval "$(just --completions zsh)"
 export KUBE_EDITOR="nvim"
 
 alias k='kubectl'
