@@ -38,6 +38,7 @@ in
     pkgs.nodejs
     pkgs.opentofu
     pkgs.pass
+    pkgs.sops
     pkgs.yq
   ];
 
