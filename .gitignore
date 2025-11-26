@@ -1,3 +1,4 @@
 result
 com.googlecode.iterm2.plist
 .direnv
+secrets.yaml
