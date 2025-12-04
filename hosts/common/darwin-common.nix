@@ -40,6 +40,7 @@ in
     pkgs.opentofu
     pkgs.pass
     pkgs.sops
+    pkgs.turso-cli
     pkgs.yq
   ];
 
@@ -83,12 +84,10 @@ in
       #"bitwarden-cli"
       "neovim"
       "ollama"
-      "turso"
       #"tailscale"
       #"borders"
     ];
     taps = [
-      "tursodatabase/tap"
       #"FelixKratz/formulae" #sketchybar
     ];
     casks = [
