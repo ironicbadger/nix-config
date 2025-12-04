@@ -87,6 +87,7 @@ in
       #"borders"
     ];
     taps = [
+      "turso"
       #"FelixKratz/formulae" #sketchybar
     ];
     casks = [
