@@ -83,11 +83,12 @@ in
       #"bitwarden-cli"
       "neovim"
       "ollama"
+      "turso"
       #"tailscale"
       #"borders"
     ];
     taps = [
-      "turso"
+      "tursodatabase/tap"
       #"FelixKratz/formulae" #sketchybar
     ];
     casks = [
