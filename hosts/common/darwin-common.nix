@@ -103,6 +103,7 @@ in
       "claude"
       #"claude-code"
       #"clop"
+      "chatgpt-atlas" # Atlas browser
       "discord"
       "displaylink"
       #"docker"
