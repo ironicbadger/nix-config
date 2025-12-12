@@ -12,6 +12,7 @@
       "/Applications/Obsidian.app"
       "/Applications/Spotify.app"
       "/Applications/Visual Studio Code.app"
+      "/Applications/Warp.app"
       "/Applications/Ghostty.app"
     ];
   };
