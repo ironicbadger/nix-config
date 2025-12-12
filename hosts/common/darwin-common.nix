@@ -156,6 +156,7 @@ in
       #"viscosity"
       "visual-studio-code"
       "vlc"
+      "warp"
       # "lm-studio"
 
       # # rogue amoeba
