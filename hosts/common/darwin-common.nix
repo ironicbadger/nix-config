@@ -122,6 +122,7 @@ in
       "font-meslo-lg-nerd-font"
       "ghostty"
       "google-chrome"
+      "handbrake"
       #"iina"
       "hammerspoon"
       "istat-menus"
