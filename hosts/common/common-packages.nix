@@ -6,6 +6,7 @@ in
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.beszel
+    nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.codex
     nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.talosctl
 
     ## stable
