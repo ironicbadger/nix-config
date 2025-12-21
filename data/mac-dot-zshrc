@@ -49,6 +49,7 @@ alias kgn='kubectl get nodes'
 eval "$(starship init zsh)"
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 alias claude="npx @anthropic-ai/claude-code@latest"
+alias codex="npx @openai/codex@latest"
 #alias ghostty="/Applications/Ghostty.app/Contents/MacOS/ghostty"
 
 #/Users/alex/go/bin/figurine -f "Doom.flf" magrathea
