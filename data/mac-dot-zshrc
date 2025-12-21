@@ -43,7 +43,7 @@ alias kgp='kubectl get pod'
 alias kgn='kubectl get nodes'
 
 , () {
-  nix run nixpkgs#comma -- "$@"
+  nix run nixpkgs#"$1" -- "${@:2}"
 }
 
 eval "$(starship init zsh)"
