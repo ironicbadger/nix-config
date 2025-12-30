@@ -98,7 +98,7 @@ in
       #"alcove"
       "audacity"
       #"balenaetcher"
-      #"bambu-studio"
+      "bambu-studio"
       "bentobox"
       "claude"
       #"claude-code"
