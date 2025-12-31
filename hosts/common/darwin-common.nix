@@ -97,6 +97,7 @@ in
       #"nikitabobko/tap/aerospace"
       #"alcove"
       "audacity"
+      "autodesk-fusion"
       #"balenaetcher"
       "bambu-studio"
       "bentobox"
