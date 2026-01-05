@@ -7,7 +7,7 @@
       "/Applications/Telegram.app"
       "/Applications/Signal.app"
       "/Applications/Discord.app"
-      #"/Applications/Slack.app"
+      "/Applications/Slack.app"
       "/Applications/Ivory.app"
       "/Applications/Obsidian.app"
       "/Applications/Spotify.app"
