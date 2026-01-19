@@ -146,6 +146,7 @@ in
       "openscad"
       "openttd"
       "plexamp"
+      "portalbox"
       #"popclip"
       #"prusaslicer"
       "raycast"
