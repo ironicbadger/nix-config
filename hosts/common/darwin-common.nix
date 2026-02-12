@@ -75,11 +75,10 @@ in
     enable = true;
     onActivation = {
       cleanup = "zap";
-      # Keep activations deterministic; run brew updates/upgrades manually.
-      autoUpdate = false;
-      upgrade = false;
+      autoUpdate = true;
+      upgrade = true;
     };
-    global.autoUpdate = false;
+    global.autoUpdate = true;
 
     brews = [
       #"bitwarden-cli"
@@ -109,13 +108,11 @@ in
       "discord"
       "displaylink"
       #"docker"
-      "easy-move+resize"
       "element"
       "elgato-camera-hub"
       "elgato-control-center"
       "elgato-stream-deck"
       "firefox"
-      "flameshot"
       "font-fira-code"
       "font-fira-code-nerd-font"
       "font-fira-mono-for-powerline"
