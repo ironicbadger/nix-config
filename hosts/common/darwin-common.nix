@@ -75,10 +75,11 @@ in
     enable = true;
     onActivation = {
       cleanup = "zap";
-      autoUpdate = true;
-      upgrade = true;
+      # Keep activations deterministic; run brew updates/upgrades manually.
+      autoUpdate = false;
+      upgrade = false;
     };
-    global.autoUpdate = true;
+    global.autoUpdate = false;
 
     brews = [
       #"bitwarden-cli"
@@ -108,7 +109,7 @@ in
       "discord"
       "displaylink"
       #"docker"
-      "easy-move-plus-resize"
+      "easy-move+resize"
       "element"
       "elgato-camera-hub"
       "elgato-control-center"
@@ -123,7 +124,7 @@ in
       "font-meslo-lg-nerd-font"
       "ghostty"
       "google-chrome"
-      "handbrake"
+      "handbrake-app"
       #"iina"
       "hammerspoon"
       "istat-menus"
