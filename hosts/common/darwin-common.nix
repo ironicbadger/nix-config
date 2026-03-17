@@ -209,6 +209,7 @@ in
   system.defaults = {
     NSGlobalDomain.AppleShowAllExtensions = true;
     NSGlobalDomain.AppleShowScrollBars = "Always";
+    NSGlobalDomain.AppleICUForce24HourTime = true;
     NSGlobalDomain.NSUseAnimatedFocusRing = false;
     NSGlobalDomain.NSNavPanelExpandedStateForSaveMode = true;
     NSGlobalDomain.NSNavPanelExpandedStateForSaveMode2 = true;
@@ -224,6 +225,10 @@ in
     LaunchServices.LSQuarantine = false; # disables "Are you sure?" for new apps
     loginwindow.GuestEnabled = false;
     finder.FXPreferredViewStyle = "Nlsv";
+    menuExtraClock = {
+      Show24Hour = true;
+      ShowAMPM = false;
+    };
   };
 
   system.defaults.CustomUserPreferences = {
