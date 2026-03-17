@@ -18,6 +18,9 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
+    hcloud-upload-image.url = "github:apricote/hcloud-upload-image";
+    hcloud-upload-image.inputs.nixpkgs.follows = "nixpkgs-darwin";
+
     # disko.url = "github:nix-community/disko";
     # disko.inputs.nixpkgs.follows = "nixpkgs";
 

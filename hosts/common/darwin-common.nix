@@ -28,6 +28,7 @@ in
     unstablePkgs.get_iplayer
     unstablePkgs.colmena
     unstablePkgs.talhelper
+    inputs.hcloud-upload-image.packages.${system}.default
 
     ## stable CLI
     pkgs.age
