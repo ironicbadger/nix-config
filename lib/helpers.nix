@@ -20,6 +20,13 @@
             (final: prev: {
               nodejs = prev.nodejs_22;
               nodejs-slim = prev.nodejs-slim_22;
+              # nixpkgs currently builds direnv on Darwin with CGO disabled,
+              # but direnv's Makefile now forces external linking on macOS.
+              direnv = prev.direnv.overrideAttrs (old: {
+                env = (old.env or { }) // {
+                  CGO_ENABLED = 1;
+                };
+              });
             })
           ];
         }
