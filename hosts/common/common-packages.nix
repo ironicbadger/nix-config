@@ -1,17 +1,21 @@
-{ inputs, pkgs, unstablePkgs, ... }:
+{ inputs, lib, pkgs, unstablePkgs, ... }:
 let
   inherit (inputs) nixpkgs nixpkgs-unstable;
 in
 {
   nixpkgs.config.allowUnfree = true;
-  environment.systemPackages = with pkgs; [
-    nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.beszel
+  environment.systemPackages = with pkgs;
+    lib.optionals pkgs.stdenv.isLinux [
+      nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.beszel
+      ansible
+      esptool
+      jetbrains-mono # font; installed via Homebrew on Darwin
+    ] ++ [
     nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.codex
     nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.talosctl
 
     ## stable
     act
-    ansible
     btop
     coreutils
     diffr # Modern Unix `diff`
@@ -21,7 +25,6 @@ in
     dua # Modern Unix `du`
     duf # Modern Unix `df`
     entr # Modern Unix `watch`
-    esptool
     fastfetch
     fd
     ffmpeg
@@ -33,7 +36,6 @@ in
     hugo
     iperf3
     ipmitool
-    jetbrains-mono # font
     jq
     just
     fluxcd
@@ -49,7 +51,7 @@ in
     smartmontools
     stow
     television
-    terraform
+    # terraform
     tree
     unzip
     watch
