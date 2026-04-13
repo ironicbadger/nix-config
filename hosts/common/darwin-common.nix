@@ -84,6 +84,7 @@ in
     brews = [
       "ansible"
       "esptool"
+      "mas"
       #"bitwarden-cli"
       "neovim"
       "ollama"
@@ -91,6 +92,9 @@ in
       #"borders"
     ];
     taps = [
+      # Keep third-party cask taps pinned so brew bundle cleanup does not try to untap them.
+      "typewhisper/tap"
+      "xykong/tap"
       #"FelixKratz/formulae" #sketchybar
     ];
     casks = [
