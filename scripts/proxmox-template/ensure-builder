@@ -1,0 +1,410 @@
+#!/usr/bin/env bash
+# Purpose: create, repair, or start the isolated x86_64 NixOS builder VM on Proxmox.
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+cd "$repo_root"
+
+nix_value() {
+  local attr="$1"
+  nix --extra-experimental-features 'nix-command flakes' eval --raw --impure \
+    --expr "let cfg = import ./data/proxmox-builder.nix; in builtins.toString (cfg.${attr})"
+}
+
+confirm() {
+  local prompt="$1"
+  local default="$2"
+  local answer
+
+  case "${NIX_CONFIG_AUTO_APPROVE:-}" in
+    1|true|TRUE|yes|YES|y|Y)
+      echo "${prompt} y"
+      return 0
+      ;;
+  esac
+
+  if [ ! -t 0 ]; then
+    return 1
+  fi
+
+  read -r -p "$prompt " answer
+  case "${answer:-$default}" in
+    y|Y|yes|YES) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+proxmox_host="$(nix_value proxmox.host)"
+proxmox_user="$(nix_value proxmox.user)"
+vmid="$(nix_value vm.vmid)"
+name="$(nix_value vm.name)"
+cores="$(nix_value vm.cores)"
+memory_mib="$(nix_value vm.memoryMiB)"
+disk_gib="$(nix_value vm.diskGiB)"
+storage="$(nix_value vm.storage)"
+bridge="$(nix_value vm.bridge)"
+builder_host="$(nix_value ssh.hostName)"
+builder_user="$(nix_value ssh.user)"
+builder_port="$(nix_value ssh.port)"
+ssh_public_key="${PROXMOX_BUILDER_SSH_PUBLIC_KEY:-$(nix_value ssh.publicKey)}"
+bootstrap_user="$(nix_value bootstrap.user)"
+bootstrap_cloudinit_storage="$(nix_value bootstrap.cloudInitStorage)"
+bootstrap_image_cache_dir="$(nix_value bootstrap.imageCacheDir)"
+bootstrap_image_file="$(nix_value bootstrap.imageFile)"
+bootstrap_image_url="$(nix_value bootstrap.imageUrl)"
+bootstrap_image_sha512="$(nix_value bootstrap.imageSha512)"
+network_address="$(nix_value network.address)"
+network_prefix_length="$(nix_value network.prefixLength)"
+network_gateway="$(nix_value network.gateway)"
+network_nameserver="$(nix_value network.nameserver)"
+
+ssh_common=(
+  -o BatchMode=yes
+  -o ConnectTimeout=5
+  -o ServerAliveInterval=5
+  -o ServerAliveCountMax=3
+)
+
+ssh_fresh=(
+  "${ssh_common[@]}"
+  -o UserKnownHostsFile=/dev/null
+  -o StrictHostKeyChecking=no
+)
+
+pve_ssh() {
+  ssh "${ssh_common[@]}" "${proxmox_user}@${proxmox_host}" "$@"
+}
+
+builder_ssh() {
+  ssh "${ssh_common[@]}" -p "$builder_port" "${builder_user}@${builder_host}" "$@"
+}
+
+bootstrap_ssh() {
+  ssh "${ssh_fresh[@]}" "${bootstrap_user}@${network_address}" "$@"
+}
+
+builder_is_ready() {
+  local system
+
+  if system="$(builder_ssh 'command -v nix >/dev/null && nix --extra-experimental-features nix-command eval --raw --impure --expr builtins.currentSystem' 2>/dev/null)"; then
+    [ "$system" = "x86_64-linux" ]
+    return
+  fi
+
+  return 1
+}
+
+bootstrap_is_ready() {
+  bootstrap_ssh 'test "$(uname -m)" = x86_64' >/dev/null 2>&1
+}
+
+bootstrap_dns_is_ready() {
+  bootstrap_ssh 'getent hosts github.com >/dev/null' >/dev/null 2>&1
+}
+
+wait_for_builder() {
+  local attempts="${1:-90}"
+
+  echo "Waiting for NixOS builder at ${builder_user}@${builder_host}."
+  for _ in $(seq 1 "$attempts"); do
+    if builder_is_ready; then
+      echo "Builder VM is ready."
+      return 0
+    fi
+    sleep 5
+  done
+
+  return 1
+}
+
+wait_for_bootstrap() {
+  echo "Waiting for bootstrap SSH at ${bootstrap_user}@${network_address}."
+  for _ in $(seq 1 90); do
+    if bootstrap_is_ready; then
+      echo "Bootstrap SSH is ready."
+      return 0
+    fi
+    sleep 5
+  done
+
+  return 1
+}
+
+require_bootstrap() {
+  if ! wait_for_bootstrap; then
+    echo "Bootstrap VM did not become reachable at ${bootstrap_user}@${network_address}." >&2
+    exit 2
+  fi
+}
+
+require_builder() {
+  if ! wait_for_builder 90; then
+    echo "NixOS builder did not become reachable at ${builder_user}@${builder_host}." >&2
+    exit 2
+  fi
+}
+
+vm_status() {
+  local status_output
+
+  if status_output="$(pve_ssh "qm status ${vmid}" 2>/dev/null)"; then
+    printf '%s\n' "${status_output#status: }"
+    return 0
+  fi
+
+  printf '%s\n' "missing"
+}
+
+remote_bootstrap_image_is_valid() {
+  ssh "${ssh_common[@]}" "${proxmox_user}@${proxmox_host}" bash -s -- \
+    "$bootstrap_image_cache_dir" "$bootstrap_image_file" "$bootstrap_image_sha512" <<'REMOTE' >/dev/null 2>&1
+set -euo pipefail
+
+image_cache_dir="$1"
+image_file="$2"
+image_sha512="$3"
+image_path="${image_cache_dir}/${image_file}"
+
+test -e "$image_path"
+echo "${image_sha512}  ${image_path}" | sha512sum -c -
+REMOTE
+}
+
+ensure_bootstrap_image_cached() {
+  local local_cache_dir
+  local local_image
+  local local_tmp
+  local remote_image
+  local remote_tmp
+
+  if remote_bootstrap_image_is_valid; then
+    echo "Bootstrap image already exists on Proxmox."
+    return 0
+  fi
+
+  local_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/nix-config/proxmox-builder"
+  local_image="${local_cache_dir}/${bootstrap_image_file}"
+  local_tmp="${local_image}.tmp.$$"
+  remote_image="${bootstrap_image_cache_dir}/${bootstrap_image_file}"
+  remote_tmp="${remote_image}.tmp.$$"
+
+  mkdir -p "$local_cache_dir"
+
+  if [ -e "$local_image" ]; then
+    if ! echo "${bootstrap_image_sha512}  ${local_image}" | shasum -a 512 -c - >/dev/null 2>&1; then
+      rm -f "$local_image"
+    fi
+  fi
+
+  if [ ! -e "$local_image" ]; then
+    echo "Downloading bootstrap image on this laptop."
+    curl -L --fail --retry 5 --retry-delay 3 --retry-all-errors \
+      -o "$local_tmp" "$bootstrap_image_url"
+    echo "${bootstrap_image_sha512}  ${local_tmp}" | shasum -a 512 -c -
+    mv "$local_tmp" "$local_image"
+  fi
+
+  echo "Copying bootstrap image to Proxmox."
+  pve_ssh "mkdir -p '${bootstrap_image_cache_dir}'"
+  scp "${ssh_common[@]}" "$local_image" "${proxmox_user}@${proxmox_host}:${remote_tmp}"
+  ssh "${ssh_common[@]}" "${proxmox_user}@${proxmox_host}" bash -s -- \
+    "$remote_tmp" "$remote_image" "$bootstrap_image_sha512" <<'REMOTE'
+set -euo pipefail
+
+remote_tmp="$1"
+remote_image="$2"
+image_sha512="$3"
+
+echo "${image_sha512}  ${remote_tmp}" | sha512sum -c -
+mv "$remote_tmp" "$remote_image"
+REMOTE
+}
+
+create_bootstrap_vm() {
+  local ssh_public_key_b64
+
+  echo "Creating ${name} (${vmid}) from temporary Debian cloud image."
+  ensure_bootstrap_image_cached
+  ssh_public_key_b64="$(printf '%s' "$ssh_public_key" | base64 | tr -d '\n')"
+
+  ssh "${ssh_common[@]}" "${proxmox_user}@${proxmox_host}" bash -s -- \
+    "$vmid" "$name" "$cores" "$memory_mib" "$disk_gib" "$storage" "$bridge" \
+    "$bootstrap_cloudinit_storage" "$bootstrap_image_cache_dir" "$bootstrap_image_file" \
+    "$bootstrap_image_url" "$bootstrap_image_sha512" "$bootstrap_user" "$ssh_public_key_b64" \
+    "$network_address" "$network_prefix_length" "$network_gateway" "$network_nameserver" <<'REMOTE'
+set -euo pipefail
+
+vmid="$1"
+name="$2"
+cores="$3"
+memory_mib="$4"
+disk_gib="$5"
+storage="$6"
+bridge="$7"
+cloudinit_storage="$8"
+image_cache_dir="$9"
+image_file="${10}"
+image_url="${11}"
+image_sha512="${12}"
+bootstrap_user="${13}"
+ssh_public_key_b64="${14}"
+network_address="${15}"
+network_prefix_length="${16}"
+network_gateway="${17}"
+network_nameserver="${18}"
+ssh_public_key="$(printf '%s' "$ssh_public_key_b64" | base64 -d)"
+
+if qm status "$vmid" >/dev/null 2>&1; then
+  exit 0
+fi
+
+mkdir -p "$image_cache_dir"
+image_path="${image_cache_dir}/${image_file}"
+
+if [ -e "$image_path" ]; then
+  if ! echo "${image_sha512}  ${image_path}" | sha512sum -c - >/dev/null 2>&1; then
+    rm -f "$image_path"
+  fi
+fi
+
+if [ ! -e "$image_path" ]; then
+  echo "Bootstrap image is missing on Proxmox: ${image_path}" >&2
+  exit 2
+fi
+
+qm create "$vmid" \
+  --name "$name" \
+  --memory "$memory_mib" \
+  --cores "$cores" \
+  --net0 "virtio,bridge=${bridge},firewall=1" \
+  --ostype l26 \
+  --agent enabled=1 \
+  --serial0 socket \
+  --vga serial0
+
+qm importdisk "$vmid" "$image_path" "$storage" --format raw >/dev/null
+root_volume="$(qm config "$vmid" | awk -F': ' '/^unused[0-9]+:/ {print $2; exit}')"
+
+if [ -z "$root_volume" ]; then
+  echo "Could not find imported disk for VM ${vmid}." >&2
+  exit 2
+fi
+
+key_file="$(mktemp)"
+trap 'rm -f "$key_file"' EXIT
+printf '%s\n' "$ssh_public_key" > "$key_file"
+
+qm set "$vmid" --virtio0 "${root_volume},discard=on" >/dev/null
+qm resize "$vmid" virtio0 "${disk_gib}G" >/dev/null
+qm set "$vmid" --ide2 "${cloudinit_storage}:cloudinit" >/dev/null
+qm set "$vmid" --ciuser "$bootstrap_user" >/dev/null
+qm set "$vmid" --ciupgrade 0 >/dev/null
+qm set "$vmid" --sshkeys "$key_file" >/dev/null
+qm set "$vmid" --ipconfig0 "ip=${network_address}/${network_prefix_length},gw=${network_gateway}" >/dev/null
+qm set "$vmid" --nameserver "$network_nameserver" >/dev/null
+qm set "$vmid" --boot "order=virtio0" >/dev/null
+REMOTE
+}
+
+destroy_builder_vm() {
+  echo "Destroying existing ${name} (${vmid}) so it can be recreated cleanly."
+  pve_ssh "qm stop ${vmid} >/dev/null 2>&1 || true; qm destroy ${vmid} --purge 1 --destroy-unreferenced-disks 1"
+}
+
+start_builder_vm() {
+  local status="$1"
+
+  if [ "$status" != "running" ]; then
+    echo "Starting ${name} (${vmid})."
+    pve_ssh "qm start ${vmid}" >/dev/null
+  fi
+}
+
+forget_host_keys() {
+  ssh-keygen -R "$network_address" >/dev/null 2>&1 || true
+  ssh-keygen -R "$builder_host" >/dev/null 2>&1 || true
+}
+
+install_nixos_builder() {
+  echo "Installing declared NixOS builder with nixos-anywhere."
+  echo "This wipes the temporary bootstrap OS inside VM ${vmid}."
+
+  if ! bootstrap_dns_is_ready; then
+    echo "Repairing bootstrap DNS."
+    bootstrap_ssh "sudo -n resolvectl dns eth0 '${network_nameserver}' && sudo -n resolvectl domain eth0 '~.'"
+  fi
+
+  if ! bootstrap_dns_is_ready; then
+    echo "Bootstrap DNS is not resolving github.com." >&2
+    exit 2
+  fi
+
+  forget_host_keys
+  nix --extra-experimental-features 'nix-command flakes' run .#nixos-anywhere -- \
+    --flake ".#proxmox-builder" \
+    --target-host "${bootstrap_user}@${network_address}" \
+    --build-on remote \
+    --ssh-option UserKnownHostsFile=/dev/null \
+    --ssh-option StrictHostKeyChecking=no
+
+  forget_host_keys
+}
+
+if ! pve_ssh "true" >/dev/null 2>&1; then
+  echo "Cannot reach Proxmox at ${proxmox_user}@${proxmox_host}." >&2
+  echo "Check that Proxmox is up, then run this again:" >&2
+  echo "  just build proxmox-template" >&2
+  exit 2
+fi
+
+if builder_is_ready; then
+  echo "Builder VM is ready."
+  exit 0
+fi
+
+status="$(vm_status)"
+
+case "$status" in
+  missing)
+    echo "No Proxmox builder VM found."
+    if ! confirm "Create ${name} (${vmid}) now? [y/N]" "n"; then
+      echo "Cancelled. No changes made."
+      exit 2
+    fi
+    create_bootstrap_vm
+    start_builder_vm "stopped"
+    require_bootstrap
+    install_nixos_builder
+    require_builder
+    ;;
+  running|stopped)
+    start_builder_vm "$status"
+
+    if wait_for_builder 12; then
+      exit 0
+    fi
+
+    if bootstrap_is_ready; then
+      install_nixos_builder
+      require_builder
+      exit 0
+    fi
+
+    echo "${name} (${vmid}) exists but is not a ready NixOS builder."
+    echo "It may be the old installer-ISO VM from the previous bootstrap attempt."
+    if ! confirm "Recreate ${name} (${vmid}) from the declared bootstrap image? [y/N]" "n"; then
+      echo "Cancelled. No changes made."
+      exit 2
+    fi
+    destroy_builder_vm
+    create_bootstrap_vm
+    start_builder_vm "stopped"
+    require_bootstrap
+    install_nixos_builder
+    require_builder
+    ;;
+  *)
+    echo "${name} (${vmid}) has unsupported Proxmox status: ${status}" >&2
+    exit 2
+    ;;
+esac
