@@ -68,6 +68,14 @@
             ./hosts/nixos/proxmox-builder
           ];
         };
+
+        forgejo = libx.mkNixos {
+          hostname = "forgejo";
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/nixos/forgejo
+          ];
+        };
       };
 
       packages = {
@@ -91,6 +99,15 @@
         };
 
         # wd
+        forgejo = { ... }: {
+          imports = [ ./hosts/nixos/forgejo ];
+          deployment = {
+            targetHost = "forgejo.ktz.ts.net";
+            targetUser = "root";
+            buildOnTarget = true;
+            tags = [ "forgejo" ];
+          };
+        };
         morphnix = import ./hosts/nixos/morphnix;
         nvllama = import ./hosts/nixos/nvllama;
 
