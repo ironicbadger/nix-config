@@ -4,36 +4,59 @@ default: switch
 hostname := `hostname | cut -d "." -f 1`
 
 ### macos
-# Build the nix-darwin system configuration without switching to it
+# Build role. Use proxmox-template for the Proxmox VMA image; otherwise defaults to this Mac.
 [macos]
-build target_host=hostname flags="":
-  @echo "Building nix-darwin config..."
-  nix --extra-experimental-features 'nix-command flakes'  build ".#darwinConfigurations.{{target_host}}.system" {{flags}}
+build role=hostname flags="":
+  #!/usr/bin/env bash
+  set -euo pipefail
+  case "{{role}}" in
+    proxmox-template)
+      echo "Building proxmox-template."
+      scripts/proxmox-template/build {{flags}}
+      ;;
+    *)
+      echo "Building nix-darwin config for {{role}}."
+      nix --extra-experimental-features 'nix-command flakes' build ".#darwinConfigurations.{{role}}.system" {{flags}}
+      ;;
+  esac
 
 # Build the nix-darwin config with the --show-trace flag set
 [macos]
-trace target_host=hostname: (build target_host "--show-trace")
+trace role=hostname: (build role "--show-trace")
 
-# Build the nix-darwin configuration and switch to it
+# Build the current nix-darwin configuration and switch to it
 [macos]
-switch target_host=hostname: (build target_host)
-  @echo "switching to new config for {{target_host}}"
-  sudo ./result/sw/bin/darwin-rebuild switch --flake ".#{{target_host}}"
+switch: (build hostname)
+  @echo "switching to new config for {{hostname}}"
+  sudo ./result/sw/bin/darwin-rebuild switch --flake ".#{{hostname}}"
 
 ### linux
-# Build the NixOS configuration without switching to it
+# Build role. Use proxmox-template for the Proxmox VMA image; otherwise defaults to this NixOS host.
 [linux]
-build target_host=hostname flags="":
-	nixos-rebuild build --flake .#{{target_host}} {{flags}}
+build role=hostname flags="":
+  #!/usr/bin/env bash
+  set -euo pipefail
+  case "{{role}}" in
+    proxmox-template)
+      echo "Building proxmox-template (Proxmox VMA image) locally."
+      nix --extra-experimental-features 'nix-command flakes' build \
+        .#nixosConfigurations.proxmox-template.config.system.build.image {{flags}}
+      echo "OK: proxmox-template image build completed."
+      echo "Artifact output is linked at ./result."
+      ;;
+    *)
+      nixos-rebuild build --flake .#{{role}} {{flags}}
+      ;;
+  esac
 
 # Build the NixOS config with the --show-trace flag set
 [linux]
-trace target_host=hostname: (build target_host "--show-trace")
+trace role=hostname: (build role "--show-trace")
 
-# Build the NixOS configuration and switch to it.
+# Build the current NixOS configuration and switch to it.
 [linux]
-switch target_host=hostname:
-  sudo nixos-rebuild switch --flake .#{{target_host}}
+switch:
+  sudo nixos-rebuild switch --flake .#{{hostname}}
 
 ## colmena
 cbuild:
@@ -45,6 +68,10 @@ capply:
 # Update flake inputs to their latest revisions
 update:
   nix flake update
+
+## CI command group. Run `just ci help` for subcommands.
+ci *ARGS:
+  scripts/ci {{ARGS}}
 
 ## remote nix vm installation
 install IP:
@@ -67,4 +94,3 @@ gc:
 ## manual command for initial bootstrapping
 ## sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install)
 ## nix --extra-experimental-features 'nix-command flakes' run nixpkgs#just
-
