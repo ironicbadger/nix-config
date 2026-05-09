@@ -1,4 +1,7 @@
 { config, inputs, pkgs, lib, unstablePkgs, ... }:
+let
+  proxmoxBuilder = import ../data/proxmox-builder.nix;
+in
 {
   home.stateVersion = "23.11";
 
@@ -232,6 +235,11 @@
     '';
     matchBlocks = {
       # ~/.ssh/config
+      "${proxmoxBuilder.ssh.alias}" = {
+        hostname = proxmoxBuilder.ssh.hostName;
+        port = proxmoxBuilder.ssh.port;
+        user = proxmoxBuilder.ssh.user;
+      };
       "*" = {
         user = "root";
         extraOptions = {
