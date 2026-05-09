@@ -1,0 +1,206 @@
+#!/usr/bin/env bash
+# Purpose: clone the candidate template, boot it, and run base-image smoke checks.
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+cd "$repo_root"
+
+nix_value() {
+  local attr="$1"
+  nix --extra-experimental-features 'nix-command flakes' eval --raw --impure \
+    --expr "let cfg = import ./data/proxmox-builder.nix; in builtins.toString (cfg.${attr})"
+}
+
+proxmox_host="$(nix_value proxmox.host)"
+proxmox_user="$(nix_value proxmox.user)"
+candidate_vmid="$(nix_value template.candidate.vmid)"
+candidate_name="$(nix_value template.candidate.name)"
+smoke_vmid="$(nix_value template.smokeTest.vmid)"
+smoke_name="$(nix_value template.smokeTest.name)"
+smoke_cores="$(nix_value template.smokeTest.cores)"
+smoke_memory_mib="$(nix_value template.smokeTest.memoryMiB)"
+destination_storage="$(nix_value template.destinationStorage)"
+
+ssh_common=(
+  -o BatchMode=yes
+  -o ConnectTimeout=5
+  -o ServerAliveInterval=30
+  -o ServerAliveCountMax=12
+)
+
+pve_ssh() {
+  ssh "${ssh_common[@]}" "${proxmox_user}@${proxmox_host}" "$@"
+}
+
+stop_smoke_vm() {
+  pve_ssh "qm stop '$smoke_vmid' >/dev/null 2>&1 || true" >/dev/null 2>&1 || true
+}
+
+ssh_to_ip() {
+  local ip="$1"
+
+  if [ -z "${PROXMOX_TEMPLATE_TEST_SSH_KEY:-}" ]; then
+    echo "Skipping SSH smoke test; PROXMOX_TEMPLATE_TEST_SSH_KEY is not set."
+    return 0
+  fi
+
+  echo "Checking SSH on root@${ip}."
+  for _ in $(seq 1 24); do
+    if ssh -i "$PROXMOX_TEMPLATE_TEST_SSH_KEY" \
+      -o BatchMode=yes \
+      -o ConnectTimeout=5 \
+      -o StrictHostKeyChecking=no \
+      -o UserKnownHostsFile=/dev/null \
+      "root@${ip}" true >/dev/null 2>&1; then
+      echo "SSH smoke test passed."
+      return 0
+    fi
+    sleep 5
+  done
+
+  echo "SSH smoke test failed for root@${ip}." >&2
+  return 1
+}
+
+echo "Testing candidate template ${candidate_name} (${candidate_vmid})."
+trap stop_smoke_vm EXIT
+
+ssh "${ssh_common[@]}" "${proxmox_user}@${proxmox_host}" bash -s -- \
+  "$candidate_vmid" "$candidate_name" "$smoke_vmid" "$smoke_name" \
+  "$smoke_cores" "$smoke_memory_mib" "$destination_storage" <<'REMOTE'
+set -euo pipefail
+
+candidate_vmid="$1"
+candidate_name="$2"
+smoke_vmid="$3"
+smoke_name="$4"
+smoke_cores="$5"
+smoke_memory_mib="$6"
+destination_storage="$7"
+
+candidate_config="$(qm config "$candidate_vmid")"
+candidate_actual_name="$(printf '%s\n' "$candidate_config" | awk -F': ' '$1 == "name" { print $2; exit }')"
+candidate_is_template="$(printf '%s\n' "$candidate_config" | awk -F': ' '$1 == "template" { print $2; exit }')"
+
+if [ "$candidate_actual_name" != "$candidate_name" ] || [ "$candidate_is_template" != "1" ]; then
+  echo "Candidate ${candidate_vmid} is not template '${candidate_name}'." >&2
+  exit 2
+fi
+
+if qm config "$smoke_vmid" >/dev/null 2>&1; then
+  existing_name="$(qm config "$smoke_vmid" | awk -F': ' '$1 == "name" { print $2; exit }')"
+  if [ "$existing_name" != "$smoke_name" ]; then
+    echo "Smoke-test VMID ${smoke_vmid} already exists with name '${existing_name}', not '${smoke_name}'." >&2
+    echo "Refusing to replace it." >&2
+    exit 2
+  fi
+
+  qm stop "$smoke_vmid" >/dev/null 2>&1 || true
+  qm destroy "$smoke_vmid" --purge 1 --destroy-unreferenced-disks 1
+fi
+
+qm clone "$candidate_vmid" "$smoke_vmid" \
+  --name "$smoke_name" \
+  --full 1 \
+  --storage "$destination_storage" >/dev/null
+
+qm set "$smoke_vmid" \
+  --cores "$smoke_cores" \
+  --memory "$smoke_memory_mib" \
+  --agent enabled=1 \
+  --description "temporary smoke test for ${candidate_name}" >/dev/null
+
+qm start "$smoke_vmid"
+
+echo "Waiting for QEMU guest agent."
+for _ in $(seq 1 60); do
+  if qm guest cmd "$smoke_vmid" network-get-interfaces >/tmp/nix-template-smoke-network.json 2>/dev/null; then
+    break
+  fi
+  sleep 5
+done
+
+if ! test -s /tmp/nix-template-smoke-network.json; then
+  echo "QEMU guest agent did not become ready." >&2
+  exit 2
+fi
+
+run_guest_check() {
+  local label="$1"
+  local output_file
+  shift
+
+  echo "Checking ${label}."
+  output_file="/tmp/nix-template-smoke-${label//[^A-Za-z0-9]/-}.json"
+
+  for _ in $(seq 1 24); do
+    if qm guest exec "$smoke_vmid" --timeout 30 -- "$@" > "$output_file" \
+      && jq -e '.exited == 1 and (.exitcode // 1) == 0' "$output_file" >/dev/null; then
+      return 0
+    fi
+    sleep 5
+  done
+
+  echo "Guest check failed: ${label}" >&2
+  cat "$output_file" >&2 || true
+  return 1
+}
+
+run_guest_check "architecture" /run/current-system/sw/bin/uname -m
+run_guest_check "sshd" /run/current-system/sw/bin/systemctl is-active sshd
+run_guest_check "docker" /run/current-system/sw/bin/systemctl is-active docker
+run_guest_check "default route" /run/current-system/sw/bin/ip route
+run_guest_check "DNS" /run/current-system/sw/bin/getent hosts github.com
+run_guest_check "IPv4 address" /run/current-system/sw/bin/ip -4 -o addr show scope global
+
+jq -r '.["out-data"] // ""' /tmp/nix-template-smoke-IPv4-address.json \
+  | awk '
+      {
+        for (i = 1; i <= NF; i++) {
+          if ($i == "inet") {
+            split($(i + 1), address, "/")
+            print address[1]
+            exit
+          }
+        }
+      }
+    ' > /tmp/nix-template-smoke-ip
+
+if ! test -s /tmp/nix-template-smoke-ip; then
+  echo "Smoke-test VM did not report a non-loopback IPv4 address." >&2
+  exit 2
+fi
+REMOTE
+
+smoke_ip="$(pve_ssh 'cat /tmp/nix-template-smoke-ip')"
+echo "Smoke-test VM reported IPv4 address ${smoke_ip}."
+ssh_to_ip "$smoke_ip"
+stop_smoke_vm
+
+tested_at="$(date -u '+%Y%m%dT%H%M%SZ')"
+ssh "${ssh_common[@]}" "${proxmox_user}@${proxmox_host}" bash -s -- \
+  "$candidate_vmid" "$tested_at" <<'REMOTE'
+set -euo pipefail
+
+candidate_vmid="$1"
+tested_at="$2"
+
+candidate_desc="$(qm config "$candidate_vmid" | sed -n 's/^description:[[:space:]]*//p' | head -n1)"
+
+case "$candidate_desc" in
+  *"tests=not-run"*)
+    candidate_desc="${candidate_desc/tests=not-run/tests=passed}"
+    ;;
+  *"tests=passed"*)
+    ;;
+  *)
+    echo "Candidate ${candidate_vmid} description does not contain a test state marker." >&2
+    echo "Description: ${candidate_desc}" >&2
+    exit 2
+    ;;
+esac
+
+qm set "$candidate_vmid" --description "${candidate_desc} tested=${tested_at}" >/dev/null
+REMOTE
+
+echo "OK: candidate template smoke tests passed."

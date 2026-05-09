@@ -1,0 +1,180 @@
+#!/usr/bin/env bash
+# Purpose: build the NixOS template image on the builder VM and import it as a candidate.
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+cd "$repo_root"
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  scripts/proxmox-template/build-import candidate [nix-build-flags...]
+USAGE
+}
+
+if [ $# -lt 1 ]; then
+  usage >&2
+  exit 2
+fi
+
+target="$1"
+shift
+
+case "$target" in
+  candidate) target_attr="template.candidate"; tests_state="not-run" ;;
+  *)
+    usage >&2
+    exit 2
+    ;;
+esac
+
+nix_value() {
+  local attr="$1"
+  nix --extra-experimental-features 'nix-command flakes' eval --raw --impure \
+    --expr "let cfg = import ./data/proxmox-builder.nix; in builtins.toString (cfg.${attr})"
+}
+
+builder_host="$(nix_value ssh.hostName)"
+builder_user="$(nix_value ssh.user)"
+builder_port="$(nix_value ssh.port)"
+proxmox_host="$(nix_value proxmox.host)"
+proxmox_user="$(nix_value proxmox.user)"
+template_vmid="$(nix_value "${target_attr}.vmid")"
+template_name="$(nix_value "${target_attr}.name")"
+template_destination_storage="$(nix_value template.destinationStorage)"
+template_upload_dir="$(nix_value template.uploadDir)"
+build_max_jobs="$(nix_value build.maxJobs)"
+build_cores="$(nix_value build.cores)"
+remote_dir="/tmp/nix-config-proxmox-template"
+
+ssh_common=(
+  -o BatchMode=yes
+  -o ConnectTimeout=5
+  -o ServerAliveInterval=30
+  -o ServerAliveCountMax=12
+)
+
+builder_ssh_opts=(
+  "${ssh_common[@]}"
+  -p "$builder_port"
+)
+
+builder_scp_opts=(
+  "${ssh_common[@]}"
+  -o "Port=${builder_port}"
+)
+
+builder_ssh() {
+  ssh "${builder_ssh_opts[@]}" "${builder_user}@${builder_host}" "$@"
+}
+
+pve_ssh() {
+  ssh "${ssh_common[@]}" "${proxmox_user}@${proxmox_host}" "$@"
+}
+
+git_rev="$(git rev-parse --short=12 HEAD 2>/dev/null || printf '%s' unknown)"
+git_dirty=false
+if ! git diff --quiet 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
+  git_dirty=true
+fi
+lock_hash="$(shasum -a 256 flake.lock | awk '{ print substr($1, 1, 12) }')"
+build_date="$(date -u '+%Y%m%dT%H%M%SZ')"
+build_source="${TEMPLATE_BUILD_SOURCE:-manual}"
+description="nix-config-template target=${target} built=${build_date} rev=${git_rev} dirty=${git_dirty} lock=${lock_hash} source=${build_source} tests=${tests_state}"
+description_b64="$(printf '%s' "$description" | base64 | tr -d '\n')"
+
+scripts/proxmox-template/ensure-builder
+
+echo "Copying this checkout to ${builder_user}@${builder_host}:${remote_dir}."
+builder_ssh "rm -rf '$remote_dir' && mkdir -p '$remote_dir'"
+tar \
+  --exclude='./.git' \
+  --exclude='./result' \
+  --exclude='./.direnv' \
+  --exclude='./.DS_Store' \
+  -cf - . \
+  | ssh "${builder_ssh_opts[@]}" "${builder_user}@${builder_host}" "tar -xf - -C '$remote_dir'"
+
+echo "Building proxmox-template on ${builder_user}@${builder_host}."
+ssh "${builder_ssh_opts[@]}" "${builder_user}@${builder_host}" bash -s -- \
+  "$remote_dir" "$build_max_jobs" "$build_cores" "$@" <<'REMOTE'
+set -euo pipefail
+
+remote_dir="$1"
+build_max_jobs="$2"
+build_cores="$3"
+shift 3
+
+cd "$remote_dir"
+nix --extra-experimental-features 'nix-command flakes' build \
+  --option max-jobs "$build_max_jobs" \
+  --option cores "$build_cores" \
+  .#nixosConfigurations.proxmox-template.config.system.build.image \
+  "$@"
+REMOTE
+
+remote_result="$(builder_ssh "readlink -f '$remote_dir/result'")"
+
+echo "Copying build result back to ./result."
+if [ -e result ]; then
+  chmod -R u+w result 2>/dev/null || true
+  rm -rf result
+fi
+mkdir -p result
+scp "${builder_scp_opts[@]}" -r "${builder_user}@${builder_host}:${remote_result}/." ./result/
+
+echo "OK: proxmox-template image files copied to ./result."
+find result -maxdepth 2 -type f -exec ls -lh {} \;
+
+shopt -s nullglob
+artifacts=(result/*.vma.zst result/*.vma)
+shopt -u nullglob
+
+if [ "${#artifacts[@]}" -ne 1 ]; then
+  echo "Expected exactly one Proxmox VMA artifact in ./result, found ${#artifacts[@]}." >&2
+  exit 2
+fi
+
+artifact="${artifacts[0]}"
+remote_artifact="${template_upload_dir}/$(basename "$artifact")"
+
+echo "Copying image to Proxmox at ${proxmox_user}@${proxmox_host}:${remote_artifact}."
+pve_ssh "mkdir -p '$template_upload_dir'"
+scp "${ssh_common[@]}" "$artifact" "${proxmox_user}@${proxmox_host}:${remote_artifact}.tmp"
+pve_ssh "mv '$remote_artifact.tmp' '$remote_artifact'"
+
+echo "Restoring ${template_name} (${template_vmid}) to ${template_destination_storage}."
+ssh "${ssh_common[@]}" "${proxmox_user}@${proxmox_host}" bash -s -- \
+  "$remote_artifact" "$template_vmid" "$template_name" "$template_destination_storage" "$description_b64" <<'REMOTE'
+set -euo pipefail
+
+archive="$1"
+template_vmid="$2"
+template_name="$3"
+destination_storage="$4"
+description="$(printf '%s' "$5" | base64 -d)"
+
+if ! pvesm status | awk -v storage="$destination_storage" '$1 == storage && $3 == "active" { found = 1 } END { exit found ? 0 : 1 }'; then
+  echo "Destination storage is not active: ${destination_storage}" >&2
+  exit 2
+fi
+
+if qm config "$template_vmid" >/dev/null 2>&1; then
+  existing_name="$(qm config "$template_vmid" | awk -F': ' '$1 == "name" { print $2; exit }')"
+  if [ "$existing_name" != "$template_name" ]; then
+    echo "VMID ${template_vmid} already exists with name '${existing_name}', not '${template_name}'." >&2
+    echo "Refusing to replace it." >&2
+    exit 2
+  fi
+
+  qm stop "$template_vmid" >/dev/null 2>&1 || true
+  qm destroy "$template_vmid" --purge 1 --destroy-unreferenced-disks 1
+fi
+
+qmrestore "$archive" "$template_vmid" --storage "$destination_storage" --force 1 --unique 1
+qm set "$template_vmid" --name "$template_name" >/dev/null
+qm set "$template_vmid" --description "$description" >/dev/null
+qm template "$template_vmid"
+REMOTE
+
+echo "OK: ${template_name} (${template_vmid}) is a Proxmox template on ${template_destination_storage}."

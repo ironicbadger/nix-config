@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Purpose: run the full break-glass template flow from laptop to tested Proxmox gold.
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+cd "$repo_root"
+
+cleanup() {
+  if [ "${NIX_CONFIG_KEEP_CI_VMS:-}" = "1" ]; then
+    echo "Keeping template build VMs because NIX_CONFIG_KEEP_CI_VMS=1."
+    return 0
+  fi
+
+  scripts/proxmox-template/cleanup
+}
+
+TEMPLATE_BUILD_SOURCE="${TEMPLATE_BUILD_SOURCE:-manual}" \
+  scripts/proxmox-template/build-import candidate "$@"
+scripts/proxmox-template/test-candidate
+scripts/proxmox-template/promote
+cleanup
+
+echo "OK: proxmox-template build, smoke test, and promotion completed."

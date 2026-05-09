@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# Purpose: remove only the disposable Proxmox VMs used by the template build flow.
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+cd "$repo_root"
+
+nix_value() {
+  local attr="$1"
+  nix --extra-experimental-features 'nix-command flakes' eval --raw --impure \
+    --expr "let cfg = import ./data/proxmox-builder.nix; in builtins.toString (cfg.${attr})"
+}
+
+proxmox_host="$(nix_value proxmox.host)"
+proxmox_user="$(nix_value proxmox.user)"
+builder_vmid="$(nix_value vm.vmid)"
+builder_name="$(nix_value vm.name)"
+candidate_vmid="$(nix_value template.candidate.vmid)"
+candidate_name="$(nix_value template.candidate.name)"
+smoke_vmid="$(nix_value template.smokeTest.vmid)"
+smoke_name="$(nix_value template.smokeTest.name)"
+
+ssh_common=(
+  -o BatchMode=yes
+  -o ConnectTimeout=5
+  -o ServerAliveInterval=30
+  -o ServerAliveCountMax=12
+)
+
+echo "Cleaning up template build VMs: ${builder_vmid}, ${candidate_vmid}, ${smoke_vmid}."
+
+ssh "${ssh_common[@]}" "${proxmox_user}@${proxmox_host}" bash -s -- \
+  "$builder_vmid" "$builder_name" "$candidate_vmid" "$candidate_name" "$smoke_vmid" "$smoke_name" <<'REMOTE'
+set -euo pipefail
+
+cleanup_vm() {
+  local vmid="$1"
+  local expected_name="$2"
+
+  if ! qm config "$vmid" >/dev/null 2>&1; then
+    echo "${vmid}: missing."
+    return 0
+  fi
+
+  actual_name="$(qm config "$vmid" | awk -F': ' '$1 == "name" { print $2; exit }')"
+  if [ "$actual_name" != "$expected_name" ]; then
+    echo "${vmid}: exists as '${actual_name}', not '${expected_name}'; leaving it alone." >&2
+    return 2
+  fi
+
+  echo "${vmid}: destroying ${expected_name}."
+  qm stop "$vmid" >/dev/null 2>&1 || true
+  qm destroy "$vmid" --purge 1 --destroy-unreferenced-disks 1
+}
+
+cleanup_vm "$1" "$2"
+cleanup_vm "$3" "$4"
+cleanup_vm "$5" "$6"
+REMOTE
+
+echo "OK: template build VM cleanup completed."
