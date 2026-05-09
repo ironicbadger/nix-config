@@ -85,6 +85,54 @@ install IP:
     sh install-nix.sh\"'"
 
 
+## remote nixos rebuilds
+# Run nixos-rebuild on a remote NixOS host by flake name and IP.
+# Examples:
+#   just remote switch HOST IP
+#   just remote boot HOST IP
+#   just remote switch HOST IP USER BUILD_HOST
+remote action host ip user="root" build_host="":
+  #!/usr/bin/env bash
+  set -euo pipefail
+  case "{{action}}" in
+    switch|boot) ;;
+    *)
+      echo "Unknown remote action '{{action}}'. Use 'switch' or 'boot'." >&2
+      exit 2
+      ;;
+  esac
+  if [ -n "{{build_host}}" ]; then
+    if command -v timeout >/dev/null 2>&1; then
+      timeout 60m nix run nixpkgs#nixos-rebuild -- {{action}} \
+        --flake "path:$PWD#{{host}}" \
+        --target-host "{{user}}@{{ip}}" \
+        --build-host "{{build_host}}"
+    elif command -v gtimeout >/dev/null 2>&1; then
+      gtimeout 60m nix run nixpkgs#nixos-rebuild -- {{action}} \
+        --flake "path:$PWD#{{host}}" \
+        --target-host "{{user}}@{{ip}}" \
+        --build-host "{{build_host}}"
+    else
+      echo "timeout or gtimeout is required." >&2
+      exit 2
+    fi
+  else
+    if command -v timeout >/dev/null 2>&1; then
+      timeout 60m nix run nixpkgs#nixos-rebuild -- {{action}} \
+        --flake "path:$PWD#{{host}}" \
+        --target-host "{{user}}@{{ip}}" \
+        --build-host "{{user}}@{{ip}}"
+    elif command -v gtimeout >/dev/null 2>&1; then
+      gtimeout 60m nix run nixpkgs#nixos-rebuild -- {{action}} \
+        --flake "path:$PWD#{{host}}" \
+        --target-host "{{user}}@{{ip}}" \
+        --build-host "{{user}}@{{ip}}"
+    else
+      echo "timeout or gtimeout is required." >&2
+      exit 2
+    fi
+  fi
+
 # Garbage collect old OS generations and remove stale packages from the nix store
 gc:
   nix-collect-garbage -d
