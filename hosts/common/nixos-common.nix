@@ -12,16 +12,6 @@ in
   #     users.alex = import ../../../home/alex.nix;
   # };
 
-  virtualisation = {
-    docker = {
-      enable = true;
-      autoPrune = {
-        enable = true;
-        dates = "weekly";
-      };
-    };
-  };
-
   nix = {
     settings = {
         experimental-features = [ "nix-command" "flakes" ];
@@ -35,7 +25,7 @@ in
     };
   };
 
-  # environment.systemPackages = with pkgs; [
-  #   #
-  # ];
+  environment.systemPackages = with pkgs; [
+    net-tools
+  ];
 }
