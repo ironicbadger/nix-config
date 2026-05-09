@@ -6,18 +6,27 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$repo_root"
 
 cleanup() {
-  if [ "${NIX_CONFIG_KEEP_CI_VMS:-}" = "1" ]; then
-    echo "Keeping template build VMs because NIX_CONFIG_KEEP_CI_VMS=1."
+  if [ "${INFRA_KEEP_TEMPLATE_VMS:-}" = "1" ]; then
+    echo "Keeping template build VMs because INFRA_KEEP_TEMPLATE_VMS=1."
     return 0
   fi
 
   scripts/proxmox-template/cleanup
 }
 
+finish() {
+  local status="$1"
+
+  trap - EXIT
+  cleanup || true
+  exit "$status"
+}
+
+trap 'finish "$?"' EXIT
+
 TEMPLATE_BUILD_SOURCE="${TEMPLATE_BUILD_SOURCE:-manual}" \
-  scripts/proxmox-template/build-import candidate "$@"
-scripts/proxmox-template/test-candidate
+  scripts/proxmox-template/build-import build-temp "$@"
+scripts/proxmox-template/test-build-temp
 scripts/proxmox-template/promote
-cleanup
 
 echo "OK: proxmox-template build, smoke test, and promotion completed."

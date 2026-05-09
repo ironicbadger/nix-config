@@ -1,5 +1,6 @@
 let
   builderAddress = "10.42.1.102";
+  templateName = "nixos-tmpl";
   laptopKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA/1OeveuCOTtrUkcuQwEzR2w+qY95jstpZYNSJZ0x5e alex@nauvis";
 in
 {
@@ -14,17 +15,17 @@ in
     uploadDir = "/var/lib/vz/dump";
 
     golden = {
-      name = "nixos-proxmox-template";
+      name = templateName;
       vmid = 9000;
     };
 
-    previous = {
-      name = "nixos-proxmox-template-previous";
+    last = {
+      name = "${templateName}-last";
       vmid = 9001;
     };
 
-    candidate = {
-      name = "nixos-proxmox-template-candidate";
+    build = {
+      name = "nixos-template-build-temp";
       vmid = 9002;
     };
 
@@ -79,5 +80,10 @@ in
     user = "root";
     port = 22;
     publicKey = laptopKey;
+  };
+
+  breakglass = {
+    # Console-only fallback for Proxmox VMs. SSH password auth remains disabled.
+    alexPasswordHash = "$y$j9T$SanURpI3H6hoUbSKUkhgP.$fEYbCeil7fKwTrwovLjZjnrHfjW.cEiCzyTSbjxRDpA";
   };
 }

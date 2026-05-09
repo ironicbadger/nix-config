@@ -11,8 +11,8 @@ Usage:
   just ci help
   just ci template-refresh
   just ci template-update-lock
-  just ci template-build-candidate
-  just ci template-test-candidate
+  just ci template-build-temp
+  just ci template-test-temp
   just ci template-promote
   just ci template-cleanup
 
@@ -20,7 +20,7 @@ The scheduled Forgejo path should run:
   just ci template-refresh
 
 Stage subcommands are for logs/debugging. The clean end-to-end path is
-template-refresh; it cleans up CI VMs on exit unless NIX_CONFIG_KEEP_CI_VMS=1.
+template-refresh; it cleans up CI VMs on exit unless INFRA_KEEP_TEMPLATE_VMS=1.
 USAGE
 }
 
@@ -49,7 +49,7 @@ acquire_template_lock() {
 
   proxmox_host="$(nix_value proxmox.host)"
   proxmox_user="$(nix_value proxmox.user)"
-  lock_dir="/var/lock/nix-config-template-ci.lock"
+  lock_dir="/var/lock/infra-template-ci.lock"
   owner="$(hostname):$$ $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
 
   if ! ssh -o BatchMode=yes -o ConnectTimeout=5 "${proxmox_user}@${proxmox_host}" "mkdir '$lock_dir' 2>/dev/null"; then
@@ -65,8 +65,8 @@ acquire_template_lock() {
 }
 
 cleanup_ci_vms() {
-  if [ "${NIX_CONFIG_KEEP_CI_VMS:-}" = "1" ]; then
-    echo "Keeping CI VMs because NIX_CONFIG_KEEP_CI_VMS=1."
+  if [ "${INFRA_KEEP_TEMPLATE_VMS:-}" = "1" ]; then
+    echo "Keeping CI VMs because INFRA_KEEP_TEMPLATE_VMS=1."
     return 0
   fi
 
@@ -90,15 +90,15 @@ case "$cmd" in
     ;;
   template-update-lock)
     echo "Updating flake.lock."
-    nix --extra-experimental-features 'nix-command flakes' flake update "$@"
+    nix --extra-experimental-features 'nix-command flakes' flake update --flake "path:${repo_root}" "$@"
     ;;
-  template-build-candidate)
-    echo "Building candidate template."
-    NIX_CONFIG_AUTO_APPROVE=1 TEMPLATE_BUILD_SOURCE="${TEMPLATE_BUILD_SOURCE:-ci}" \
-      scripts/proxmox-template/build-import candidate "$@"
+  template-build-temp)
+    echo "Building disposable template image."
+    INFRA_AUTO_APPROVE=1 TEMPLATE_BUILD_SOURCE="${TEMPLATE_BUILD_SOURCE:-ci}" \
+      scripts/proxmox-template/build-import build-temp "$@"
     ;;
-  template-test-candidate)
-    scripts/proxmox-template/test-candidate "$@"
+  template-test-temp)
+    scripts/proxmox-template/test-build-temp "$@"
     ;;
   template-promote)
     scripts/proxmox-template/promote "$@"
@@ -109,12 +109,12 @@ case "$cmd" in
   template-refresh)
     acquire_template_lock
     trap 'template_refresh_exit "$?"' EXIT
-    export NIX_CONFIG_AUTO_APPROVE=1
+    export INFRA_AUTO_APPROVE=1
     export TEMPLATE_BUILD_SOURCE="${TEMPLATE_BUILD_SOURCE:-ci}"
     scripts/ci template-cleanup
     scripts/ci template-update-lock "$@"
-    scripts/ci template-build-candidate
-    scripts/ci template-test-candidate
+    scripts/ci template-build-temp
+    scripts/ci template-test-temp
     scripts/ci template-promote
     echo "OK: CI template refresh completed."
     ;;

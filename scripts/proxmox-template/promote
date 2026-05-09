@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Purpose: promote a smoke-tested candidate template to current gold and retain the previous gold.
+# Purpose: promote a smoke-tested build template to current gold and retain the last gold.
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
@@ -15,10 +15,10 @@ proxmox_host="$(nix_value proxmox.host)"
 proxmox_user="$(nix_value proxmox.user)"
 golden_vmid="$(nix_value template.golden.vmid)"
 golden_name="$(nix_value template.golden.name)"
-previous_vmid="$(nix_value template.previous.vmid)"
-previous_name="$(nix_value template.previous.name)"
-candidate_vmid="$(nix_value template.candidate.vmid)"
-candidate_name="$(nix_value template.candidate.name)"
+last_vmid="$(nix_value template.last.vmid)"
+last_name="$(nix_value template.last.name)"
+build_vmid="$(nix_value template.build.vmid)"
+build_name="$(nix_value template.build.name)"
 destination_storage="$(nix_value template.destinationStorage)"
 
 ssh_common=(
@@ -28,37 +28,37 @@ ssh_common=(
   -o ServerAliveCountMax=12
 )
 
-echo "Promoting ${candidate_name} (${candidate_vmid}) to ${golden_name} (${golden_vmid})."
+echo "Promoting tested build image ${build_name} (${build_vmid}) to ${golden_name} (${golden_vmid})."
 
 ssh "${ssh_common[@]}" "${proxmox_user}@${proxmox_host}" bash -s -- \
-  "$candidate_vmid" "$candidate_name" "$golden_vmid" "$golden_name" \
-  "$previous_vmid" "$previous_name" "$destination_storage" <<'REMOTE'
+  "$build_vmid" "$build_name" "$golden_vmid" "$golden_name" \
+  "$last_vmid" "$last_name" "$destination_storage" <<'REMOTE'
 set -euo pipefail
 
-candidate_vmid="$1"
-candidate_name="$2"
+build_vmid="$1"
+build_name="$2"
 golden_vmid="$3"
 golden_name="$4"
-previous_vmid="$5"
-previous_name="$6"
+last_vmid="$5"
+last_name="$6"
 destination_storage="$7"
 
-candidate_config="$(qm config "$candidate_vmid")"
-candidate_actual_name="$(printf '%s\n' "$candidate_config" | awk -F': ' '$1 == "name" { print $2; exit }')"
-candidate_is_template="$(printf '%s\n' "$candidate_config" | awk -F': ' '$1 == "template" { print $2; exit }')"
-candidate_description="$(printf '%s\n' "$candidate_config" | sed -n 's/^description:[[:space:]]*//p' | head -n1)"
+build_config="$(qm config "$build_vmid")"
+build_actual_name="$(printf '%s\n' "$build_config" | awk -F': ' '$1 == "name" { print $2; exit }')"
+build_is_template="$(printf '%s\n' "$build_config" | awk -F': ' '$1 == "template" { print $2; exit }')"
+build_description="$(printf '%s\n' "$build_config" | sed -n 's/^description:[[:space:]]*//p' | head -n1)"
 promoted_at="$(date -u '+%Y%m%dT%H%M%SZ')"
 
-if [ "$candidate_actual_name" != "$candidate_name" ] || [ "$candidate_is_template" != "1" ]; then
-  echo "Candidate ${candidate_vmid} is not template '${candidate_name}'." >&2
+if [ "$build_actual_name" != "$build_name" ] || [ "$build_is_template" != "1" ]; then
+  echo "Build VMID ${build_vmid} is not template '${build_name}'." >&2
   exit 2
 fi
 
-case "$candidate_description" in
+case "$build_description" in
   *"tests=passed"*) ;;
   *)
-    echo "Candidate ${candidate_vmid} has not passed smoke tests." >&2
-    echo "Description: ${candidate_description}" >&2
+    echo "Build VMID ${build_vmid} has not passed smoke tests." >&2
+    echo "Description: ${build_description}" >&2
     exit 2
     ;;
 esac
@@ -72,44 +72,44 @@ if qm config "$golden_vmid" >/dev/null 2>&1; then
     exit 2
   fi
 
-  if qm config "$previous_vmid" >/dev/null 2>&1; then
-    existing_name="$(qm config "$previous_vmid" | awk -F': ' '$1 == "name" { print $2; exit }')"
-    if [ "$existing_name" != "$previous_name" ]; then
-      echo "Previous VMID ${previous_vmid} already exists with name '${existing_name}', not '${previous_name}'." >&2
+  if qm config "$last_vmid" >/dev/null 2>&1; then
+    existing_name="$(qm config "$last_vmid" | awk -F': ' '$1 == "name" { print $2; exit }')"
+    if [ "$existing_name" != "$last_name" ]; then
+      echo "Last VMID ${last_vmid} already exists with name '${existing_name}', not '${last_name}'." >&2
       echo "Refusing to replace it." >&2
       exit 2
     fi
 
-    qm stop "$previous_vmid" >/dev/null 2>&1 || true
-    qm destroy "$previous_vmid" --purge 1 --destroy-unreferenced-disks 1
+    qm stop "$last_vmid" >/dev/null 2>&1 || true
+    qm destroy "$last_vmid" --purge 1 --destroy-unreferenced-disks 1
   fi
 
   golden_description="$(printf '%s\n' "$golden_config" | sed -n 's/^description:[[:space:]]*//p' | head -n1)"
-  previous_description="${golden_description/target=golden/target=previous}"
-  previous_description="${previous_description} superseded=${promoted_at}"
+  last_description="${golden_description/target=golden/target=last}"
+  last_description="${last_description} superseded=${promoted_at}"
 
-  qm clone "$golden_vmid" "$previous_vmid" \
-    --name "$previous_name" \
+  qm clone "$golden_vmid" "$last_vmid" \
+    --name "$last_name" \
     --full 1 \
     --storage "$destination_storage" >/dev/null
-  qm set "$previous_vmid" --name "$previous_name" >/dev/null
-  qm set "$previous_vmid" --description "$previous_description" >/dev/null
-  qm template "$previous_vmid"
+  qm set "$last_vmid" --name "$last_name" >/dev/null
+  qm set "$last_vmid" --description "$last_description" >/dev/null
+  qm template "$last_vmid"
 
   qm stop "$golden_vmid" >/dev/null 2>&1 || true
   qm destroy "$golden_vmid" --purge 1 --destroy-unreferenced-disks 1
 fi
 
-qm clone "$candidate_vmid" "$golden_vmid" \
+qm clone "$build_vmid" "$golden_vmid" \
   --name "$golden_name" \
   --full 1 \
   --storage "$destination_storage" >/dev/null
 
-description="${candidate_description/target=candidate/target=golden} promoted=${promoted_at}"
+description="${build_description/target=build-temp/target=golden} promoted=${promoted_at}"
 
 qm set "$golden_vmid" --name "$golden_name" >/dev/null
 qm set "$golden_vmid" --description "$description" >/dev/null
 qm template "$golden_vmid"
 REMOTE
 
-echo "OK: ${golden_name} (${golden_vmid}) now points at the tested candidate."
+echo "OK: ${golden_name} (${golden_vmid}) now points at the tested build image."

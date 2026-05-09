@@ -15,8 +15,8 @@ proxmox_host="$(nix_value proxmox.host)"
 proxmox_user="$(nix_value proxmox.user)"
 builder_vmid="$(nix_value vm.vmid)"
 builder_name="$(nix_value vm.name)"
-candidate_vmid="$(nix_value template.candidate.vmid)"
-candidate_name="$(nix_value template.candidate.name)"
+build_vmid="$(nix_value template.build.vmid)"
+build_name="$(nix_value template.build.name)"
 smoke_vmid="$(nix_value template.smokeTest.vmid)"
 smoke_name="$(nix_value template.smokeTest.name)"
 
@@ -27,10 +27,10 @@ ssh_common=(
   -o ServerAliveCountMax=12
 )
 
-echo "Cleaning up template build VMs: ${builder_vmid}, ${candidate_vmid}, ${smoke_vmid}."
+echo "Cleaning up template build VMs: ${builder_vmid}, ${build_vmid}, ${smoke_vmid}."
 
 ssh "${ssh_common[@]}" "${proxmox_user}@${proxmox_host}" bash -s -- \
-  "$builder_vmid" "$builder_name" "$candidate_vmid" "$candidate_name" "$smoke_vmid" "$smoke_name" <<'REMOTE'
+  "$builder_vmid" "$builder_name" "$build_vmid" "$build_name" "$smoke_vmid" "$smoke_name" <<'REMOTE'
 set -euo pipefail
 
 cleanup_vm() {

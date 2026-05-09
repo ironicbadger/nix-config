@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Purpose: build the NixOS template image on the builder VM and import it as a candidate.
+# Purpose: build the NixOS template image on the builder VM and import it as a disposable build image.
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
@@ -8,7 +8,7 @@ cd "$repo_root"
 usage() {
   cat <<'USAGE'
 Usage:
-  scripts/proxmox-template/build-import candidate [nix-build-flags...]
+  scripts/proxmox-template/build-import build-temp [nix-build-flags...]
 USAGE
 }
 
@@ -21,7 +21,7 @@ target="$1"
 shift
 
 case "$target" in
-  candidate) target_attr="template.candidate"; tests_state="not-run" ;;
+  build-temp) target_attr="template.build"; tests_state="not-run" ;;
   *)
     usage >&2
     exit 2
@@ -45,7 +45,7 @@ template_destination_storage="$(nix_value template.destinationStorage)"
 template_upload_dir="$(nix_value template.uploadDir)"
 build_max_jobs="$(nix_value build.maxJobs)"
 build_cores="$(nix_value build.cores)"
-remote_dir="/tmp/nix-config-proxmox-template"
+remote_dir="/tmp/infra-proxmox-template"
 
 ssh_common=(
   -o BatchMode=yes
@@ -74,13 +74,13 @@ pve_ssh() {
 
 git_rev="$(git rev-parse --short=12 HEAD 2>/dev/null || printf '%s' unknown)"
 git_dirty=false
-if ! git diff --quiet 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
+if ! git diff --quiet -- . 2>/dev/null || ! git diff --cached --quiet -- . 2>/dev/null; then
   git_dirty=true
 fi
 lock_hash="$(shasum -a 256 flake.lock | awk '{ print substr($1, 1, 12) }')"
 build_date="$(date -u '+%Y%m%dT%H%M%SZ')"
 build_source="${TEMPLATE_BUILD_SOURCE:-manual}"
-description="nix-config-template target=${target} built=${build_date} rev=${git_rev} dirty=${git_dirty} lock=${lock_hash} source=${build_source} tests=${tests_state}"
+description="infra-template target=${target} built=${build_date} rev=${git_rev} dirty=${git_dirty} lock=${lock_hash} source=${build_source} tests=${tests_state}"
 description_b64="$(printf '%s' "$description" | base64 | tr -d '\n')"
 
 scripts/proxmox-template/ensure-builder

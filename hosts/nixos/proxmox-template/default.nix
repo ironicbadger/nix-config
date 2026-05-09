@@ -1,7 +1,8 @@
 { lib, modulesPath, pkgs, stateVersion, ... }:
 
 let
-  proxmoxTemplate = (import ../../../data/proxmox-builder.nix).template;
+  infra = import ../../../data/proxmox-builder.nix;
+  proxmoxTemplate = infra.template;
   goldenTemplate = proxmoxTemplate.golden;
 in
 
@@ -12,7 +13,10 @@ in
   ];
 
   proxmox = {
-    cloudInit.enable = false;
+    cloudInit = {
+      enable = true;
+      defaultStorage = proxmoxTemplate.destinationStorage;
+    };
     filenameSuffix = "${toString goldenTemplate.vmid}-${goldenTemplate.name}";
     qemuConf = {
       name = goldenTemplate.name;
@@ -26,9 +30,11 @@ in
 
   virtualisation.diskSize = 20 * 1024;
 
-  boot.loader.grub = {
+  boot.loader.limine = {
     enable = true;
-    device = "/dev/vda";
+    efiSupport = false;
+    biosSupport = true;
+    biosDevice = "/dev/vda";
   };
 
   boot.kernelParams = [
@@ -51,9 +57,35 @@ in
 
   services.qemuGuest.enable = true;
 
+  nix.settings.trusted-users = [ "alex" ];
+
+  security.sudo.wheelNeedsPassword = false;
+
+  services.cloud-init = {
+    enable = true;
+    network.enable = true;
+    settings = {
+      ssh_deletekeys = false;
+      ssh_genkeytypes = [ ];
+      cloud_final_modules = [
+        "rightscale_userdata"
+        "scripts-vendor"
+        "scripts-per-once"
+        "scripts-per-boot"
+        "scripts-per-instance"
+        "scripts-user"
+        "ssh-authkey-fingerprints"
+        "phone-home"
+        "final-message"
+        "power-state-change"
+      ];
+    };
+  };
+
   users.users.alex = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
+    hashedPassword = infra.breakglass.alexPasswordHash;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA/1OeveuCOTtrUkcuQwEzR2w+qY95jstpZYNSJZ0x5e alex@nauvis"
     ];
@@ -65,6 +97,7 @@ in
 
   environment.systemPackages = with pkgs; [
     btop
+    cloud-init
     curl
     git
     htop

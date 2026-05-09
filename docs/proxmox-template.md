@@ -26,20 +26,57 @@ Useful CI stages:
 
 ```sh
 just ci template-update-lock
-just ci template-build-candidate
-just ci template-test-candidate
+just ci template-build-temp
+just ci template-test-temp
 just ci template-promote
 just ci template-cleanup
 ```
+
+The canonical template and clone lifecycle lives in the `infra` repo. This repo
+keeps the same constants and scripts only so NixOS configs evaluate against the
+same Proxmox contract.
+
+## Consumption Contract
+
+The Proxmox template is a base operating-system substrate, not the source of
+truth for application or host behavior.
+
+The template owns:
+
+- NixOS bootability on Proxmox.
+- QEMU guest agent.
+- SSH service availability.
+- Docker availability for Compose-backed app hosts.
+- Cloud-init support for clone-time metadata.
+- A baked-in break-glass SSH key for `alex` and `root`.
+
+Clone-time Proxmox/cloud-init metadata owns only:
+
+- VM identity: name and VMID.
+- Initial CPU, memory, and optional disk growth.
+- Initial network config, defaulting to DHCP through `ipconfig0 = "ip=dhcp"`.
+- Optional SSH key injection for the cloud-init default user.
+
+NixOS host configuration owns everything durable after first boot:
+
+- Users beyond break-glass access.
+- Packages and services.
+- Firewall policy.
+- Secrets integration.
+- Backup jobs.
+- Monitoring and alerting.
+
+Cloud-init is deliberately kept narrow. It should make a clone reachable and
+identifiable; it should not become a second configuration-management layer.
 
 ## VMIDs
 
 Declared in `data/proxmox-builder.nix`.
 
 ```text
-9000  nixos-proxmox-template            current gold
-9001  nixos-proxmox-template-previous   previous gold
-9002  nixos-proxmox-template-candidate  disposable candidate
+9000  nixos-tmpl                        current gold
+9001  nixos-tmpl-last                   last known-good gold
+9002  nixos-template-build-temp         disposable build/test image
 9010  proxmox-builder                   temporary isolated builder
 9099  nixos-template-smoke-test         disposable smoke-test VM
 ```
@@ -59,15 +96,15 @@ Both laptop and CI flows do this:
 3. Build `.#nixosConfigurations.proxmox-template.config.system.build.image`.
 4. Copy the VMA artifact back to `./result`.
 5. Upload the artifact to Proxmox.
-6. Restore it as candidate template `9002`.
+6. Restore it as disposable build template `9002`.
 7. Clone `9002` to smoke-test VM `9099`.
 8. Check guest agent, architecture, `sshd`, Docker, default route, DNS, and IPv4.
-9. Mark the candidate as tested.
-10. Clone current `9000` to previous `9001`.
-11. Replace `9000` with the tested candidate.
+9. Mark the build image as tested.
+10. Clone current `9000` to last `9001`.
+11. Replace `9000` with the tested build image.
 12. Destroy `9010`, `9002`, and `9099`.
 
-If the current or previous VMID already exists with the wrong name, promotion
+If the current or last VMID already exists with the wrong name, promotion
 stops instead of destroying it.
 
 ## Builder Bootstrap
@@ -116,7 +153,7 @@ does not depend on cloud-init for break-glass SSH access.
 The promotion flow writes metadata into the Proxmox template description:
 
 ```text
-target=<golden|previous|candidate>
+target=<golden|last|build-temp>
 built=<UTC timestamp>
 rev=<git commit>
 dirty=<true|false>
@@ -135,7 +172,7 @@ superseded=<UTC timestamp>
 Keep temporary VMs after a failed run:
 
 ```sh
-NIX_CONFIG_KEEP_CI_VMS=1 just ci template-refresh
+INFRA_KEEP_TEMPLATE_VMS=1 just ci template-refresh
 ```
 
 Optional SSH smoke test:

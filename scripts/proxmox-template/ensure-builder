@@ -16,7 +16,7 @@ confirm() {
   local default="$2"
   local answer
 
-  case "${NIX_CONFIG_AUTO_APPROVE:-}" in
+  case "${INFRA_AUTO_APPROVE:-}" in
     1|true|TRUE|yes|YES|y|Y)
       echo "${prompt} y"
       return 0
@@ -182,7 +182,7 @@ ensure_bootstrap_image_cached() {
     return 0
   fi
 
-  local_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/nix-config/proxmox-builder"
+  local_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/infra/proxmox-builder"
   local_image="${local_cache_dir}/${bootstrap_image_file}"
   local_tmp="${local_image}.tmp.$$"
   remote_image="${bootstrap_image_cache_dir}/${bootstrap_image_file}"
@@ -326,8 +326,11 @@ forget_host_keys() {
 }
 
 install_nixos_builder() {
+  local flake_ref
+
   echo "Installing declared NixOS builder with nixos-anywhere."
   echo "This wipes the temporary bootstrap OS inside VM ${vmid}."
+  flake_ref="path:${repo_root}"
 
   if ! bootstrap_dns_is_ready; then
     echo "Repairing bootstrap DNS."
@@ -340,8 +343,8 @@ install_nixos_builder() {
   fi
 
   forget_host_keys
-  nix --extra-experimental-features 'nix-command flakes' run .#nixos-anywhere -- \
-    --flake ".#proxmox-builder" \
+  nix --extra-experimental-features 'nix-command flakes' run "${flake_ref}#nixos-anywhere" -- \
+    --flake "${flake_ref}#proxmox-builder" \
     --target-host "${bootstrap_user}@${network_address}" \
     --build-on remote \
     --ssh-option UserKnownHostsFile=/dev/null \
