@@ -59,4 +59,21 @@
       #     (import ./../hosts/darwin/${hostname}/default.nix)
       #   ];
     };
+
+  mkNixos = { hostname, system ? "x86_64-linux", modules ? [ ], specialArgs ? { } }:
+  let
+    unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+  in
+    inputs.nixpkgs.lib.nixosSystem {
+      inherit system;
+      specialArgs = {
+        inherit inputs outputs stateVersion unstablePkgs;
+      } // specialArgs;
+      modules = [
+        {
+          networking.hostName = hostname;
+          nixpkgs.hostPlatform = system;
+        }
+      ] ++ modules;
+    };
 }

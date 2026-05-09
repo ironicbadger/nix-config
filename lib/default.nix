@@ -10,6 +10,6 @@ in
 {
   inherit (helpers)
     mkDarwin
-    #mkNixos
+    mkNixos
     ;
 }

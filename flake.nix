@@ -18,11 +18,14 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixos-anywhere.url = "github:nix-community/nixos-anywhere";
+    nixos-anywhere.inputs.nixpkgs.follows = "nixpkgs";
+
     hcloud-upload-image.url = "github:apricote/hcloud-upload-image";
     hcloud-upload-image.inputs.nixpkgs.follows = "nixpkgs-darwin";
-
-    # disko.url = "github:nix-community/disko";
-    # disko.inputs.nixpkgs.follows = "nixpkgs";
 
     # vscode-server.url = "github:nix-community/nixos-vscode-server";
   };
@@ -46,6 +49,31 @@
         # work
         baldrick = libx.mkDarwin { hostname = "baldrick"; };
         magrathea = libx.mkDarwin { hostname = "magrathea"; };
+      };
+
+      nixosConfigurations = {
+        proxmox-template = libx.mkNixos {
+          hostname = "proxmox-template";
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/nixos/proxmox-template
+          ];
+        };
+
+        proxmox-builder = libx.mkNixos {
+          hostname = "proxmox-builder";
+          system = "x86_64-linux";
+          modules = [
+            inputs.disko.nixosModules.disko
+            ./hosts/nixos/proxmox-builder
+          ];
+        };
+      };
+
+      packages = {
+        aarch64-darwin.nixos-anywhere = inputs.nixos-anywhere.packages.aarch64-darwin.default;
+        x86_64-darwin.nixos-anywhere = inputs.nixos-anywhere.packages.x86_64-darwin.default;
+        x86_64-linux.nixos-anywhere = inputs.nixos-anywhere.packages.x86_64-linux.default;
       };
 
       colmena = {
