@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  just remote switch HOST IP
+  just remote boot HOST IP
+  just remote switch HOST IP USER BUILD_HOST
+USAGE
+}
+
+action="${1:-}"
+host="${2:-}"
+ip="${3:-}"
+user="${4:-root}"
+build_host="${5:-}"
+
+case "$action" in
+  switch|boot) ;;
+  help|-h|--help)
+    usage
+    exit 0
+    ;;
+  *)
+    echo "Unknown remote action '${action}'. Use 'switch' or 'boot'." >&2
+    usage >&2
+    exit 2
+    ;;
+esac
+
+if [ -z "$host" ] || [ -z "$ip" ]; then
+  usage >&2
+  exit 2
+fi
+
+if command -v timeout >/dev/null 2>&1; then
+  timeout_cmd="timeout"
+elif command -v gtimeout >/dev/null 2>&1; then
+  timeout_cmd="gtimeout"
+else
+  echo "timeout or gtimeout is required." >&2
+  exit 2
+fi
+
+if [ -z "$build_host" ]; then
+  build_host="${user}@${ip}"
+fi
+
+"$timeout_cmd" 60m nix run nixpkgs#nixos-rebuild -- "$action" \
+  --flake "path:$PWD#$host" \
+  --target-host "${user}@${ip}" \
+  --build-host "$build_host"

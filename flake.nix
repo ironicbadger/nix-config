@@ -49,6 +49,7 @@
         # work
         baldrick = libx.mkDarwin { hostname = "baldrick"; };
         magrathea = libx.mkDarwin { hostname = "magrathea"; };
+        beefcake = libx.mkDarwin { hostname = "beefcake"; };
       };
 
       nixosConfigurations = {

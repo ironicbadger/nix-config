@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  just mas install
+  just mas get
+USAGE
+}
+
+action="${1:-}"
+case "$action" in
+  install|get) ;;
+  help|-h|--help)
+    usage
+    exit 0
+    ;;
+  *)
+    echo "Unknown mas action '${action}'. Use 'install' or 'get'." >&2
+    usage >&2
+    exit 2
+    ;;
+esac
+
+host="$(hostname | cut -d "." -f 1)"
+ids="$(
+  nix --extra-experimental-features 'nix-command flakes' eval --raw \
+    ".#darwinConfigurations.${host}.config.homebrew.masApps" \
+    --apply 'apps: builtins.concatStringsSep " " (map builtins.toString (builtins.attrValues apps))'
+)"
+
+if [ -z "$ids" ]; then
+  echo "No masApps configured for ${host}."
+  exit 0
+fi
+
+installed_ids="$(mas list | awk '{print $1}')"
+missing_ids=()
+for id in $ids; do
+  if ! grep -qx "$id" <<< "$installed_ids"; then
+    missing_ids+=("$id")
+  fi
+done
+
+if [ "${#missing_ids[@]}" -eq 0 ]; then
+  echo "All configured Mac App Store apps are already installed for ${host}."
+  exit 0
+fi
+
+if [ "$action" = "get" ]; then
+  echo "Acquiring and installing missing Mac App Store apps for ${host}; App Store may ask for your password."
+else
+  echo "Installing previously acquired Mac App Store apps for ${host}."
+fi
+
+sudo -v
+failed=0
+for id in "${missing_ids[@]}"; do
+  mas "$action" "$id" || failed=1
+done
+exit "$failed"

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+host="${1:-}"
+
+scripts/darwin/build-system "$host"
+echo "switching to new config for ${host}"
+sudo ./result/sw/bin/darwin-rebuild switch --flake ".#${host}"

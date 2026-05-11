@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+role="${1:-}"
+shift || true
+
+if [ "$role" = "proxmox-template" ]; then
+  echo "Building proxmox-template (Proxmox VMA image) locally."
+  nix --extra-experimental-features 'nix-command flakes' build \
+    .#nixosConfigurations.proxmox-template.config.system.build.image "$@"
+  echo "OK: proxmox-template image build completed."
+  echo "Artifact output is linked at ./result."
+else
+  nixos-rebuild build --flake ".#${role}" "$@"
+fi

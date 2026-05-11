@@ -3,6 +3,10 @@ let
   inherit (inputs) nixpkgs nixpkgs-unstable;
 in
 {
+  imports = [
+    ./darwin-launchd-wrappers.nix
+  ];
+
   users.users.alex.home = "/Users/alex";
 
   nix = {
@@ -77,13 +81,16 @@ in
     onActivation = {
       cleanup = "zap";
       autoUpdate = true;
-      upgrade = true;
+      # Keep activation mostly automatic, but avoid MAS update/auth failures on
+      # every switch. Keep masApps as inventory, but install them interactively.
+      upgrade = false;
+      extraEnv.HOMEBREW_BUNDLE_MAS_SKIP =
+        lib.concatStringsSep " " (map toString (builtins.attrValues config.homebrew.masApps));
     };
     global.autoUpdate = true;
 
     brews = [
       "ansible"
-      "esptool"
       "mas"
       #"bitwarden-cli"
       "neovim"
@@ -93,8 +100,6 @@ in
     ];
     taps = [
       # Keep third-party cask taps pinned so brew bundle cleanup does not try to untap them.
-      "typewhisper/tap"
-      "xykong/tap"
       #"FelixKratz/formulae" #sketchybar
     ];
     casks = [
@@ -108,19 +113,13 @@ in
       #"balenaetcher"
       "bambu-studio"
       "bentobox"
-      "claude"
       #"claude-code"
-      #"clop"
-      "chatgpt-atlas" # Atlas browser
+      "codex-app"
       "discord"
-      "displaylink"
       #"docker"
       "element"
-      "elgato-camera-hub"
       "elgato-control-center"
-      "elgato-stream-deck"
       "firefox"
-      "xykong/tap/flux-markdown"
       "font-fira-code"
       "font-fira-code-nerd-font"
       "font-fira-mono-for-powerline"
@@ -135,11 +134,9 @@ in
       "hyperkey"
       "istat-menus"
       "iterm2"
-      "jordanbaird-ice"
       "karabiner-elements"
       "linearmouse"
       "lm-studio"
-      "logitech-options"
       "macwhisper"
       #"marta"
       "mqtt-explorer"
@@ -152,7 +149,6 @@ in
       "omnidisksweeper"
       "orbstack"
       "openscad"
-      "openttd"
       "plexamp"
       "portalbox"
       #"popclip"
@@ -164,7 +160,6 @@ in
       "slack"
       "spotify"
       "steam"
-      "typewhisper/tap/typewhisper"
       #"wireshark"
       #"viscosity"
       "visual-studio-code"
@@ -188,7 +183,7 @@ in
       "Ivory for Mastodon by Tapbots" = 6444602274;
       #"Home Assistant Companion" = 1099568401;
       #"Microsoft Remote Desktop" = 1295203466;
-      "Perplexity" = 6714467650;
+      #"Perplexity" = 6714467650; # No current Mac App Store result.
       "Resize Master" = 1025306797;
       "rCmd" = 1596283165;
       "Snippety" = 1530751461;
@@ -208,9 +203,9 @@ in
       #"ShutterCount" = 720123827;
       #"Teleprompter" = 1533078079;
 
-      "Keynote" = 409183694;
-      "Numbers" = 409203825;
-      "Pages" = 409201541;
+      "Keynote" = 361285480;
+      "Numbers" = 361304891;
+      "Pages" = 361309726;
     };
   };
 
