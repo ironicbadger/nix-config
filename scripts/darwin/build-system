@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+role="${1:-}"
+shift || true
+
+if [ "$role" = "proxmox-template" ]; then
+  echo "Building proxmox-template."
+  scripts/proxmox-template/build "$@"
+else
+  echo "Building nix-darwin config for ${role}."
+  nix --extra-experimental-features 'nix-command flakes' build ".#darwinConfigurations.${role}.system" "$@"
+fi

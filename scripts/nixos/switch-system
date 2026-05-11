@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+host="${1:-}"
+
+sudo nixos-rebuild switch --flake ".#${host}"
