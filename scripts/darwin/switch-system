@@ -5,4 +5,4 @@ host="${1:-}"
 
 scripts/darwin/build-system "$host"
 echo "switching to new config for ${host}"
-sudo ./result/sw/bin/darwin-rebuild switch --flake ".#${host}"
+sudo "./result-darwin-${host}/sw/bin/darwin-rebuild" switch --flake ".#${host}"

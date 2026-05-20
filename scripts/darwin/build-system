@@ -9,5 +9,8 @@ if [ "$role" = "proxmox-template" ]; then
   scripts/proxmox-template/build "$@"
 else
   echo "Building nix-darwin config for ${role}."
-  nix --extra-experimental-features 'nix-command flakes' build ".#darwinConfigurations.${role}.system" "$@"
+  nix --extra-experimental-features 'nix-command flakes' build \
+    ".#darwinConfigurations.${role}.system" \
+    --out-link "result-darwin-${role}" \
+    "$@"
 fi
