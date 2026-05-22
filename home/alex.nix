@@ -230,26 +230,22 @@ in
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    extraConfig = ''
-      StrictHostKeyChecking no
-    '';
-    matchBlocks = {
+    settings = {
       # ~/.ssh/config
       "${proxmoxBuilder.ssh.alias}" = {
-        hostname = proxmoxBuilder.ssh.hostName;
-        port = proxmoxBuilder.ssh.port;
-        user = proxmoxBuilder.ssh.user;
+        HostName = proxmoxBuilder.ssh.hostName;
+        Port = proxmoxBuilder.ssh.port;
+        User = proxmoxBuilder.ssh.user;
       };
       "*" = {
-        user = "root";
-        extraOptions = {
-          UserKnownHostsFile = "/dev/null";
-          LogLevel = "ERROR";
-        };
+        User = "root";
+        StrictHostKeyChecking = false;
+        UserKnownHostsFile = "/dev/null";
+        LogLevel = "ERROR";
       };
       "github.com" = {
-        hostname = "ssh.github.com";
-        port = 443;
+        HostName = "ssh.github.com";
+        Port = 443;
       };
     };
   };
