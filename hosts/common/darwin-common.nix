@@ -160,6 +160,7 @@ in
       "slack"
       "spotify"
       "steam"
+      "thaw"
       #"wireshark"
       #"viscosity"
       "visual-studio-code"
