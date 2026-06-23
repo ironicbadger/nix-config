@@ -160,6 +160,7 @@ in
       "slack"
       "spotify"
       "steam"
+      "supacode"
       "thaw"
       #"wireshark"
       #"viscosity"
