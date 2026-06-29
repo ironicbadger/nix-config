@@ -120,6 +120,7 @@ in
       "element"
       "elgato-control-center"
       "firefox"
+      "fluidvoice"
       "font-fira-code"
       "font-fira-code-nerd-font"
       "font-fira-mono-for-powerline"
