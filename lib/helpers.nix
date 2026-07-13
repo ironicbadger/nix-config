@@ -27,6 +27,15 @@
                   CGO_ENABLED = 1;
                 };
               });
+              # TODO: Remove this backport once NixOS/nixpkgs#541023 reaches
+              # nixpkgs-unstable. The Darwin linker crashes while linking Lima,
+              # so use LLVM's Mach-O linker instead.
+              lima = prev.lima.overrideAttrs (old: {
+                nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ final.llvmPackages.lld ];
+                env = (old.env or { }) // {
+                  NIX_CFLAGS_LINK = "-fuse-ld=${final.lib.getExe' final.llvmPackages.lld "ld64.lld"}";
+                };
+              });
             })
           ];
         }
