@@ -10,7 +10,7 @@
       "/Applications/Obsidian.app"
       "/Applications/Spotify.app"
       "/Applications/Visual Studio Code.app"
-      "/Applications/Codex.app"
+      "/Applications/ChatGPT.app"
       "/Applications/Ghostty.app"
     ];
   };
