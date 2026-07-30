@@ -79,8 +79,12 @@ in
   homebrew = {
     enable = true;
     onActivation = {
-      cleanup = "zap";
-      autoUpdate = true;
+      # Avoid destructive cleanup of manually installed Homebrew/MAS apps during
+      # routine system switches.
+      cleanup = "none";
+      # Taps are pinned by flake inputs and installed by nix-homebrew; avoid
+      # Homebrew probing the Nix-managed tap snapshots as mutable Git repos.
+      autoUpdate = false;
       # Keep activation mostly automatic, but avoid MAS update/auth failures on
       # every switch. Keep masApps as inventory, but install them interactively.
       upgrade = false;
@@ -99,6 +103,10 @@ in
       #"borders"
     ];
     taps = [
+      # Keep Nix-managed taps pinned so brew bundle cleanup does not try to untap them.
+      "homebrew/bundle"
+      "homebrew/cask"
+      "homebrew/core"
       # Keep third-party cask taps pinned so brew bundle cleanup does not try to untap them.
       #"FelixKratz/formulae" #sketchybar
     ];
@@ -301,11 +309,6 @@ in
         SortColumn = "CPUUsage";
         SortDirection = 0;
       };
-      "com.apple.Safari" = {
-        # Privacy: don’t send search queries to Apple
-        UniversalSearchEnabled = false;
-        SuppressSearchSuggestions = true;
-      };
       "com.apple.AdLib" = {
         allowApplePersonalizedAdvertising = false;
       };
@@ -330,5 +333,23 @@ in
         PMPrintingExpandedStateForPrint2 = true;
       };
   };
+
+  system.activationScripts.postActivation.text = lib.mkAfter ''
+    echo "configuring Safari privacy defaults..." >&2
+    safari_user=${lib.escapeShellArg username}
+    safari_uid="$(id -u "$safari_user" 2>/dev/null || true)"
+
+    if [ -n "$safari_uid" ]; then
+      if ! launchctl asuser "$safari_uid" sudo -u "$safari_user" --set-home \
+        /usr/bin/defaults write com.apple.Safari UniversalSearchEnabled -bool false 2>/dev/null; then
+        echo "warning: could not write Safari UniversalSearchEnabled; continuing" >&2
+      fi
+
+      if ! launchctl asuser "$safari_uid" sudo -u "$safari_user" --set-home \
+        /usr/bin/defaults write com.apple.Safari SuppressSearchSuggestions -bool true 2>/dev/null; then
+        echo "warning: could not write Safari SuppressSearchSuggestions; continuing" >&2
+      fi
+    fi
+  '';
 
 }
