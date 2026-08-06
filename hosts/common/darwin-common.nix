@@ -124,6 +124,7 @@ in
       #"claude-code"
       "codex-app"
       "discord"
+      "drawio"
       #"docker"
       "element"
       "elgato-control-center"
