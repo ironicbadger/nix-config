@@ -141,6 +141,7 @@ in
       "handbrake-app"
       #"iina"
       "hammerspoon"
+      "hermes-desktop"
       "hyperkey"
       "istat-menus"
       "iterm2"
@@ -164,6 +165,7 @@ in
       #"popclip"
       #"prusaslicer"
       "raycast"
+      "roam"
       "shottr"
       "signal"
       #"shortcat"
@@ -176,6 +178,7 @@ in
       #"viscosity"
       "visual-studio-code"
       "vlc"
+      "zed"
       # "lm-studio"
 
       # # rogue amoeba
