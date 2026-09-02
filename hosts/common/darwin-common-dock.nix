@@ -6,7 +6,7 @@
       "/Applications/Firefox.app"
       "/Applications/Telegram.app"
       "/Applications/Discord.app"
-      "/Applications/Slack.app"
+      "/Applications/Roam.app"
       "/Applications/Obsidian.app"
       "/Applications/Spotify.app"
       "/Applications/Visual Studio Code.app"

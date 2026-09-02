@@ -169,7 +169,7 @@ in
       "shottr"
       "signal"
       #"shortcat"
-      "slack"
+      #"slack"
       "spotify"
       "steam"
       "supacode"
