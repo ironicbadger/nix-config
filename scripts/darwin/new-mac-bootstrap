@@ -1,0 +1,209 @@
+#!/usr/bin/env bash
+
+# Bootstrap a new Mac into ironicbadger/nix-config.
+#
+# Usage:
+#   ./new-mac-bootstrap [HOST]
+#
+# Optional environment overrides:
+#   NIX_CONFIG_REPO_URL  Git URL to clone.
+#   NIX_CONFIG_REPO_DIR  Checkout to create or reuse.
+
+set -Eeuo pipefail
+
+readonly DEFAULT_REPO_URL="https://github.com/ironicbadger/nix-config"
+readonly DEFAULT_REPO_DIR="${HOME}/tmp/nix-config"
+readonly NIX_DAEMON_PROFILE="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
+
+repo_url="${NIX_CONFIG_REPO_URL:-${DEFAULT_REPO_URL}}"
+repo_dir="${NIX_CONFIG_REPO_DIR:-}"
+installer_path=""
+shell_files_moved=0
+
+say() {
+  printf '\n==> %s\n' "$*"
+}
+
+die() {
+  printf 'error: %s\n' "$*" >&2
+  exit 1
+}
+
+usage() {
+  cat <<'EOF'
+Usage: new-mac-bootstrap [HOST]
+
+Installs Apple's Command Line Tools when needed, Rosetta 2 on Apple Silicon,
+the official multi-user Nix distribution, and the selected nix-darwin host.
+
+HOST defaults to the Mac's LocalHostName. The temporary HTTPS checkout defaults to:
+  ~/tmp/nix-config
+
+Environment overrides:
+  NIX_CONFIG_REPO_URL  Git URL to clone
+  NIX_CONFIG_REPO_DIR  Existing checkout or clone destination
+EOF
+}
+
+cleanup() {
+  if [[ -n "${installer_path}" && -f "${installer_path}" ]]; then
+    rm -f "${installer_path}"
+  fi
+}
+
+on_error() {
+  local status=$?
+
+  if [[ "${shell_files_moved}" -eq 1 ]]; then
+    printf '\nBootstrap failed after moving Nix installer shell files.\n' >&2
+    printf 'The originals remain in /etc/*.before-nix-darwin. Re-run this script\n' >&2
+    printf 'after fixing the reported error; do not restore them before retrying.\n' >&2
+  fi
+
+  exit "${status}"
+}
+
+trap cleanup EXIT
+trap on_error ERR
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  usage
+  exit 0
+fi
+
+[[ "$#" -le 1 ]] || die "expected at most one argument: HOST"
+[[ "$(uname -s)" == "Darwin" ]] || die "this bootstrap supports macOS only"
+[[ "$(id -u)" -ne 0 ]] || die "run this as your normal user, not root"
+
+host="${1:-}"
+if [[ -z "${host}" ]]; then
+  host="$(/usr/sbin/scutil --get LocalHostName 2>/dev/null || hostname -s)"
+fi
+[[ "${host}" =~ ^[[:alnum:]][[:alnum:]._-]*$ ]] || die "invalid host name: ${host}"
+
+find_enclosing_repo() {
+  local script_dir candidate
+
+  script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" 2>/dev/null && pwd -P)" || return 1
+  candidate="$(/usr/bin/git -C "${script_dir}" rev-parse --show-toplevel 2>/dev/null)" || return 1
+  [[ -f "${candidate}/flake.nix" ]] || return 1
+  [[ -x "${candidate}/scripts/darwin/build-system" ]] || return 1
+  printf '%s\n' "${candidate}"
+}
+
+if [[ -z "${repo_dir}" ]]; then
+  repo_dir="$(find_enclosing_repo || true)"
+fi
+repo_dir="${repo_dir:-${DEFAULT_REPO_DIR}}"
+
+printf 'Host:       %s\n' "${host}"
+printf 'Repository: %s\n' "${repo_dir}"
+
+say "Checking administrator access"
+sudo -v
+
+if ! /usr/bin/xcode-select -p >/dev/null 2>&1; then
+  say "Installing Apple Command Line Tools"
+  /usr/bin/xcode-select --install >/dev/null 2>&1 || true
+  printf 'Complete the Command Line Tools dialog, then press Return here.\n'
+  read -r </dev/tty
+  /usr/bin/xcode-select -p >/dev/null 2>&1 || die "Command Line Tools are not installed"
+else
+  say "Apple Command Line Tools are already installed"
+fi
+
+if [[ "$(uname -m)" == "arm64" ]]; then
+  if /usr/bin/arch -x86_64 /usr/bin/true >/dev/null 2>&1; then
+    say "Rosetta 2 is already installed"
+  else
+    say "Installing Rosetta 2"
+    printf "This accepts Apple's Rosetta software license on your behalf.\n"
+    sudo /usr/sbin/softwareupdate --install-rosetta --agree-to-license
+  fi
+fi
+
+if [[ ! -x "/nix/var/nix/profiles/default/bin/nix" ]]; then
+  say "Installing Nix in recommended multi-user mode"
+  installer_path="$(mktemp "${TMPDIR:-/tmp}/nix-installer.XXXXXX")"
+  /usr/bin/curl --fail --silent --show-error --location \
+    --proto '=https' --tlsv1.2 \
+    https://nixos.org/nix/install \
+    --output "${installer_path}"
+  /bin/sh "${installer_path}" --daemon --yes
+  rm -f "${installer_path}"
+  installer_path=""
+else
+  say "Nix is already installed"
+fi
+
+if [[ -f "${NIX_DAEMON_PROFILE}" ]]; then
+  # shellcheck disable=SC1090
+  . "${NIX_DAEMON_PROFILE}"
+fi
+export PATH="/nix/var/nix/profiles/default/bin:${PATH}"
+command -v nix >/dev/null 2>&1 || die "Nix was installed but is not available in this shell"
+nix --version
+
+if [[ -d "${repo_dir}/.git" ]]; then
+  say "Using existing nix-config checkout"
+elif [[ -e "${repo_dir}" ]]; then
+  die "clone destination exists but is not a Git checkout: ${repo_dir}"
+else
+  say "Cloning nix-config"
+  mkdir -p "$(dirname -- "${repo_dir}")"
+  /usr/bin/git clone "${repo_url}" "${repo_dir}"
+fi
+
+[[ -f "${repo_dir}/flake.nix" ]] || die "flake.nix is missing from ${repo_dir}"
+[[ -x "${repo_dir}/scripts/darwin/build-system" ]] || \
+  die "scripts/darwin/build-system is missing or not executable"
+
+cd "${repo_dir}"
+
+if [[ -n "$(/usr/bin/git status --porcelain)" ]]; then
+  say "Using the existing checkout with its uncommitted changes"
+fi
+
+say "Building nix-darwin configuration for ${host}"
+./scripts/darwin/build-system "${host}"
+
+backup_for_nix_darwin() {
+  local path="$1"
+  local target backup
+
+  if [[ -L "${path}" ]]; then
+    target="$(/usr/bin/readlink "${path}")"
+    if [[ "${target}" == /etc/static/* ]]; then
+      return 0
+    fi
+  fi
+
+  if [[ ! -e "${path}" && ! -L "${path}" ]]; then
+    return 0
+  fi
+
+  backup="${path}.before-nix-darwin"
+  if [[ -e "${backup}" || -L "${backup}" ]]; then
+    die "refusing to replace existing backup ${backup}; inspect ${path} manually"
+  fi
+
+  say "Moving ${path} to ${backup} for nix-darwin"
+  sudo mv "${path}" "${backup}"
+  shell_files_moved=1
+}
+
+# Nix 2.35 on macOS 26 appended its profile hook to these stock files. The
+# nix-darwin revision used by this flake did not recognize their new hashes, so
+# activation refused to replace them until they were backed up.
+backup_for_nix_darwin /etc/bashrc
+backup_for_nix_darwin /etc/zshrc
+
+result="./result-darwin-${host}"
+[[ -x "${result}/sw/bin/darwin-rebuild" ]] || die "build did not produce ${result}"
+
+say "Activating nix-darwin configuration for ${host}"
+sudo "${result}/sw/bin/darwin-rebuild" switch --flake ".#${host}"
+shell_files_moved=0
+
+say "Bootstrap complete"
+printf 'Open a new shell to pick up the complete Home Manager environment.\n'

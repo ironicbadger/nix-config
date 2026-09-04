@@ -7,11 +7,7 @@
     nix-darwin.url = "github:lnl7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs-darwin";
 
-    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-    nix-homebrew.inputs.brew-src = {
-      url = "github:Homebrew/brew/6.0.13";
-      flake = false;
-    };
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     homebrew-core = { url = "github:homebrew/homebrew-core"; flake = false; };
     homebrew-cask = { url = "github:homebrew/homebrew-cask"; flake = false; };
     homebrew-bundle = { url = "github:homebrew/homebrew-bundle"; flake = false; };
@@ -50,6 +46,7 @@
         mba15 = libx.mkDarwin { hostname = "mba15"; };
 
         # work
+        milliways = libx.mkDarwin { hostname = "milliways"; };
         baldrick = libx.mkDarwin { hostname = "baldrick"; };
         magrathea = libx.mkDarwin { hostname = "magrathea"; };
         m3mbp16 = libx.mkDarwin { hostname = "m3mbp16"; };

@@ -85,11 +85,8 @@ in
       # Taps are pinned by flake inputs and installed by nix-homebrew; avoid
       # Homebrew probing the Nix-managed tap snapshots as mutable Git repos.
       autoUpdate = false;
-      # Keep activation mostly automatic, but avoid MAS update/auth failures on
-      # every switch. Keep masApps as inventory, but install them interactively.
+      # Install missing dependencies without upgrading existing ones on every switch.
       upgrade = false;
-      extraEnv.HOMEBREW_BUNDLE_MAS_SKIP =
-        lib.concatStringsSep " " (map toString (builtins.attrValues config.homebrew.masApps));
     };
     global.autoUpdate = true;
 
@@ -111,6 +108,7 @@ in
       #"FelixKratz/formulae" #sketchybar
     ];
     casks = [
+      "1password"
       #"screenflow"
       #"cleanshot"
       "adobe-creative-cloud"
@@ -150,7 +148,7 @@ in
       "lm-studio"
       "macwhisper"
       #"marta"
-      "mqtt-explorer"
+      "mqttx"
       "music-decoy" # github/FuzzyIdeas/MusicDecoy
       "nextcloud"
       "notion"
@@ -159,7 +157,7 @@ in
       #"ollama-app"
       "omnidisksweeper"
       "orbstack"
-      "openscad"
+      "openscad@snapshot"
       "plexamp"
       "portalbox"
       #"popclip"
@@ -247,6 +245,9 @@ in
     LaunchServices.LSQuarantine = false; # disables "Are you sure?" for new apps
     loginwindow.GuestEnabled = false;
     finder.FXPreferredViewStyle = "Nlsv";
+    # System Settings > Desktop & Dock > Click wallpaper to show desktop:
+    # "Only in Stage Manager"
+    WindowManager.EnableStandardClickToShowDesktop = false;
     menuExtraClock = {
       Show24Hour = true;
       ShowAMPM = false;
@@ -339,19 +340,33 @@ in
   };
 
   system.activationScripts.postActivation.text = lib.mkAfter ''
-    echo "configuring Safari privacy defaults..." >&2
-    safari_user=${lib.escapeShellArg username}
-    safari_uid="$(id -u "$safari_user" 2>/dev/null || true)"
+    echo "configuring per-user defaults..." >&2
+    preferences_user=${lib.escapeShellArg username}
+    preferences_uid="$(id -u "$preferences_user" 2>/dev/null || true)"
 
-    if [ -n "$safari_uid" ]; then
-      if ! launchctl asuser "$safari_uid" sudo -u "$safari_user" --set-home \
-        /usr/bin/defaults write com.apple.Safari UniversalSearchEnabled -bool false 2>/dev/null; then
+    user_defaults() {
+      launchctl asuser "$preferences_uid" sudo -u "$preferences_user" --set-home \
+        /usr/bin/defaults "$@"
+    }
+
+    if [ -n "$preferences_uid" ]; then
+      if ! user_defaults write com.apple.Safari \
+        UniversalSearchEnabled -bool false 2>/dev/null; then
         echo "warning: could not write Safari UniversalSearchEnabled; continuing" >&2
       fi
 
-      if ! launchctl asuser "$safari_uid" sudo -u "$safari_user" --set-home \
-        /usr/bin/defaults write com.apple.Safari SuppressSearchSuggestions -bool true 2>/dev/null; then
+      if ! user_defaults write com.apple.Safari \
+        SuppressSearchSuggestions -bool true 2>/dev/null; then
         echo "warning: could not write Safari SuppressSearchSuggestions; continuing" >&2
+      fi
+
+      # Disable the macOS 26 "Show Spotlight search" Command-Space shortcut.
+      # -dict-add changes only hotkey 60 and preserves the other shortcuts.
+      if ! user_defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys \
+        -dict-add 60 \
+        '{ enabled = 0; value = { parameters = (32, 49, 262144); type = standard; }; }' \
+        2>/dev/null; then
+        echo "warning: could not disable the Spotlight Command-Space shortcut; continuing" >&2
       fi
     fi
   '';

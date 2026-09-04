@@ -11,6 +11,7 @@ Darwin configs:
 - `nauvis`
 - `mac-studio`
 - `mba15`
+- `milliways`
 - `baldrick`
 - `magrathea`
 - `beefcake`
@@ -22,6 +23,38 @@ NixOS configs:
 - `proxmox-template`
 
 Colmena also defines deploy targets for `forgejo`, `morphnix`, and `nvllama`.
+
+## New Mac Bootstrap
+
+A new Mac can bootstrap from the public repository without GitHub credentials
+or SSH keys. Download the script over HTTPS, then pass the hostname matching a
+`darwinConfigurations` entry:
+
+```sh
+curl --fail --silent --show-error --location \
+  https://raw.githubusercontent.com/ironicbadger/nix-config/main/scripts/darwin/new-mac-bootstrap \
+  --output /tmp/new-mac-bootstrap
+chmod +x /tmp/new-mac-bootstrap
+/tmp/new-mac-bootstrap HOST
+```
+
+The script installs Apple's Command Line Tools when needed, Rosetta 2 on Apple
+Silicon, the official multi-user Nix distribution, and the selected nix-darwin
+configuration. It uses an unauthenticated HTTPS clone at `~/tmp/nix-config` by
+default; `NIX_CONFIG_REPO_DIR` and `NIX_CONFIG_REPO_URL` can override that.
+
+The Darwin configuration disables Spotlight's Command-Space shortcut and sets
+Desktop & Dock > Click wallpaper to show desktop to "Only in Stage Manager."
+After the first switch, two macOS-protected settings still require one-time
+manual approval:
+
+1. Open Raycast Settings > General and record Command-Space as the Raycast
+   Hotkey. Raycast v2 stores settings in an encrypted database, so this cannot
+   be written safely with `defaults`.
+2. Open System Settings > Privacy & Security > Full Disk Access and add/enable
+   Terminal, Ghostty, and Visual Studio Code. Apple requires explicit user
+   approval on an unmanaged Mac; silent grants require an MDM-delivered PPPC
+   profile.
 
 ## Common Commands
 
