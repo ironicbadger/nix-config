@@ -5,7 +5,7 @@ in
 {
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs;
-    lib.optionals pkgs.stdenv.isLinux [
+    lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.beszel
       ansible
       esptool

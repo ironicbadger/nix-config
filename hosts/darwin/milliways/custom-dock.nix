@@ -11,6 +11,9 @@
       "/Applications/Obsidian.app"
       "/Applications/Visual Studio Code.app"
       "/Applications/ChatGPT.app"
+      "/Applications/Asana.app"
+      "/Applications/Linear.app"
+      "/Applications/Roam.app"
       "/Applications/Ghostty.app"
     ];
   };
