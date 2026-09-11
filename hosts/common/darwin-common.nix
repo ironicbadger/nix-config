@@ -120,7 +120,7 @@ in
       "bambu-studio"
       "bentobox"
       #"claude-code"
-      "codex-app"
+      "chatgpt"
       "discord"
       "drawio"
       #"docker"
