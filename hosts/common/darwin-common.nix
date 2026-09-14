@@ -5,6 +5,7 @@ in
 {
   imports = [
     ./darwin-launchd-wrappers.nix
+    ./darwin-shinymac.nix
   ];
 
   users.users.alex.home = "/Users/alex";

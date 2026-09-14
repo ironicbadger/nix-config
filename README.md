@@ -58,6 +58,11 @@ manual approval:
 
 ## Common Commands
 
+ShinyMac 1.0.5 is installed on all Macs under `/Applications/Nix Apps`.
+Its package clears quarantine attributes to suppress the first-launch Gatekeeper
+warning. On first use, enable ShinyMac in System Settings > Privacy & Security >
+Accessibility, then restart the app so it can lock the keyboard and trackpad.
+
 Most commands are wrapped in the `justfile`.
 
 ```sh
