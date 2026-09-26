@@ -65,6 +65,19 @@ Accessibility, then restart the app so it can lock the keyboard and trackpad.
 
 Most commands are wrapped in the `justfile`.
 
+LaunchBox Nightly 0.1.0 (build 20260925034106) is packaged for all Macs under
+`/Applications/Nix Apps`. It requires Apple Silicon and macOS 26 or later.
+The package preserves the signed upstream bundle. Use Nix to update it; Sparkle
+cannot replace the read-only app in the Nix store. The default launcher shortcut
+is Option-Space; complete optional permissions and setup inside the app.
+
+To update, read `https://friendlyventures.github.io/LaunchBox/nightly/latest.json`,
+then update the version, build-specific ZIP URL, and SHA-256 hash in
+`hosts/common/darwin-launchbox.nix`. Obtain the hash with
+`nix store prefetch-file --json URL` and compare it with the upstream `.sha256`
+file. Upstream retains only three nightly downloads, so an old pin may stop
+working on machines without a cached archive; refresh the pin when that happens.
+
 ```sh
 just build              # build the current host
 just switch             # switch the current host

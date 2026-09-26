@@ -5,6 +5,7 @@ in
 {
   imports = [
     ./darwin-launchd-wrappers.nix
+    ./darwin-launchbox.nix
     ./darwin-shinymac.nix
   ];
 
