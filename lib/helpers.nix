@@ -42,6 +42,11 @@
         inputs.nix-homebrew.darwinModules.nix-homebrew {
           nix-homebrew = {
             enable = true;
+            # Keep version metadata aligned with the brew-src override.
+            package = inputs.nix-homebrew.inputs.brew-src // {
+              name = "brew-7.0.11";
+              version = "7.0.11";
+            };
             enableRosetta = true;
             autoMigrate = true;
             mutableTaps = true;
