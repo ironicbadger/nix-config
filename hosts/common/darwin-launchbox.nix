@@ -2,13 +2,13 @@
 let
   launchBox = pkgs.stdenvNoCC.mkDerivation {
     pname = "launchbox-nightly";
-    version = "0.1.0-nightly-20261025144623";
+    version = "0.1.0-nightly-20261101023237";
 
     # Public signed archive; no credentials for the private source repo needed.
     # Upstream retains only three nightly builds: refresh the URL and hash together.
     src = pkgs.fetchurl {
-      url = "https://friendlyventures.github.io/LaunchBox/nightly/20261025144623/LaunchBox-nightly-0.1.0-20261025144623-arm64.zip";
-      hash = "sha256-aCk6GOTC6BAKut2wyITDqo5Qp1IMBBLCMko40f7HYD0=";
+      url = "https://friendlyventures.github.io/LaunchBox/nightly/20261101023237/LaunchBox-nightly-0.1.0-20261101023237-arm64.zip";
+      hash = "sha256-fjFt+FsGb0ZHI2AhATOWyyRLZi4elj5u4LRi/Lr8Etg=";
     };
 
     # Apple's ZIP metadata must be restored as metadata, not ._ files inside

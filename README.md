@@ -65,7 +65,7 @@ Accessibility, then restart the app so it can lock the keyboard and trackpad.
 
 Most commands are wrapped in the `justfile`.
 
-LaunchBox Nightly 0.1.0 (build 20260925034106) is packaged for all Macs under
+LaunchBox Nightly 0.1.0 (build 20261101023237) is packaged for all Macs under
 `/Applications/Nix Apps`. It requires Apple Silicon and macOS 26 or later.
 The package preserves the signed upstream bundle. Use Nix to update it; Sparkle
 cannot replace the read-only app in the Nix store. The default launcher shortcut
