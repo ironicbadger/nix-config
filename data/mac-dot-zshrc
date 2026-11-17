@@ -23,7 +23,6 @@ export PATH=$HOME/.npm-global/bin:$PATH
 #export EDITOR=vi
 export VISUAL=nvim
 export EDITOR=nvim
-export TERM=xterm
 
 # Nix
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
