@@ -44,13 +44,11 @@
       darwinConfigurations = {
         # personal
         nauvis = libx.mkDarwin { hostname = "nauvis"; };
-        mba15 = libx.mkDarwin { hostname = "mba15"; };
-        baldrick = libx.mkDarwin { hostname = "baldrick"; };
-        m3mbp16 = libx.mkDarwin { hostname = "m3mbp16"; };
+        yyz = libx.mkDarwin { hostname = "yyz"; };
+        daisy = libx.mkDarwin { hostname = "daisy"; };
 
         # work
         milliways = libx.mkDarwin { hostname = "milliways"; };
-        macstudio = libx.mkDarwin { hostname = "macstudio"; };
       };
 
       nixosConfigurations = {
