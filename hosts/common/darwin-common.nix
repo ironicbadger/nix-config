@@ -5,8 +5,8 @@ in
 {
   imports = [
     ./darwin-launchd-wrappers.nix
-    ./darwin-launchbox.nix
-    ./darwin-shinymac.nix
+    #./darwin-launchbox.nix
+    #./darwin-shinymac.nix
   ];
 
   users.users.alex.home = "/Users/alex";

@@ -43,12 +43,11 @@
 
       darwinConfigurations = {
         # personal
+        aquilo = libx.mkDarwin { hostname = "aquilo"; };
         nauvis = libx.mkDarwin { hostname = "nauvis"; };
-        yyz = libx.mkDarwin { hostname = "yyz"; };
-        daisy = libx.mkDarwin { hostname = "daisy"; };
+        catmbp = libx.mkDarwin { hostname = "catmbp"; };
 
         # work
-        milliways = libx.mkDarwin { hostname = "milliways"; };
       };
 
       nixosConfigurations = {
