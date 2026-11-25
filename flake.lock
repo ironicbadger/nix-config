@@ -166,6 +166,22 @@
         "type": "github"
       }
     },
+    "homebrew-stablebox": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1795347668,
+        "narHash": "sha256-FD7RFsjfcSRIGmiDY0cR+tOY3URsB3V4oNokwvir3OY=",
+        "owner": "stablebox",
+        "repo": "homebrew-tap",
+        "rev": "9b8abbbf5b88175c50a576d626742926fd0c8600",
+        "type": "github"
+      },
+      "original": {
+        "owner": "stablebox",
+        "repo": "homebrew-tap",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -362,6 +378,7 @@
         "homebrew-bundle": "homebrew-bundle",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
+        "homebrew-stablebox": "homebrew-stablebox",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
         "nixos-anywhere": "nixos-anywhere",
