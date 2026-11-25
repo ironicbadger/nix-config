@@ -109,6 +109,7 @@ in
       "homebrew/bundle"
       "homebrew/cask"
       "homebrew/core"
+      "stablebox/tap"
       # Keep third-party cask taps pinned so brew bundle cleanup does not try to untap them.
       #"FelixKratz/formulae" #sketchybar
     ];
@@ -174,6 +175,7 @@ in
       #"shortcat"
       #"slack"
       "spotify"
+      "stablebox/tap/stablebar"
       "steam"
       "supacode"
       "thaw"
