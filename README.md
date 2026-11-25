@@ -20,6 +20,27 @@ NixOS configs:
 
 Colmena also defines deploy targets for `forgejo`, `morphnix`, and `nvllama`.
 
+## Ghostty display sizing
+
+Home Manager writes the shared Ghostty settings from `home/alex.nix`.
+To tune Ghostty for a Mac's usual display, add an override inside its
+`hosts/darwin/<hostname>/default.nix`. For example, a smaller display could use
+these values:
+
+```nix
+home-manager.users.alex.programs.ghostty.settings = {
+  font-size = 16;
+  window-width = 100;
+  window-height = 26;
+};
+```
+
+For a host without a directory, create a `default.nix` containing the override
+and importing `../../common/darwin-common-dock.nix` to retain the shared Dock.
+Window dimensions are in terminal columns and rows. The overrides are selected
+when rebuilding each host and apply to new Ghostty windows after reloading its
+configuration.
+
 ## New Mac Bootstrap
 
 A new Mac can bootstrap from the public repository without GitHub credentials

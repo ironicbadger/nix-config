@@ -5,6 +5,34 @@ in
 {
   home.stateVersion = "23.11";
 
+  programs.ghostty = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
+    enable = true;
+    package = null; # Installed by the shared Homebrew cask configuration.
+
+    settings = lib.mapAttrs (_: lib.mkDefault) {
+      theme = "nord";
+      font-family = "BerkeleyMono Nerd Font";
+      font-size = 18;
+
+      window-width = 122;
+      window-height = 30;
+      window-padding-x = 6;
+      window-padding-y = 6;
+      window-padding-balance = true;
+
+      macos-option-as-alt = true;
+      macos-titlebar-style = "native";
+      macos-icon = "custom-style";
+      macos-icon-ghost-color = "white";
+      macos-icon-screen-color = "black";
+
+      clipboard-paste-protection = false;
+      mouse-hide-while-typing = true;
+      shell-integration = "zsh";
+      auto-update = "off";
+    };
+  };
+
   # list of programs
   # https://mipmip.github.io/home-manager-option-search
 
@@ -20,6 +48,7 @@ in
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
+    config.global.hide_env_diff = true;
   };
 
   programs.eza = {
